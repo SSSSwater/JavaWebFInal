@@ -53,35 +53,162 @@
 </div>
 
 <div class="d-flex justify-content-center" id="request">
-    <input type="text" style="width: 50vw;" class="form-control" id="searchText" name='search'>
-    <button class="btn btn-outline-primary" onclick="requestQuestion()">查找</button>
+    <input type="text" onkeyup="this.value=this.value.replace(/[^0-9]+/,'')" style="width: 50vw;" class="form-control" id="searchText" name='search'>
+    <button class="btn btn-outline-primary" onclick="bind()">查找</button>
 </div>
 <div style="height: 5vh"></div>
 <script>
-    function requestQuestion() {
-        axios({
-            method: 'GET',
-            url: "https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/tiku",
-        })
-            .then(function (res) {
-                examdiv = document.getElementById('exam');
-                while (examdiv.hasChildNodes()) {
-                    examdiv.removeChild(examdiv.firstChild);
-                }
-                t = res.data.Qarr;
-                i = 0;
-                while (t[i] != null) {
-                    console.log(res.data.Qarr[i]);
-                    if (t[i].analysisEnabled) anl = t[i].analysis;
-                    else anl = "无";
-                    if (t[i].type == "single" || t[i].type == "multiple") showData1(t[i].id, t[i].type, t[i].title, t[i].choiceA, t[i].choiceB, t[i].choiceC, t[i].choiceD, t[i].answer, anl, i + 1);
-                    else if (t[i].type == "judge") showData2(t[i].id, t[i].type, t[i].title, "Yes", "No", t[i].answer, anl, i + 1);
-                    else showData3(t[i].id, t[i].type, t[i].title, t[i].answer, anl, i + 1);
-                    i++;
-                }
-
+    function bind() {
+        var textValue = document.getElementById("searchText").value;
+        var subject = document.getElementsByName("distribute-by-subject");
+        var subjectValue;
+        for (i = 0; i < subject.length; i++) {
+            if (subject[i].checked) {
+                subjectValue = subject[i].value;
+            }
+        }
+        var type = document.getElementsByName("distribute-by-type");
+        var typeValue;
+        for (i = 0; i < type.length; i++) {
+            if (type[i].checked) {
+                typeValue = type[i].value;
+            }
+        }
+        if (textValue == "" && typeValue == undefined && subjectValue == undefined) {
+            axios({
+                method: 'GET',
+                url: "https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/tiku",
             })
+                .then(function (res) {
+                    examdiv = document.getElementById('exam');
+                    while (examdiv.hasChildNodes()) {
+                        examdiv.removeChild(examdiv.firstChild);
+                    }
+                    t = res.data.Qarr;
+                    i = 0;
+                    while (t[i] != null) {
+                        console.log(res.data.Qarr[i]);
+                        if (t[i].analysisEnabled) anl = t[i].analysis;
+                        else anl = "无";
+                        if (t[i].type == "single" || t[i].type == "multiple") showData1(t[i].id, t[i].type, t[i].title, t[i].choiceA, t[i].choiceB, t[i].choiceC, t[i].choiceD, t[i].answer, anl, i + 1);
+                        else if (t[i].type == "judge") showData2(t[i].id, t[i].type, t[i].title, "Yes", "No", t[i].answer, anl, i + 1);
+                        else showData3(t[i].id, t[i].type, t[i].title, t[i].answer, anl, i + 1);
+                        i++;
+                    }
+
+                })
+        }
+        else if (textValue == "" && typeValue == undefined) {
+            axios({
+                method: 'GET',
+                url: "https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/tiku",
+                params: {
+                    "subject": subjectValue
+                }
+            })
+                .then(function (res) {
+                    examdiv = document.getElementById('exam');
+                    while (examdiv.hasChildNodes()) {
+                        examdiv.removeChild(examdiv.firstChild);
+                    }
+                    t = res.data.Qarr;
+                    i = 0;
+                    while (t[i] != null) {
+                        console.log(res.data.Qarr[i]);
+                        if (t[i].analysisEnabled) anl = t[i].analysis;
+                        else anl = "无";
+                        if (t[i].type == "single" || t[i].type == "multiple") showData1(t[i].id, t[i].type, t[i].title, t[i].choiceA, t[i].choiceB, t[i].choiceC, t[i].choiceD, t[i].answer, anl, i + 1);
+                        else if (t[i].type == "judge") showData2(t[i].id, t[i].type, t[i].title, "Yes", "No", t[i].answer, anl, i + 1);
+                        else showData3(t[i].id, t[i].type, t[i].title, t[i].answer, anl, i + 1);
+                        i++;
+                    }
+
+                })
+        }
+        else if (textValue == "" && subjectValue == undefined) {
+            axios({
+                method: 'GET',
+                url: "https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/tiku",
+                params: {
+                    "type": typeValue
+                }
+            })
+                .then(function (res) {
+                    examdiv = document.getElementById('exam');
+                    while (examdiv.hasChildNodes()) {
+                        examdiv.removeChild(examdiv.firstChild);
+                    }
+                    t = res.data.Qarr;
+                    i = 0;
+                    while (t[i] != null) {
+                        console.log(res.data.Qarr[i]);
+                        if (t[i].analysisEnabled) anl = t[i].analysis;
+                        else anl = "无";
+                        if (t[i].type == "single" || t[i].type == "multiple") showData1(t[i].id, t[i].type, t[i].title, t[i].choiceA, t[i].choiceB, t[i].choiceC, t[i].choiceD, t[i].answer, anl, i + 1);
+                        else if (t[i].type == "judge") showData2(t[i].id, t[i].type, t[i].title, "Yes", "No", t[i].answer, anl, i + 1);
+                        else showData3(t[i].id, t[i].type, t[i].title, t[i].answer, anl, i + 1);
+                        i++;
+                    }
+
+                })
+        }
+        else if (textValue == "") {
+            axios({
+                method: 'GET',
+                url: "https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/tiku",
+                params: {
+                    "subject": subjectValue,
+                    "type": typeValue
+                }
+            })
+                .then(function (res) {
+                    examdiv = document.getElementById('exam');
+                    while (examdiv.hasChildNodes()) {
+                        examdiv.removeChild(examdiv.firstChild);
+                    }
+                    t = res.data.Qarr;
+                    i = 0;
+                    while (t[i] != null) {
+                        console.log(res.data.Qarr[i]);
+                        if (t[i].analysisEnabled) anl = t[i].analysis;
+                        else anl = "无";
+                        if (t[i].type == "single" || t[i].type == "multiple") showData1(t[i].id, t[i].type, t[i].title, t[i].choiceA, t[i].choiceB, t[i].choiceC, t[i].choiceD, t[i].answer, anl, i + 1);
+                        else if (t[i].type == "judge") showData2(t[i].id, t[i].type, t[i].title, "Yes", "No", t[i].answer, anl, i + 1);
+                        else showData3(t[i].id, t[i].type, t[i].title, t[i].answer, anl, i + 1);
+                        i++;
+                    }
+
+                })
+        }
+        else {
+            axios({
+                method: 'GET',
+                url: "https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/tiku",
+                params: {
+                    "id": textValue
+                }
+            })
+                .then(function (res) {
+                    examdiv = document.getElementById('exam');
+                    while (examdiv.hasChildNodes()) {
+                        examdiv.removeChild(examdiv.firstChild);
+                    }
+                    t = res.data.Qarr;
+                    i = 0;
+                    while (t[i] != null) {
+                        console.log(res.data.Qarr[i]);
+                        if (t[i].analysisEnabled) anl = t[i].analysis;
+                        else anl = "无";
+                        if (t[i].type == "single" || t[i].type == "multiple") showData1(t[i].id, t[i].type, t[i].title, t[i].choiceA, t[i].choiceB, t[i].choiceC, t[i].choiceD, t[i].answer, anl, i + 1);
+                        else if (t[i].type == "judge") showData2(t[i].id, t[i].type, t[i].title, "Yes", "No", t[i].answer, anl, i + 1);
+                        else showData3(t[i].id, t[i].type, t[i].title, t[i].answer, anl, i + 1);
+                        i++;
+                    }
+
+                })
+        }
     }
+
 </script>
 
 
