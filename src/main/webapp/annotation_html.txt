@@ -1,0 +1,15 @@
+login.html//登陆界面
+index.html//主页
+
+学生可用界面
+
+my_exam//我的考试
+result_management//我的成绩(学生)
+
+教师可用界面
+
+question_import_solo//单题导入
+question_import_multi//多题导入
+make_paper//组卷
+exam_public//发布考试
+result_management//我的成绩(教师)

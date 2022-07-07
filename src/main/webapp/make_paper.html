@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>组卷</title>
+    <!-- 新 Bootstrap5 核心 CSS 文件 -->
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <!--        <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">-->
+
+    <!--  popper.min.js 用于弹窗、提示、下拉菜单 -->
+    <script src="https://cdn.staticfile.org/popper.js/2.9.3/umd/popper.min.js"></script>
+
+    <!-- 最新的 Bootstrap5 核心 JavaScript 文件 -->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/js/bootstrap.min.js"></script>
+    <!--    <script src="/js/bootstrap/bootstrap.bundle.min.js"></script>-->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+
+<div class="container">
+    <header
+            class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+        <a class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none" href="/">
+            <svg aria-label="Bootstrap" class="bi me-2" height="32" role="img" width="40">
+                <use xlink:href="#bootstrap"/>
+            </svg>
+        </a>
+
+        <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+            <li class="nav-item dropdown">
+                <a aria-expanded="false" class="nav-link dropdown-toggle nav-link px-2 link-secondary"
+                   data-bs-toggle="dropdown"
+                   href="#" role="button">导入题库</a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="question_import_solo.html">单题导入</a></li>
+                    <li><a class="dropdown-item" href="question_import_multi.html">多题导入</a></li>
+                    </li>
+                </ul>
+            </li>
+            <li><a class="nav-link px-2 link-dark" href="make_paper.html">组卷</a></li>
+            <li><a class="nav-link px-2 link-dark" href="#">发布考试</a></li>
+            <li><a class="nav-link px-2 link-dark" href="#">考试结果</a></li>
+        </ul>
+
+        <div class="col-md-3 text-end">
+            <a class="btn btn-outline-primary me-2" href="login.html" type="button">登录</a>
+        </div>
+    </header>
+</div>
+
+<div class="d-flex justify-content-center" id="request">
+    <input type="text" style="width: 50vw;" class="form-control" id="searchText" name='search'>
+    <button class="btn btn-outline-primary" onclick="requestQuestion()">查找</button>
+</div>
+<div style="height: 5vh"></div>
+<script>
+    function requestQuestion() {
+        axios({
+            method: 'GET',
+            url: "https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/tiku",
+        })
+            .then(function (res) {
+                examdiv = document.getElementById('exam');
+                while (examdiv.hasChildNodes()) {
+                    examdiv.removeChild(examdiv.firstChild);
+                }
+                t = res.data.Qarr;
+                i = 0;
+                while (t[i] != null) {
+                    console.log(res.data.Qarr[i]);
+                    if (t[i].analysisEnabled) anl = t[i].analysis;
+                    else anl = "无";
+                    if (t[i].type == "single" || t[i].type == "multiple") showData1(t[i].id, t[i].type, t[i].title, t[i].choiceA, t[i].choiceB, t[i].choiceC, t[i].choiceD, t[i].answer, anl, i + 1);
+                    else if (t[i].type == "judge") showData2(t[i].id, t[i].type, t[i].title, "Yes", "No", t[i].answer, anl, i + 1);
+                    else showData3(t[i].id, t[i].type, t[i].title, t[i].answer, anl, i + 1);
+                    i++;
+                }
+
+            })
+    }
+</script>
+
+
+<div>
+    <form>
+
+        <div class="container row">
+            <div class="col-1"></div>
+            <div style="height: 60vh;" class="container col-3 overflow-auto border border-primary rounded-2">
+
+                <ul>
+                    <label style="font-size: 20px;">按学科分类</label>
+                    <ul>
+                        <li class="form-check">
+                            <input type="radio" class="form-check-input" id="distribute-by-subject-Chinese"
+                                   name="distribute-by-subject" value="Chinese"><label
+                                for="distribute-by-subject-Chinese">语文</label>
+                        </li>
+                        <li class="form-check">
+                            <input type="radio" class="form-check-input" id="distribute-by-subject-Math"
+                                   name="distribute-by-subject" value="Math"><label
+                                for="distribute-by-subject-Math">数学</label>
+                        </li>
+                        <li class="form-check">
+                            <input type="radio" class="form-check-input" id="distribute-by-subject-English"
+                                   name="distribute-by-subject" value="English"><label
+                                for="distribute-by-subject-English">外语</label>
+                        </li>
+                        <li class="form-check">
+                            <input type="radio" class="form-check-input" id="distribute-by-subject-Physics"
+                                   name="distribute-by-subject" value="Physics"><label
+                                for="distribute-by-subject-Physics">物理</label>
+                        </li>
+                        <li class="form-check">
+                            <input type="radio" class="form-check-input" id="distribute-by-subject-Chemical"
+                                   name="distribute-by-subject" value="Chemical"><label
+                                for="distribute-by-subject-Chemical">化学</label>
+                        </li>
+                        <li class="form-check">
+                            <input type="radio" class="form-check-input" id="distribute-by-subject-Biology"
+                                   name="distribute-by-subject" value="Biology"><label
+                                for="distribute-by-subject-Biology">生物</label>
+                        </li>
+                        <li class="form-check">
+                            <input type="radio" class="form-check-input" id="distribute-by-subject-History"
+                                   name="distribute-by-subject" value="History"><label
+                                for="distribute-by-subject-History">历史</label>
+                        </li>
+                        <li class="form-check">
+                        <input type="radio" class="form-check-input" id="distribute-by-subject-Geography"
+                               name="distribute-by-subject" value="Geography"><label
+                            for="distribute-by-subject-Geography">地理</label>
+                        </li>
+                        <li class="form-check">
+                        <input type="radio" class="form-check-input" id="distribute-by-subject-Politics"
+                               name="distribute-by-subject" value="Politics"><label
+                            for="distribute-by-subject-Politics">政治</label>
+                        </li>
+                        <li class="form-check">
+                            <input type="radio" class="form-check-input" id="distribute-by-subject-Technology"
+                                   name="distribute-by-subject" value="Technology"><label
+                                for="distribute-by-subject-Technology">技术</label>
+                        </li>
+
+                    </ul>
+                    <label style="font-size: 20px;">按题型分类</label>
+                    <ul>
+                        <li class="form-check">
+                            <input type="radio" class="form-check-input" id="distribute-by-type-single"
+                                   name="distribute-by-type" value="single"><label
+                                for="distribute-by-type-single">单选</label>
+                        </li>
+                        <li class="form-check">
+                            <input type="radio" class="form-check-input" id="distribute-by-type-multiple"
+                                   name="distribute-by-type" value="multiple"><label
+                                for="distribute-by-type-multiple">多选</label>
+                        </li>
+                        <li class="form-check">
+                            <input type="radio" class="form-check-input" id="distribute-by-type-judge"
+                                   name="distribute-by-type" value="judge"><label
+                                for="distribute-by-type-judge">判断</label>
+                        </li>
+                        <li class="form-check">
+                            <input type="radio" class="form-check-input" id="distribute-by-type-cloze"
+                                   name="distribute-by-type" value="cloze"><label
+                                for="distribute-by-type-cloze">填空</label>
+                        </li>
+                        <li class="form-check">
+                            <input type="radio" class="form-check-input" id="distribute-by-type-short"
+                                   name="distribute-by-type" value="short"><label
+                                for="distribute-by-type-short">简答</label>
+                        </li>
+                        <li class="form-check">
+                            <input type="radio" class="form-check-input" id="distribute-by-type-discuss"
+                                   name="distribute-by-type" value="discuss"><label
+                                for="distribute-by-type-discuss">论述</label>
+                    </ul>
+                </ul>
+            </div>
+            <div class="col-1">
+            </div>
+            <div id="exam" style="height: 60vh;" class="container col-7 overflow-auto border border-primary rounded-2">
+
+            </div>
+        </div>
+        <div style="height: 5vh"></div>
+        <div style="width: 60vw;margin: auto" class="row">
+            <button class="btn btn-outline-primary" name="submit" type="submit">提交</button>
+        </div>
+
+    </form>
+</div>
+<script>
+
+    function showData1(id, type, title, choiceA, choiceB, choiceC, choiceD, answer, analysis, T) {
+
+        let divt = document.createElement('div');
+        divt.id = 'div_' + T;
+        divt.className = 'row m-3';
+        let divcheck = document.createElement('div');
+        divcheck.className = 'col-1';
+        let check = document.createElement('input');
+        check.type = "checkbox";
+        check.name = "question";
+        check.className = "form-check-input";
+        check.value = id;
+        divcheck.appendChild(check);
+        let divq = document.createElement('div');
+        divq.className = 'col-11';
+        let titleP = document.createElement('p');
+        divq.appendChild(titleP);
+        let divA = document.createElement('div');
+        let divB = document.createElement('div');
+        let divC = document.createElement('div');
+        let divD = document.createElement('div');
+        let divans = document.createElement('div');
+        let choiceALabel = document.createElement('label');
+        choiceALabel.innerHTML = "A." + choiceA + "  ";
+        let choiceBLabel = document.createElement('label');
+        choiceBLabel.innerHTML = "B." + choiceB + "  ";
+        let choiceCLabel = document.createElement('label');
+        choiceCLabel.innerHTML = "C." + choiceC + "  ";
+        let choiceDLabel = document.createElement('label');
+        choiceDLabel.innerHTML = "D." + choiceD + "  ";
+        let ansLabel = document.createElement('label');
+        ansLabel.innerHTML = "答案:" + answer;
+        let anlLabel = document.createElement('label');
+        anlLabel.innerHTML = "解析:" + analysis;
+        divA.appendChild(choiceALabel);
+        divB.appendChild(choiceBLabel);
+        divC.appendChild(choiceCLabel);
+        divD.appendChild(choiceDLabel);
+        divans.appendChild(ansLabel);
+        divans.appendChild(document.createElement('br'));
+        divans.appendChild(anlLabel);
+        divq.appendChild(divA);
+        divq.appendChild(divB);
+        divq.appendChild(divC);
+        divq.appendChild(divD);
+        divq.appendChild(divans);
+        divt.appendChild(divcheck);
+        divt.appendChild(divq);
+        divans.style = "background-color: rgba(225, 225, 225,0.8);border-radius:4px";
+        divq.style = "background-color: rgba(235, 235, 235,0.8);border-radius:10px";
+        divt.style = "background-color: rgba(245, 245, 245,0.8);border-radius:10px";
+        document.getElementById('exam').appendChild(divt);
+        if (type == "single") {
+            titleP.innerHTML = "(单选)" + T + "、" + title;
+        } else if (type == "multiple") {
+            titleP.innerHTML = "(多选)" + T + "、" + title;
+        }
+    }
+
+    function showData2(id, type, title, choiceT, choiceF, answer, analysis, T) {
+
+        if (type == "judge") {
+
+            let divt = document.createElement('div');
+            divt.id = 'div_' + T;
+            divt.className = 'row m-3';
+            let divcheck = document.createElement('div');
+            divcheck.className = 'col-1';
+            let check = document.createElement('input');
+            check.type = "checkbox";
+            check.name = "question";
+            check.className = "form-check-input";
+            check.value = id;
+            divcheck.appendChild(check);
+            let divq = document.createElement('div');
+            divq.className = 'col-11';
+            let titleP = document.createElement('p');
+            divq.appendChild(titleP);
+            let divans = document.createElement('div');
+            let ansLabel = document.createElement('label');
+            if (answer == "T") ansLabel.innerHTML = "答案:正确";
+            if (answer == "F") ansLabel.innerHTML = "答案:错误";
+            let anlLabel = document.createElement('label');
+            anlLabel.innerHTML = "解析:" + analysis;
+            divans.appendChild(ansLabel);
+            divans.appendChild(document.createElement('br'));
+            divans.appendChild(anlLabel);
+            divq.appendChild(divans);
+            divt.appendChild(divcheck);
+            divt.appendChild(divq);
+            divans.style = "background-color: rgba(225, 225, 225,0.8);border-radius:4px";
+            divq.style = "background-color: rgba(235, 235, 235,0.8);border-radius:10px";
+            divt.style = "background-color: rgba(245, 245, 245,0.8);border-radius:10px";
+            document.getElementById('exam').appendChild(divt);
+            titleP.innerHTML = "(判断)" + T + "、" + title;
+
+        }
+    }
+
+    function showData3(id, type, title, answer, analysis, T) {
+        let divt = document.createElement('div');
+        divt.id = 'div_' + T;
+        divt.className = 'row m-3';
+        let divcheck = document.createElement('div');
+        divcheck.className = 'col-1';
+        let check = document.createElement('input');
+        check.type = "checkbox";
+        check.name = "question";
+        check.className = "form-check-input";
+        check.value = id;
+        divcheck.appendChild(check);
+        let divq = document.createElement('div');
+        divq.className = 'col-11';
+        let titleP = document.createElement('p');
+        divq.appendChild(titleP);
+        let divans = document.createElement('div');
+        let ansLabel = document.createElement('label');
+        ansLabel.innerHTML = "答案:" + answer;
+        let anlLabel = document.createElement('label');
+        anlLabel.innerHTML = "解析:" + analysis;
+        divans.appendChild(ansLabel);
+        divans.appendChild(document.createElement('br'));
+        divans.appendChild(anlLabel);
+        divq.appendChild(divans)
+        divt.appendChild(divcheck);
+        divt.appendChild(divq);
+        divans.style = "background-color: rgba(225, 225, 225,0.8);border-radius:4px";
+        divq.style = "background-color: rgba(235, 235, 235,0.8);border-radius:10px";
+        divt.style = "background-color: rgba(245, 245, 245,0.8);border-radius:10px";
+        if (type == "cloze") {
+            titleP.innerHTML = "(填空)" + T + "、" + title;
+        } else {
+            if (type == "short") {
+                titleP.innerHTML = "(简答)" + T + "、" + title;
+            } else {
+                titleP.innerHTML = "(论述)" + T + "、" + title;
+            }
+        }
+        document.getElementById('exam').appendChild(divt);
+    }
+</script>
+</body>
+
+</html>

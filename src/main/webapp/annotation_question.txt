@@ -1,0 +1,13 @@
+question{
+	id;//AI UN
+	subject;//UN Chinese Math English Physics Chemical Biology History Geography Politics Technology
+	type;//UN single multiple judge cloze short discuss
+	title;//UN
+	choiceA;
+	choiceB;
+	choiceC;
+	choiceD;
+	answer;//UN
+	analysisEnabled;//UN
+	analysis;
+}

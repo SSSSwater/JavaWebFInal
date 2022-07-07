@@ -1,0 +1,28 @@
+single#
+Can you give me an indication( )*t
+A.on*a
+B.of*b
+C.in*c
+D.by*d
+B@
+multiple#
+Can you give me an indication( )*t
+A.on*a
+B.of*b
+C.in*c
+D.by*d
+C@
+judge#
+Can you give me an indication( )*t
+Yes*a
+No*b
+T@
+cloze#
+Can you give me an indication?*t
+nmsl@
+short#
+Can you give me an indication?*t
+密麻麻石蜡@
+discuss#
+Can you give me an indication?*t
+No,密麻麻石蜡@
