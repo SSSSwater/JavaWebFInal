@@ -3,26 +3,26 @@ package com.example.jdbc;
 import com.example.basicLayout.Question;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.RowMapper;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
 public class JdbcTemplate {
     public static void main(String[] args) {
         //获取容器
-//        ApplicationContext ac =new ClassPathXmlApplicationContext("Bean.xml");
-//        IQuestionDao questionDao =ac.getBean("questionDao",IQuestionDao.class);
+//        ApplicationContext ac = new ClassPathXmlApplicationContext("Bean.xml");
+//        IloginDao loginDao = ac.getBean("loginDao", IloginDao.class);
+//        System.out.println(loginDao.findStudentbyap("1234","zyj12345"));
+        ApplicationContext ac =new ClassPathXmlApplicationContext("Bean.xml");
+        IQuestionDao questionDao =ac.getBean("questionDao",IQuestionDao.class);
+        List<Question> questions = questionDao.getallQuestion();
 //        Question q = new Question("Physics","judge","时间的流逝有快有慢","A.对","B.错",null,null,"B","flase",null);
 //        questionDao.updateQuestion(q);
 //        Question q2 = new Question("Physics","judge","衣服会产热","A.对","B.错",null,null,"B","flase",null);
 //        questionDao.updateQuestion(q2);
 //        List<Question> questions = questionDao.findQuestionbySubject("Math");
-//        for(Question q:questions ){
-//            System.out.println(q);
-//        }
+        for(Question q:questions ){
+            System.out.println(q);
+        }
 
 //        Question question = questionDao.findQuestionbyID(1);
 //        System.out.println(question);

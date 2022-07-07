@@ -12,4 +12,8 @@ public interface IQuestionDao {
    List<Question> findQuestionbySubject(String subject);
 
    void updateQuestion(Question questions);
+
+   List<Question> getallQuestion();
+
+   List<Question> findQuestionbyst(String subject,String type);
 }
