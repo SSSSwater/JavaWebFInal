@@ -74,6 +74,7 @@
                 typeValue = type[i].value;
             }
         }
+
         if (textValue == "" && typeValue == undefined && subjectValue == undefined) {
             axios({
                 method: 'GET',
@@ -97,7 +98,8 @@
                     }
 
                 })
-        } else if (textValue == "" && typeValue == undefined) {
+        }
+        else if (textValue == "" && typeValue == undefined) {
             axios({
                 method: 'GET',
                 url: "https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/tiku",
@@ -149,7 +151,8 @@
                     }
 
                 })
-        } else if (textValue == "") {
+        }
+        else if (textValue == "") {
             axios({
                 method: 'GET',
                 url: "https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/tiku",
@@ -176,7 +179,8 @@
                     }
 
                 })
-        } else {
+        }
+        else {
             axios({
                 method: 'GET',
                 url: "https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/tiku",
@@ -321,13 +325,31 @@
         </div>
         <div style="height: 5vh"></div>
         <div class="row" style="width: 60vw;margin: auto">
-            <button class="btn btn-outline-primary" name="submit" type="submit">提交</button>
+            <input type="button " class="btn btn-outline-primary" onclick="submitIt()" value="组卷">
         </div>
 
     </form>
 </div>
 <script>
-
+function submitIt(){
+    var questionIds = document.getElementsByName("question");
+    var questionIdVaule=new Array();
+    for(i =0;i<questionIds.length;i++)
+    {
+        if (questionIds[i].checked) {
+            questionIdVaule.push(questionIds[i].value);
+        }
+    }
+    console.log(questionIdVaule);
+     axios.post("https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/paper",{
+         "id":questionIdVaule
+     }).then(function (res){
+         console.log(res.data);
+         alert("组卷成功");
+     }).catch(function (res){
+         alert("上传失败");
+     })
+}
     function showData1(id, type, title, choiceA, choiceB, choiceC, choiceD, answer, analysis, T) {
 
         let divt = document.createElement('div');
