@@ -1,6 +1,7 @@
 package com.example.jdbc;
 
 import com.example.basicLayout.Manager;
+import com.example.basicLayout.Question;
 import com.example.basicLayout.Student;
 import com.example.basicLayout.Teacher;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -26,6 +27,26 @@ public class LoginDaoImp extends JdbcDaoSupport implements IloginDao {
     public boolean findManagerByAp(String account, String password) {
         List<Manager> managers = getJdbcTemplate().query("select * from student where manager = ? and password = ?",new BeanPropertyRowMapper<Manager>(Manager.class),account,password);
         return !managers.isEmpty();
+    }
+
+    @Override
+    public void updateStudent(Student students) {
+        String sql="insert into student (id,name,classnum,school,account,password)value('"+students.getId()+"','"+students.getName()+"','"+students.getClassnum()+"','"+students.getSchool()+"','"
+                +students.getAccount()+"','"+students.getPassword()+"')";
+        getJdbcTemplate().execute(sql);
+    }
+
+    @Override
+    public void updateTeacher(Teacher teachers) {
+        String sql="insert into teacher (worknum,name,school,grade,subject,classnum,account,password)value('"+teachers.getWorknum()+"','"+teachers.getName()+"','"+teachers.getSchool()+"','"
+                +teachers.getGrade()+"','"+teachers.getSubject()+"','"+teachers.getClassnum()+"','"+teachers.getAccount()+"','"+teachers.getPassword()+"')";
+        getJdbcTemplate().execute(sql);
+    }
+
+    @Override
+    public void updateManager(Manager managers) {
+        String sql="insert into manager (account,password)value('"+managers.getAccount()+"','"+managers.getPassword()+"')";
+        getJdbcTemplate().execute(sql);
     }
 
 }
