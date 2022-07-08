@@ -97,9 +97,11 @@
          let inspectButton = document.createElement('button');
          inspectButton.innerHTML="查看";
          inspectButton.className='fa-solid fa-magnifying-glass button-nonborder';
+         inspectButton.id='inspect_'+id;
          let publicButton = document.createElement('button');
          publicButton.innerHTML="发布";
          publicButton.className='fa-solid fa-arrow-up button-nonborder';
+        inspectButton.id='public_'+id;
          inspectDiv.appendChild(inspectButton);
          publicDiv.appendChild(publicButton);
          divt.appendChild(titleDiv);
