@@ -9,7 +9,7 @@
     <!-- 新 Bootstrap5 核心 CSS 文件 -->
     <link href="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/css/bootstrap.min.css" rel="stylesheet">
     <!--        <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">-->
-
+    <link href="css/button-primary.css" rel="stylesheet">
     <!--  popper.min.js 用于弹窗、提示、下拉菜单 -->
     <script src="https://cdn.staticfile.org/popper.js/2.9.3/umd/popper.min.js"></script>
 
@@ -18,7 +18,7 @@
     <!--    <script src="/js/bootstrap/bootstrap.bundle.min.js"></script>-->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
-<body onload="request()">
+<body>
 <div class="container">
     <header
             class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
@@ -48,11 +48,61 @@
             <a class="btn btn-outline-primary me-2" href="../resources/templates/login.html" type="button">登录</a>
         </div>
     </header>
+
+    <form>
+        <div class="container border border-dark rounded-2" id="exam-detail">
+
+            <div class="container p-4 d-flex">
+                <div class="">
+                    <label>下北泽第114514次期末考试</label>
+                </div>
+                <div>
+                    <button>查看</button>
+                </div>
+                <div>
+                    <button>发布</button>
+                </div>
+            </div>
+            </div>
+            <div>
+        </div>
+    </form>
 <script>
      function request(){
         axios.get("https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/paper").then(function (res){
-            console.log(res.data.paper[0]);
+            t=res.data.paper;
+            i=0;
+            while(t[i]!=null){
+                console.log(t[i]);
+                showExam(t[i].id,t[i].title);
+                i++;
+            }
         })
+    }
+
+    function showExam(id,title){
+         let divt = document.createElement('div');
+         divt.id='div'+id;
+         divt.className='container row';
+         let divtitle = document.createElement('div');
+         divtitle.className='col-9';
+         let titleLabel = document.createElement('label');
+         titleLabel.innerHTML=title+' ['+id+']';
+         divtitle.appendChild(titleLabel);
+         let divinteract = document.createElement('div');
+         divinteract.className='col-2';
+         let inspectButton = document.createElement('button');
+         inspectButton.innerHTML="查看";
+         inspectButton.className='button-dynamic';
+         let publicButton = document.createElement('button');
+         publicButton.innerHTML="发布";
+         publicButton.className='button-dynamic';
+         divinteract.appendChild(inspectButton);
+         divinteract.appendChild(publicButton);
+         divt.appendChild(divtitle);
+         divt.appendChild(divinteract);
+         document.getElementById('exam-detail').appendChild(divt);
+
     }
 </script>
 </div>

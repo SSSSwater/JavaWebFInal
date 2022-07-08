@@ -1,0 +1,13 @@
+.button-dynamic{
+    border: 2px rgba(182, 221, 255,0.8) solid;
+    border-radius: 20px;
+    background-color: white;
+    transition: 0.25s;
+    width: 10vw;
+    text-align: center;
+}
+.button-dynamic:hover{
+    background-color: rgb(220, 234, 255);
+    transition: 0.25s;
+    width: 12vw;
+}
