@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>发布考试</title>
+    <!-- 新 Bootstrap5 核心 CSS 文件 -->
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <!--        <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">-->
+
+    <!--  popper.min.js 用于弹窗、提示、下拉菜单 -->
+    <script src="https://cdn.staticfile.org/popper.js/2.9.3/umd/popper.min.js"></script>
+
+    <!-- 最新的 Bootstrap5 核心 JavaScript 文件 -->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/js/bootstrap.min.js"></script>
+    <!--    <script src="/js/bootstrap/bootstrap.bundle.min.js"></script>-->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body onload="request()">
+<div class="container">
+    <header
+            class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+        <a class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none" href="/">
+            <svg aria-label="Bootstrap" class="bi me-2" height="32" role="img" width="40">
+                <use xlink:href="#bootstrap"/>
+            </svg>
+        </a>
+
+        <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+            <li class="nav-item dropdown">
+                <a aria-expanded="false" class="nav-link dropdown-toggle nav-link px-2 link-secondary"
+                   data-bs-toggle="dropdown"
+                   href="#" role="button">导入题库</a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="question_import_solo.html">单题导入</a></li>
+                    <li><a class="dropdown-item" href="question_import_multi.html">多题导入</a></li>
+                    </li>
+                </ul>
+            </li>
+            <li><a class="nav-link px-2 link-dark" href="make_paper.html">组卷</a></li>
+            <li><a class="nav-link px-2 link-dark" href="exam_public.html">发布考试</a></li>
+            <li><a class="nav-link px-2 link-dark" href="#">考试结果</a></li>
+        </ul>
+
+        <div class="col-md-3 text-end">
+            <a class="btn btn-outline-primary me-2" href="login.html" type="button">登录</a>
+        </div>
+    </header>
+<script>
+     function request(){
+        axios.get("https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/paper").then(function (res){
+            console.log(res.data.paper[0]);
+        })
+    }
+</script>
+</div>
+</body>
+</html>

@@ -52,6 +52,10 @@ public class LoginController {
         return "index";
     }
 */
+    @RequestMapping("/")
+    public String doLogin(){
+        return "index";
+    }
 
     @RequestMapping("/login")
     public String getLogin(HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -75,7 +79,7 @@ public class LoginController {
         } catch (ClassNotFoundException | IOException e) {
             e.printStackTrace();
         }
-        return "index";
+        return "login";
 
 
     }
