@@ -1,6 +1,8 @@
 package com.example.basicLayout;
 
-public class Student {
+import lombok.Data;
+
+public class Student extends User{
     private int id;
     private String name;
     private String classnum;
@@ -8,10 +10,12 @@ public class Student {
     private String account;
     private String password;
 
-    public Student(){}
-
+    public Student(){
+        super(1);
+    }
 
     public Student(int id, String name, String classnum, String school, String account, String password) {
+        super(1);
         this.id = id;
         this.name = name;
         this.classnum = classnum;

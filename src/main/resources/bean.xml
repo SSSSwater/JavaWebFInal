@@ -13,7 +13,7 @@
         <property name="jdbcTemplate" ref="JdbcTemplate"></property>
     </bean>
 
-    <bean id="loginDao" class="com.example.jdbc.loginDaoImp">
+    <bean id="loginDao" class="com.example.jdbc.LoginDaoImp">
         <property name="jdbcTemplate" ref="JdbcTemplate"></property>
     </bean>
 

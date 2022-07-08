@@ -1,6 +1,9 @@
 package com.example.basicLayout;
 
-public class Teacher {
+import lombok.Data;
+
+
+public class Teacher extends User{
     private int worknum;
     private String name;
     private String school;
@@ -10,7 +13,20 @@ public class Teacher {
     private String account;
     private String password;
 
-    public Teacher(){}
+    public Teacher(){
+        super(2);
+    }
+    public Teacher(int worknum, String name, String school, String grade, String subject, String classnum, String account, String password) {
+        super(2);
+        this.worknum = worknum;
+        this.name = name;
+        this.school = school;
+        this.grade = grade;
+        this.subject = subject;
+        this.classnum = classnum;
+        this.account = account;
+        this.password = password;
+    }
 
     public int getWorknum() {
         return worknum;
@@ -76,16 +92,5 @@ public class Teacher {
         this.password = password;
     }
 
-    public Teacher(int worknum, String name, String school, String grade, String subject, String classnum, String account, String password) {
-        this.worknum = worknum;
-        this.name = name;
-        this.school = school;
-        this.grade = grade;
-        this.subject = subject;
-        this.classnum = classnum;
-        this.account = account;
-        this.password = password;
 
-
-    }
 }

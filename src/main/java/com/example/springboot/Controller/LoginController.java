@@ -1,12 +1,17 @@
 package com.example.springboot.Controller;
 
+import com.example.basicLayout.User;
+import com.example.springboot.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.*;
 
@@ -14,20 +19,34 @@ import java.sql.*;
 @Controller
 public class LoginController {
 
-    /*
+    @Autowired
     UserService userService;
-    @PostMapping("/manage")
-    public String manage(HttpServletRequest request){
-        HttpSession session=request.getSession();
-        Object o=session.getAttribute("user");
-        if(o==null){
+
+    @RequestMapping("/login.html")
+    public String login(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Object o = session.getAttribute("user");
+        if (o != null) {
+            log.info("已经登录");
+            return "redirect:/manage";
+        }
+        log.info("未登录");
+        return "index.html";
+    }
+
+    @RequestMapping("/manage")
+    public String manage(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Object o = session.getAttribute("user");
+        if (o == null) {
             log.info("登录失败");
             return "redirect:/login";
         }
-        User loginUser=(User) o;//强转为User
+        User loginUser = (User) o;//强转为User
 
+        //根据role返回不同的地址
+        return "index";
     }
-*/
 
 /*
     @RequestMapping(value = "/login")
@@ -52,133 +71,8 @@ public class LoginController {
         return "index";
     }
 */
-    @RequestMapping("/")
-    public String doLogin(){
-        return "index";
-    }
-
-    @RequestMapping("/login")
-    public String getLogin(HttpServletRequest request, HttpServletResponse response, Model model) {
-
-        String account = request.getParameter("student_account");
-        String password = request.getParameter("student_password");
-
-        try {
-            Class.forName(JDBC_DRIVER);
-            if (searchForStu(account, password)) {
-                response.sendRedirect("index.html");
-                System.out.println("1");
-            } else if (searchForTea(account, password)) {
-                response.sendRedirect("index.html");
-                System.out.println("2");
-            } else if (searchForCom(account, password)) {
-                response.sendRedirect("index.html");
-                System.out.println("3");
-            }
-
-        } catch (ClassNotFoundException | IOException e) {
-            e.printStackTrace();
-        }
-        return "login";
 
 
-    }
-
-
-    //账号登录验证
-    static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
-    static final String DB_URL = "jdbc:mysql://localhost:3306/user?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
-    static final String USER = "root";
-    static final String PASS = "admin";
-
-    public static boolean searchForStu(String account, String password) {
-        String sql = "select * from student_table where account = '" + account + "' and password = '" + password + "'";
-        Boolean flag = false;
-        try {
-            Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
-            System.out.println("success!");
-            if (rs.next()) {
-                System.out.println("Success");
-                flag = true;
-                String number = rs.getString("number");
-                String name = rs.getString("name");
-                String classnumber = rs.getString("classnumber");
-                String sex = rs.getString("sex");
-                String schoolname = rs.getString("schoolname");
-                //System.out.printf("number:%s name:%s className:%s sex:%s schoolName：%s\n", number, name, classnumber, sex, schoolname);
-                //System.out.println("你好！");
-            } else {
-                System.out.println("Fail");
-            }
-
-            conn.close();
-            rs.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return flag;
-
-    }
-
-    public static boolean searchForTea(String account, String password) {
-        String sql = "select * from teacher_table where account = '" + account + "' and password = '" + password + "'";
-        Boolean flag = false;
-        try {
-            Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
-            System.out.println("success!");
-            if (rs.next()) {
-                //System.out.println("Success");
-                flag = true;
-                String teacherworknumber = rs.getString("teacherworknumber");
-                String name = rs.getString("name");
-                String schoolname = rs.getString("schoolname");
-                //System.out.printf("number:%s name:%s className:%s sex:%s schoolName：%s\n", number, name, classnumber, sex, schoolname);
-                //System.out.println("你好！");
-            } else {
-                System.out.println("Fail");
-            }
-
-            conn.close();
-            rs.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return flag;
-
-    }
-
-    public static boolean searchForCom(String account, String password) {
-        String sql = "select * from student_table where account = '" + account + "' and password = '" + password + "'";
-        Boolean flag = false;
-        try {
-            Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
-            System.out.println("success!");
-            if (rs.next()) {
-                //System.out.println("Success");
-                flag = true;
-                //String teacherworknumber = rs.getString("teacherworknumber");
-                //String name = rs.getString("name");
-                //String schoolname = rs.getString("schoolname");
-                //System.out.printf("number:%s name:%s className:%s sex:%s schoolName：%s\n", number, name, classnumber, sex, schoolname);
-                //System.out.println("你好！");
-            } else {
-                System.out.println("Fail");
-            }
-
-            conn.close();
-            rs.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return flag;
-
-    }
 
 
 }

@@ -1,12 +1,24 @@
 package com.example.basicLayout;
 
-public class Manager {
+import lombok.Data;
+
+public class Manager extends User{
     private String account;
     private String password;
 
-    public Manager(){}
+
+    public Manager(String account, String password, String account1, String password1) {
+        super(account, password);
+        this.account = account1;
+        this.password = password1;
+    }
+
+    public Manager(){
+        super(3);
+    }
 
     public Manager(String account, String password) {
+        super(3);
         this.account = account;
         this.password = password;
     }
