@@ -13,6 +13,7 @@ import java.util.List;
 @Controller
 public class QuestionController {
 
+//    aa
 //    @ResponseBody
 //    @RequestMapping(value = "/tiku",method = RequestMethod.GET)
 //    public Object getQuestion(HttpServletRequest request, Model model){
