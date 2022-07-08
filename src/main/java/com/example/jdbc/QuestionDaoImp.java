@@ -1,8 +1,8 @@
 package com.example.jdbc;
 //账户持久层实现
+
 import com.example.basicLayout.Question;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
 import java.util.List;
@@ -51,5 +51,17 @@ public class QuestionDaoImp extends JdbcDaoSupport implements IQuestionDao{
                 questions.getAnalysisEnabled()+"','"+questions.getAnalysis()+"')";
 //        System.out.println(sql);
         getJdbcTemplate().execute(sql);
+    }
+
+    @Override
+    public List<Question> getallQuestion() {
+        List<Question> questions = getJdbcTemplate().query("select * from question",new BeanPropertyRowMapper<Question>(Question.class));
+        return questions;
+    }
+
+    @Override
+    public List<Question> findQuestionbyst(String subject, String type) {
+        List<Question> questions = getJdbcTemplate().query("select * from question where subject = ? and type = ?",new BeanPropertyRowMapper<Question>(Question.class),subject,type);
+        return questions.isEmpty()?null:questions;
     }
 }

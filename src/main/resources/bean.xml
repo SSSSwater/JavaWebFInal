@@ -13,6 +13,10 @@
         <property name="jdbcTemplate" ref="JdbcTemplate"></property>
     </bean>
 
+    <bean id="loginDao" class="com.example.jdbc.loginDaoImp">
+        <property name="jdbcTemplate" ref="JdbcTemplate"></property>
+    </bean>
+
     <!--配置数据源-->
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"></property>
