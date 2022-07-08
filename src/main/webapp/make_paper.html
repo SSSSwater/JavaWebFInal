@@ -376,7 +376,7 @@
         divt.style = "background-color: rgba(245, 245, 245,0.8);border-radius:10px";
         document.getElementById('exam').appendChild(divt);
         if (type == "single") {
-            titleP.innerHTML = "(单选)" + T + "、" + title;
+            titleP.innerHTML = "(单选)" + "["+ id +"]"+ "、" + title;
         } else if (type == "multiple") {
             titleP.innerHTML = "(多选)" + T + "、" + title;
         }
