@@ -34,6 +34,10 @@ public class Question {
         this.analysis = analysis;
     }
 
+    public Question() {
+
+    }
+
     public int getId() {
         return id;
     }

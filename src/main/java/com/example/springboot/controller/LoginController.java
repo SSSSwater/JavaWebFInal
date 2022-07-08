@@ -1,4 +1,4 @@
-package com.example.springboot.Controller;
+package com.example.springboot.controller;
 
 import com.example.basicLayout.User;
 import lombok.extern.slf4j.Slf4j;
@@ -58,42 +58,30 @@ public class LoginController {
     }
 */
 
-    @RequestMapping(value = "/login")
+    @RequestMapping("/login")
     public String getLogin(HttpServletRequest request, HttpServletResponse response, Model model) {
 
         String account = request.getParameter("student_account");
         String password = request.getParameter("student_password");
 
         try {
-            System.out.println(account);
-            System.out.println(password);
             Class.forName(JDBC_DRIVER);
-//            if (searchForStu(account, password)) {
-//                response.sendRedirect("index.html");
-//                System.out.println("1");
-//            } else if (searchForTea(account, password)) {
-//                response.sendRedirect("index.html");
-//                System.out.println("2");
-//            } else if (searchForCom(account, password)) {
-//                response.sendRedirect("index.html");
-//                System.out.println("3");
-//            }
-            if (account=="student") {
-                response.sendRedirect("make_paper.html");
+            if (searchForStu(account, password)) {
+                response.sendRedirect("index.html");
                 System.out.println("1");
-            } else if (account=="teacher") {
-                response.sendRedirect("make_paper.html");
+            } else if (searchForTea(account, password)) {
+                response.sendRedirect("index.html");
                 System.out.println("2");
-            } else if (account=="admin") {
-                response.sendRedirect("make_paper.html");
+            } else if (searchForCom(account, password)) {
+                response.sendRedirect("index.html");
                 System.out.println("3");
             }
-
 
         } catch (ClassNotFoundException | IOException e) {
             e.printStackTrace();
         }
         return "index";
+
 
     }
 
