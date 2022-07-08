@@ -38,11 +38,10 @@
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="question_import_solo.html">单题导入</a></li>
                     <li><a class="dropdown-item" href="question_import_multi.html">多题导入</a></li>
-                    </li>
                 </ul>
             </li>
             <li><a class="nav-link px-2 link-dark" href="make_paper.html">组卷</a></li>
-            <li><a class="nav-link px-2 link-dark" exam_public.html href="">发布考试</a></li>
+            <li><a class="nav-link px-2 link-dark" href="exam_public.html">发布考试</a></li>
             <li><a class="nav-link px-2 link-dark" href="result_management.html">考试结果</a></li>
         </ul>
 
@@ -332,7 +331,7 @@
     function showData1(id, type, title, choiceA, choiceB, choiceC, choiceD, answer, analysis, T) {
 
         let divt = document.createElement('div');
-        divt.id = 'div_' + T;
+        divt.id = 'div_' + id;
         divt.className = 'row m-3';
         let divcheck = document.createElement('div');
         divcheck.className = 'col-1';
@@ -393,7 +392,7 @@
         if (type == "judge") {
 
             let divt = document.createElement('div');
-            divt.id = 'div_' + T;
+            divt.id = 'div_' + id;
             divt.className = 'row m-3';
             let divcheck = document.createElement('div');
             divcheck.className = 'col-1';
@@ -429,7 +428,7 @@
 
     function showData3(id, type, title, answer, analysis, T) {
         let divt = document.createElement('div');
-        divt.id = 'div_' + T;
+        divt.id = 'div_' + id;
         divt.className = 'row m-3';
         let divcheck = document.createElement('div');
         divcheck.className = 'col-1';
