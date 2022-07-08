@@ -11,3 +11,13 @@
     transition: 0.25s;
     width: 12vw;
 }
+.button-nonborder{
+    border: 0px;
+    background-color: rgba(0,0,0,0);
+    color: darkgray;
+    transition: 0.5s;
+}
+.button-nonborder:hover{
+    color: dimgrey;
+    transition: 0.5s;
+}

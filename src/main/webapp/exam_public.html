@@ -17,8 +17,9 @@
     <script src="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/js/bootstrap.min.js"></script>
     <!--    <script src="/js/bootstrap/bootstrap.bundle.min.js"></script>-->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://kit.fontawesome.com/9e301165f1.js" crossorigin="anonymous"></script>
 </head>
-<body>
+<body onload="request()">
 <div class="container">
     <header
             class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
@@ -53,14 +54,14 @@
         <div class="container border border-dark rounded-2" id="exam-detail">
 
             <div class="container p-4 d-flex">
-                <div class="">
+                <div class="flex-grow-1">
                     <label>下北泽第114514次期末考试</label>
                 </div>
-                <div>
-                    <button>查看</button>
+                <div class="">
+                    <button class="fa-solid fa-magnifying-glass button-nonborder">查看</button>
                 </div>
-                <div>
-                    <button>发布</button>
+                <div class="">
+                    <button class="fa-solid fa-arrow-up button-nonborder">发布</button>
                 </div>
             </div>
             </div>
@@ -83,24 +84,29 @@
     function showExam(id,title){
          let divt = document.createElement('div');
          divt.id='div'+id;
-         divt.className='container row';
-         let divtitle = document.createElement('div');
-         divtitle.className='col-9';
+         divt.className='"container p-4 d-flex';
+         let titleDiv = document.createElement('div');
+         titleDiv.className='flex-grow-1';
          let titleLabel = document.createElement('label');
          titleLabel.innerHTML=title+' ['+id+']';
-         divtitle.appendChild(titleLabel);
-         let divinteract = document.createElement('div');
-         divinteract.className='col-2';
+         titleDiv.appendChild(titleLabel);
+         let inspectDiv = document.createElement('div');
+         inspectDiv.className='';
+         let publicDiv = document.createElement('div');
+         publicDiv.className='';
          let inspectButton = document.createElement('button');
          inspectButton.innerHTML="查看";
-         inspectButton.className='button-dynamic';
+         inspectButton.className='fa-solid fa-magnifying-glass button-nonborder';
+         inspectButton.id='inspect_'+id;
          let publicButton = document.createElement('button');
          publicButton.innerHTML="发布";
-         publicButton.className='button-dynamic';
-         divinteract.appendChild(inspectButton);
-         divinteract.appendChild(publicButton);
-         divt.appendChild(divtitle);
-         divt.appendChild(divinteract);
+         publicButton.className='fa-solid fa-arrow-up button-nonborder';
+        inspectButton.id='public_'+id;
+         inspectDiv.appendChild(inspectButton);
+         publicDiv.appendChild(publicButton);
+         divt.appendChild(titleDiv);
+         divt.appendChild(inspectDiv);
+         divt.appendChild(publicDiv);
          document.getElementById('exam-detail').appendChild(divt);
 
     }
