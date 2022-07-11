@@ -17,8 +17,42 @@
     <script src="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/js/bootstrap.min.js"></script>
     <!--    <script src="/js/bootstrap/bootstrap.bundle.min.js"></script>-->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
 </head>
 <body>
+<header
+        class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+    <a class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none" href="/">
+        <svg aria-label="Bootstrap" class="bi me-2" height="32" role="img" width="40">
+            <use xlink:href="#bootstrap"/>
+        </svg>
+    </a>
+
+    <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+        <li class="nav-item dropdown">
+            <a aria-expanded="false" class="nav-link dropdown-toggle nav-link px-2 link-secondary"
+               data-bs-toggle="dropdown"
+               href="#" role="button">导入题库</a>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="question_import_solo.html">单题导入</a></li>
+                <li><a class="dropdown-item" href="question_import_multi.html">多题导入</a></li>
+                </li>
+            </ul>
+        </li>
+        <li><a class="nav-link px-2 link-dark" href="make_paper.html">组卷</a></li>
+        <li><a class="nav-link px-2 link-dark" href="exam_public.html">发布考试</a></li>
+        <li><a class="nav-link px-2 link-dark" href="result_management.html">考试结果</a></li>
+    </ul>
+
+    <div class="col-md-3 text-end">
+        <a class="btn btn-outline-primary me-2" href="../resources/templates/login.html" type="button">登录</a>
+    </div>
+</header>
+<script>
+        var a = sessionStorage.getItem("id");
+        sessionStorage.removeItem("id");
+        console.log(a);
+</script>
 
 </body>
 </html>

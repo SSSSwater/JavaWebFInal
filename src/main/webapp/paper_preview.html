@@ -7,6 +7,7 @@
 
 </head>
 <body onload="getPaper()">
+<div id="exam"></div>
 <script>
     function getPaper(){
     var a = sessionStorage.getItem("id");
@@ -19,9 +20,161 @@
                 id:res.data.paper[0].questionId
             }
         }).then(function (res){
-            console.log(res.data);
-        })
+            examdiv = document.getElementById('exam');
+            while (examdiv.hasChildNodes()) {
+                examdiv.removeChild(examdiv.firstChild);
+            }
+            t = res.data.Qarr;
+            i = 0;
+            while (t[i] != null) {
+                console.log(res.data.Qarr[i]);
+                if (t[i].analysisEnabled) anl = t[i].analysis;
+                else anl = "无";
+                if (t[i].type == "single" || t[i].type == "multiple") showData1(t[i].id, t[i].type, t[i].title, t[i].choiceA, t[i].choiceB, t[i].choiceC, t[i].choiceD, t[i].answer, anl, i + 1);
+                else if (t[i].type == "judge") showData2(t[i].id, t[i].type, t[i].title, "Yes", "No", t[i].answer, anl, i + 1);
+                else showData3(t[i].id, t[i].type, t[i].title, t[i].answer, anl, i + 1);
+                i++;
+        }})
     })}
+    function showData1(id, type, title, choiceA, choiceB, choiceC, choiceD, answer, analysis, T) {
+
+        let divt = document.createElement('div');
+        divt.id = 'div_' + id;
+        divt.className = 'row m-3';
+        let divcheck = document.createElement('div');
+        divcheck.className = 'col-1';
+        let check = document.createElement('input');
+        check.type = "checkbox";
+        check.name = "question";
+        check.className = "form-check-input";
+        check.value = id;
+        divcheck.appendChild(check);
+        let divq = document.createElement('div');
+        divq.className = 'col-11';
+        let titleP = document.createElement('p');
+        divq.appendChild(titleP);
+        let divA = document.createElement('div');
+        let divB = document.createElement('div');
+        let divC = document.createElement('div');
+        let divD = document.createElement('div');
+        let divans = document.createElement('div');
+        let choiceALabel = document.createElement('label');
+        choiceALabel.innerHTML = "A." + choiceA + "  ";
+        let choiceBLabel = document.createElement('label');
+        choiceBLabel.innerHTML = "B." + choiceB + "  ";
+        let choiceCLabel = document.createElement('label');
+        choiceCLabel.innerHTML = "C." + choiceC + "  ";
+        let choiceDLabel = document.createElement('label');
+        choiceDLabel.innerHTML = "D." + choiceD + "  ";
+        let ansLabel = document.createElement('label');
+        ansLabel.innerHTML = "答案:" + answer;
+        let anlLabel = document.createElement('label');
+        anlLabel.innerHTML = "解析:" + analysis;
+        divA.appendChild(choiceALabel);
+        divB.appendChild(choiceBLabel);
+        divC.appendChild(choiceCLabel);
+        divD.appendChild(choiceDLabel);
+        divans.appendChild(ansLabel);
+        divans.appendChild(document.createElement('br'));
+        divans.appendChild(anlLabel);
+        divq.appendChild(divA);
+        divq.appendChild(divB);
+        divq.appendChild(divC);
+        divq.appendChild(divD);
+        divq.appendChild(divans);
+        divt.appendChild(divcheck);
+        divt.appendChild(divq);
+        divans.style = "background-color: rgba(225, 225, 225,0.8);border-radius:4px";
+        divq.style = "background-color: rgba(235, 235, 235,0.8);border-radius:10px";
+        divt.style = "background-color: rgba(245, 245, 245,0.8);border-radius:10px";
+        document.getElementById('exam').appendChild(divt);
+        if (type == "single") {
+            titleP.innerHTML = "(单选)" + "[" + id + "]" + title;
+        } else if (type == "multiple") {
+            titleP.innerHTML = "(多选)" + "[" + id + "]" + title;
+        }
+    }
+
+    function showData2(id, type, title, choiceT, choiceF, answer, analysis, T) {
+
+        if (type == "judge") {
+
+            let divt = document.createElement('div');
+            divt.id = 'div_' + id;
+            divt.className = 'row m-3';
+            let divcheck = document.createElement('div');
+            divcheck.className = 'col-1';
+            let check = document.createElement('input');
+            check.type = "checkbox";
+            check.name = "question";
+            check.className = "form-check-input";
+            check.value = id;
+            divcheck.appendChild(check);
+            let divq = document.createElement('div');
+            divq.className = 'col-11';
+            let titleP = document.createElement('p');
+            divq.appendChild(titleP);
+            let divans = document.createElement('div');
+            let ansLabel = document.createElement('label');
+            if (answer == "T") ansLabel.innerHTML = "答案:正确";
+            if (answer == "F") ansLabel.innerHTML = "答案:错误";
+            let anlLabel = document.createElement('label');
+            anlLabel.innerHTML = "解析:" + analysis;
+            divans.appendChild(ansLabel);
+            divans.appendChild(document.createElement('br'));
+            divans.appendChild(anlLabel);
+            divq.appendChild(divans);
+            divt.appendChild(divcheck);
+            divt.appendChild(divq);
+            divans.style = "background-color: rgba(225, 225, 225,0.8);border-radius:4px";
+            divq.style = "background-color: rgba(235, 235, 235,0.8);border-radius:10px";
+            divt.style = "background-color: rgba(245, 245, 245,0.8);border-radius:10px";
+            document.getElementById('exam').appendChild(divt);
+            titleP.innerHTML = "(判断)" + "[" + id + "]" + title;
+        }
+    }
+
+    function showData3(id, type, title, answer, analysis, T) {
+        let divt = document.createElement('div');
+        divt.id = 'div_' + id;
+        divt.className = 'row m-3';
+        let divcheck = document.createElement('div');
+        divcheck.className = 'col-1';
+        let check = document.createElement('input');
+        check.type = "checkbox";
+        check.name = "question";
+        check.className = "form-check-input";
+        check.value = id;
+        divcheck.appendChild(check);
+        let divq = document.createElement('div');
+        divq.className = 'col-11';
+        let titleP = document.createElement('p');
+        divq.appendChild(titleP);
+        let divans = document.createElement('div');
+        let ansLabel = document.createElement('label');
+        ansLabel.innerHTML = "答案:" + answer;
+        let anlLabel = document.createElement('label');
+        anlLabel.innerHTML = "解析:" + analysis;
+        divans.appendChild(ansLabel);
+        divans.appendChild(document.createElement('br'));
+        divans.appendChild(anlLabel);
+        divq.appendChild(divans)
+        divt.appendChild(divcheck);
+        divt.appendChild(divq);
+        divans.style = "background-color: rgba(225, 225, 225,0.8);border-radius:4px";
+        divq.style = "background-color: rgba(235, 235, 235,0.8);border-radius:10px";
+        divt.style = "background-color: rgba(245, 245, 245,0.8);border-radius:10px";
+        if (type == "cloze") {
+            titleP.innerHTML = "(填空)" + "[" + id + "]" + title;
+        } else {
+            if (type == "short") {
+                titleP.innerHTML = "(简答)" + "[" + id + "]" + title;
+            } else {
+                titleP.innerHTML = "(论述)" + "[" + id + "]" + title;
+            }
+        }
+        document.getElementById('exam').appendChild(divt);
+    }
 </script>
 </body>
 </html>
