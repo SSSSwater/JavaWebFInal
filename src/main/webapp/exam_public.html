@@ -94,6 +94,16 @@
          inspectDiv.className='';
          let publicDiv = document.createElement('div');
          publicDiv.className='';
+        let publicButton = document.createElement('button');
+        publicButton.type='button';
+        publicButton.innerHTML="发布";
+        publicButton.className='fa-solid fa-arrow-up button-nonborder';
+        publicButton.id='public_'+id;
+        publicButton.value=id;
+        publicButton.onclick =function (){
+            sessionStorage.setItem("id", id);
+            location.href="exam_public_sub.html"
+        }
          let inspectButton = document.createElement('button');
         inspectButton.type="button";
          inspectButton.className='fa-solid fa-magnifying-glass button-nonborder';
@@ -105,15 +115,7 @@
             location.href="paper_preview.html"
      }
 
-        let publicButton = document.createElement('button');
-        publicButton.type="button";
-        publicButton.innerHTML="发布";
-         publicButton.className='fa-solid fa-arrow-up button-nonborder';
-        publicButton.id='public_'+id;
-        publicButton.onclick =function (){
-            sessionStorage.setItem("id", id);
-            location.href="exam_public_sub.html"
-        }
+
          inspectDiv.appendChild(inspectButton);
          publicDiv.appendChild(publicButton);
          divt.appendChild(titleDiv);
