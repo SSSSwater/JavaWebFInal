@@ -95,7 +95,7 @@
                         else anl = "无";
                         if (t[i].type == "single" || t[i].type == "multiple") showData1(t[i].id, t[i].type, t[i].title, t[i].choiceA, t[i].choiceB, t[i].choiceC, t[i].choiceD, t[i].answer, anl, 1);
                         else if (t[i].type == "judge") showData2(t[i].id, t[i].type, t[i].title, "Yes", "No", t[i].answer, anl, 1);
-                        else showData3(t[i].id, t[i].type, t[i].title, t[i].answer, anl, 1);
+                        else showData3(t[i].id, t[i].type, t[i].title, t[i].answer, anl,1);
                         i++;
                     }
 
@@ -119,9 +119,9 @@
                         console.log(res.data.Qarr[i]);
                         if (t[i].analysisEnabled) anl = t[i].analysis;
                         else anl = "无";
-                        if (t[i].type == "single" || t[i].type == "multiple") showData1(t[i].id, t[i].type, t[i].title, t[i].choiceA, t[i].choiceB, t[i].choiceC, t[i].choiceD, t[i].answer, anl, 1);
-                        else if (t[i].type == "judge") showData2(t[i].id, t[i].type, t[i].title, "Yes", "No", t[i].answer, anl, 1);
-                        else showData3(t[i].id, t[i].type, t[i].title, t[i].answer, anl, 1);
+                        if (t[i].type == "single" || t[i].type == "multiple") showData1(t[i].id, t[i].type, t[i].title, t[i].choiceA, t[i].choiceB, t[i].choiceC, t[i].choiceD, t[i].answer, anl, i + 1);
+                        else if (t[i].type == "judge") showData2(t[i].id, t[i].type, t[i].title, "Yes", "No", t[i].answer, anl, i + 1);
+                        else showData3(t[i].id, t[i].type, t[i].title, t[i].answer, anl, i + 1);
                         i++;
                     }
 
