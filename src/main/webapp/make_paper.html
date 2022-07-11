@@ -333,14 +333,14 @@
 <script>
 function submitIt(){
     var questionIds = document.getElementsByName("question");
-    var questionIdVaule=new Array();
+    var questionIdValue=new Array();
     for(i =0;i<questionIds.length;i++)
     {
         if (questionIds[i].checked) {
-            questionIdVaule.push(questionIds[i].value);
+            questionIdValue.push(questionIds[i].value);
         }
     }
-    console.log(questionIdVaule);
+    console.log(questionIdValue);
      axios.post("https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/paper",{
          "id":questionIdVaule
      }).then(function (res){
