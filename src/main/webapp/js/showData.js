@@ -1,6 +1,5 @@
 function showDataHead(tDiv, queDiv, id, type, title, mode) {
     tDiv.id = 'div_' + id;
-    tDiv.id = 'div_' + id;
     tDiv.className = 'row m-3';
     queDiv.className = 'col-10';
     if (mode == 1) {
