@@ -7,7 +7,7 @@ function showDataHead(tDiv, queDiv, id, type, title, mode) {
         checkDiv.className = 'col-1';
         let check = document.createElement('input');
         check.type = "checkbox";
-        check.name = "question";
+        check.name = "question1";
         check.className = "form-check-input";
         check.value = id;
         checkDiv.appendChild(check);

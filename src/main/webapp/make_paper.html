@@ -19,6 +19,8 @@
     <!--    <script src="/js/bootstrap/bootstrap.bundle.min.js"></script>-->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="js/showData.js"></script>
+    <script src="//cdn.bootcss.com/jquery/1.8.3/jquery.min.js"></script>
+
 </head>
 
 <body>
@@ -338,10 +340,11 @@
             if (questionIds[i].checked) {
                 questionIdValue.push(questionIds[i].value);
             }
+
         }
         console.log(questionIdValue);
         axios.post("https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/paper", {
-            "id": questionIdVaule
+            "id": questionIdValue
         }).then(function (res) {
             console.log(res.data);
             alert("组卷成功");
@@ -349,6 +352,21 @@
             alert("上传失败");
         })
     }
+    $("body").on("click", "input[name='question']", function() {
+        var before=document.getElementById("exam");
+        var after=document.getElementById("selected");
+        var self=document.getElementById("div_"+this.value);
+        if(this.checked)
+        {before.removeChild(self);
+        after.appendChild(self);}
+        else{
+            after.removeChild(self);
+            before.appendChild(self);
+        }
+    });
+
+
+
 </script>
 </body>
 
