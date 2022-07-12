@@ -135,7 +135,7 @@
         </script>
         <!--考试的班级-->
         <div id="classSelect" class="m-2">
-            <label>选择考试的班级</label>
+            <label>选择考试的班级</label><br>
             <el-select v-model="values" multiple placeholder="请选择">
                 <el-option
                         v-for="item in options"
@@ -167,41 +167,68 @@
         </script>
     </div>
 
-
     <!--时间组件-->
     <div class="d-flex justify-content-around m-4 form-floating">
         <div class="">
             <label for="start_datetime">开始时间:</label>
-            <input type="text" class="form-control" id="start_datetime"/>
+            <input type="text" class="form-control" id="start_datetime" />
         </div>
         <div class="">
             <label for="end_datetime">结束时间:</label>
-            <input type="text" class="form-control" id="end_datetime"/>
+            <input type="text" class="form-control" id="end_datetime" />
         </div>
     </div>
 </div>
+<div style="height: 5vh"></div>
+<div class="row" style="width: 40vw;margin: auto">
+    <input type="button " class="btn btn-outline-primary" onclick="submitIt()" value="发布考试">
+</div>
+
 <script>
-    var a = sessionStorage.getItem("id");
-    //sessionStorage.removeItem("id");
-    console.log(a);
-    document.getElementById("paper_id").innerHTML = a;
-    $("#start_datetime,#end_datetime").datetimepicker({
-        format: 'YYYY-MM-DD HH:mm',
-        locale: moment.locale('zh-CN'),
-        minDate: '2022/01/15',
-        maxDate: '2045/09/15',
-    });
-    axios.get("https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/paper?id=" + a).then(function (res) {
-        axios({
-            method: "GET",
-            url: "https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/tiku",
-            params: {
-                id: res.data.paper[0].questionId
-            }
-        }).then(function (res) {
-            console.log(res.data)
+        var a = sessionStorage.getItem("id");
+        //sessionStorage.removeItem("id");
+        console.log(a);
+        function submitIt(){
+         var paperTitle=document.getElementById("paper_title").value;
+        var paperSubject=document.getElementById("subjects").value;
+        var paperClasses=classSelect.values;
+        var paperStartTime=document.getElementById("start_datetime").value;
+        var paperEndTime=document.getElementById("end_datetime").value;
+        console.log(paperTitle+paperSubject+paperClasses+paperStartTime);
+        axios.put("https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/paper",{
+            examid:a,
+            name:paperTitle,
+            subject:paperSubject,
+            examclass:paperClasses,
+            starttime:paperStartTime,
+            endtime:paperEndTime
         })
-    })
+        }
+        document.getElementById("paper_id").innerHTML=a;
+        $("#start_datetime,#end_datetime").datetimepicker({
+            format: 'YYYY-MM-DD HH:mm',
+            locale: moment.locale('zh-CN'),
+            minDate: '2022/01/15',
+            maxDate: '2045/09/15',
+        });
+        axios.get("https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/paper?id="+a).then(function(res){
+            axios({
+                method:"GET",
+                url:"https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/tiku",
+                params:{
+                    id:res.data.paper[0].questionId
+                }
+            }).then(function (res){
+                console.log(res.data)
+                })
+        })
+
+        $(window).on('load', function () {
+            $('#usertype').selectpicker({
+                'selectedText': 'cat'
+            });
+        });
+
 </script>
 </body>
 </html>
