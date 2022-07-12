@@ -1,233 +1,63 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-    <title>test</title>
+    <meta charset="UTF-8">
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+
 </head>
-
 <body>
-    <input type="file" id="fileinput" onchange="Fuc()" />
-
-    <form id="exam">
-
-    </form>
-    <script>
-        function Fuc() {
-            console.log("变长");
-            var mf = document.getElementById("fileinput");
-            var file = mf.files[0];
-            const reader = new FileReader();
-            reader.onload = function showText() {
-                console.log(reader.result);
-                handleData(reader.result);
-            };
-            reader.readAsText(file);
-        }
-
-        function handleData(data) {
-            T = 0;
-            it = 0;
-            f = true;
-            while (f) {
-                T++;
-                type = "";
-                title = "";
-                choiceA = "";
-                choiceB = "";
-                choiceC = "";
-                choiceD = "";
-                tstring = "";
-                answer = "";
-                while (true) {
-                    t = data[it];
-                    console.log("t=" + t);
-                    if (t == null) {
-                        f = false;
-                        break;
-                    } else if (t == "#") {
-                        type = tstring;
-                        console.log("tstring=" + tstring);
-                        tstring = "";
-                        it += 2;
-                    } else if (t == "*") {
-                        it++;
-                        if (data[it] == "a") {
-                            choiceA = tstring;
-                            console.log("tstring=" + tstring);
-                        } else if (data[it] == "b") {
-                            choiceB = tstring;
-                            console.log("tstring=" + tstring);
-                        } else if (data[it] == "c") {
-                            choiceC = tstring;
-                            console.log("tstring=" + tstring);
-                        } else if (data[it] == "d") {
-                            choiceD = tstring;
-                            console.log("tstring=" + tstring);
-                        } else if (data[it] == "t") {
-                            title = tstring;
-                            console.log("tstring=" + tstring);
-                        }
-                        tstring = "";
-                        it += 2;
-                    } else if (t == "@") {
-                        answer = tstring;
-                        console.log("tstring=" + tstring);
-                        tstring = "";
-                        it += 2;
-                        console.log(type);
-                        console.log(title);
-                        console.log(choiceA);
-                        console.log(choiceB);
-                        console.log(choiceC);
-                        console.log(choiceD);
-                        if (type == "single" || type == "multiple") showData1(type, title, choiceA, choiceB, choiceC, choiceD, answer, T);
-                        if (type == "judge") showData2(type, title, choiceA, choiceB, answer, T);
-                        if (type == "cloze" || type == "short" || type == "discuss") showData3(type, title, answer, T);
-                        T++;
-                    } else {
-                        tstring = tstring + t;
-                    }
-                    it++;
-                }
-            }
-        }
-        function showData1(type, title, choiceA, choiceB, choiceC, choiceD, answer, T) {
-            if (type == "single") {
-                let divt = document.createElement('div');
-                divt.id = 'div_' + T;
-                let titleP = document.createElement('p');
-                titleP.innerHTML = "(单选)" + T + "、" + title;
-                divt.appendChild(titleP);
-                let radioA = document.createElement('input');
-                radioA.type = 'radio';
-                radioA.name = 'single_' + T;
-                radioA.value = 'A';
-                let choiceALabel = document.createElement('label');
-                choiceALabel.innerHTML = choiceA;
-                let radioB = document.createElement('input');
-                radioB.type = 'radio';
-                radioB.name = 'single_' + T;
-                radioB.value = 'B';
-                let choiceBLabel = document.createElement('label');
-                choiceBLabel.innerHTML = choiceB;
-                let radioC = document.createElement('input');
-                radioC.type = 'radio';
-                radioC.name = 'single_' + T;
-                radioC.value = 'C';
-                let choiceCLabel = document.createElement('label');
-                choiceCLabel.innerHTML = choiceC;
-                let radioD = document.createElement('input');
-                radioD.type = 'radio';
-                radioD.name = 'single_' + T;
-                radioD.value = 'D';
-                let choiceDLabel = document.createElement('label');
-                choiceDLabel.innerHTML = choiceD;
-                divt.appendChild(radioA);
-                divt.appendChild(choiceALabel);
-                divt.appendChild(radioB);
-                divt.appendChild(choiceBLabel);
-                divt.appendChild(radioC);
-                divt.appendChild(choiceCLabel);
-                divt.appendChild(radioD);
-                divt.appendChild(choiceDLabel);
-                document.getElementById('exam').appendChild(divt);
-            }
-            else if (type == "multiple") {
-                let divt = document.createElement('div');
-                divt.id = 'div_' + T;
-                let titleP = document.createElement('p');
-                titleP.innerHTML = "(多选)" + T + "、" + title;
-                divt.appendChild(titleP);
-                let checkboxA = document.createElement('input');
-                checkboxA.type = 'checkbox';
-                checkboxA.name = 'multiple_' + T;
-                checkboxA.value = 'A';
-                let choiceALabel = document.createElement('label');
-                choiceALabel.innerHTML = choiceA;
-                let checkboxB = document.createElement('input');
-                checkboxB.type = 'checkbox';
-                checkboxB.name = 'multiple_' + T;
-                checkboxB.value = 'B';
-                let choiceBLabel = document.createElement('label');
-                choiceBLabel.innerHTML = choiceB;
-                let checkboxC = document.createElement('input');
-                checkboxC.type = 'checkbox';
-                checkboxC.name = 'multiple_' + T;
-                checkboxC.value = 'C';
-                let choiceCLabel = document.createElement('label');
-                choiceCLabel.innerHTML = choiceC;
-                let checkboxD = document.createElement('input');
-                checkboxD.type = 'checkbox';
-                checkboxD.name = 'multiple_' + T;
-                checkboxD.value = 'D';
-                let choiceDLabel = document.createElement('label');
-                choiceDLabel.innerHTML = choiceD;
-                divt.appendChild(checkboxA);
-                divt.appendChild(choiceALabel);
-                divt.appendChild(checkboxB);
-                divt.appendChild(choiceBLabel);
-                divt.appendChild(checkboxC);
-                divt.appendChild(choiceCLabel);
-                divt.appendChild(checkboxD);
-                divt.appendChild(choiceDLabel);
-                document.getElementById('exam').appendChild(divt);
-            }
-        }
-        function showData2(type, title, choiceT, choiceF, answer, T) {
-
-            if (type == "judge") {
-                let divt = document.createElement('div');
-                divt.id = 'div_' + T;
-                let titleP = document.createElement('p');
-                titleP.innerHTML = "(判断)" + T + "、" + title;
-                divt.appendChild(titleP);
-                let radioT = document.createElement('input');
-                radioT.type = 'radio';
-                radioT.name = 'judge_' + T;
-                radioT.value = 'T';
-                let choiceTLabel = document.createElement('label');
-                choiceTLabel.innerHTML = choiceT;
-                let radioF = document.createElement('input');
-                radioF.type = 'radio';
-                radioF.name = 'judge_' + T;
-                radioF.value = 'F';
-                let choiceFLabel = document.createElement('label');
-                choiceFLabel.innerHTML = choiceF;
-                divt.appendChild(radioT);
-                divt.appendChild(choiceTLabel);
-                divt.appendChild(radioF);
-                divt.appendChild(choiceFLabel);
-                document.getElementById('exam').appendChild(divt);
-
-            }
-        }
-        function showData3(type, title, answer, T) {
-            let divt = document.createElement('div');
-            divt.id = 'div_' + T;
-            let titleP = document.createElement('p');
-            divt.appendChild(titleP);
-            if (type == "cloze") {
-                titleP.innerHTML = "(填空)" + T + "、" + title;
-                let input = document.createElement('input');
-                input.type = 'text';
-                input.name = 'cloze_' + T;
-                divt.appendChild(input);
-            }
-            else {
-                let textArea = document.createElement('textarea');
-                if (type == "short") {
-                    titleP.innerHTML = "(简答)" + T + "、" + title;
-                    textArea.name = 'short_' + T;
-                }
-                else {
-                    titleP.innerHTML = "(论述)" + T + "、" + title;
-                    textArea.name = 'discuss_' + T;
-                }
-                divt.appendChild(textArea);
-            }
-            document.getElementById('exam').appendChild(divt);
-        }
-    </script>
+<div id="app1">
+    <el-button @click="visible = true">Button</el-button>
+    <el-dialog :visible.sync="visible" title="Hello world">
+        <p>Try Element</p>
+    </el-dialog>
+</div>
+<div id="app2">
+    <el-select v-model="value" placeholder="请选择">
+        <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+        </el-option>
+    </el-select>
+</div>
 </body>
-
+<!-- import Vue before Element -->
+<script src="js/vue.js"></script>
+<!-- 引入组件库 -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script>
+    new Vue({
+        el: '#app1',
+        data: function() {
+            return { visible: false }
+        }
+    })
+    new Vue({
+        el: '#app2',
+        data() {
+            return {
+                options: [{
+                    value: '选项1',
+                    label: '黄金糕'
+                }, {
+                    value: '选项2',
+                    label: '双皮奶'
+                }, {
+                    value: '选项3',
+                    label: '蚵仔煎'
+                }, {
+                    value: '选项4',
+                    label: '龙须面'
+                }, {
+                    value: '选项5',
+                    label: '北京烤鸭'
+                }],
+                value: ''
+            }
+        }
+    })
+</script>
 </html>

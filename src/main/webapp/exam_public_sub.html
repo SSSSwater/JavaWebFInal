@@ -25,6 +25,12 @@
     <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdn.bootcss.com/moment.js/2.22.1/moment-with-locales.min.js"></script>
     <script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+    <!-- 引入element样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入vue-->
+    <script src="js/vue.js"></script>
+    <!-- 引入element组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 
 
 </head>
@@ -75,66 +81,127 @@
 
     <div class="d-flex justify-content-around">
         <!--考试科目-->
-        <div class="m-2">
-            <label for="classes">选择考试的科目</label>
-            <select class="form-select" id="subjects" aria-label="Floating label select example">
-                <option value="Chinese">语文</option>
-                <option value="Math">数学</option>
-                <option value="English">英语</option>
-                <option value="Physics">物理</option>
-                <option value="Chemical">化学</option>
-                <option value="Biology">生物</option>
-                <option value="Politics">政治</option>
-                <option value="History">历史</option>
-                <option value="Geography">地理</option>
-                <option value="Technology">技术</option>
-            </select>
+        <div id="subjectSelect" class="m-2">
+            <label>选择考试的科目</label><br>
+            <el-select class="m-1" id="subjects" v-model="value" placeholder="请选择">
+                <el-option
+                        v-for="item in options"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                </el-option>
+            </el-select>
         </div>
+        <script>
+            new Vue({
+                el: '#subjectSelect',
+                data() {
+                    return {
+                        options: [{
+                            value: 'Chinese',
+                            label: '语文'
+                        }, {
+                            value: 'Math',
+                            label: '数学'
+                        }, {
+                            value: 'English',
+                            label: '英语'
+                        }, {
+                            value: 'Physics',
+                            label: '物理'
+                        }, {
+                            value: 'Chemical',
+                            label: '化学'
+                        }, {
+                            value: 'Biology',
+                            label: '生物'
+                        }, {
+                            value: 'History',
+                            label: '历史'
+                        }, {
+                            value: 'Geography',
+                            label: '地理'
+                        }, {
+                            value: 'Politics',
+                            label: '政治'
+                        }, {
+                            value: 'Technology',
+                            label: '技术'
+                        }],
+                        value: ''
+                    }
+                }
+            })
+        </script>
         <!--考试的班级-->
-        <div class="m-2">
-            <label for="classes">选择考试的班级</label>
-            <select class="form-select" id="classes" aria-label="Floating label select example">
-                <option value="21计算机一班">21计算机一班</option>
-                <option value="21计算机二班">21计算机二班</option>
-                <option value="21计算机三班">21计算机三班</option>
-            </select>
+        <div id="classSelect" class="m-2">
+            <label>选择考试的班级</label>
+            <el-select v-model="values" multiple placeholder="请选择">
+                <el-option
+                        v-for="item in options"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                </el-option>
+            </el-select>
         </div>
+        <script>
+            new Vue({
+                el: '#classSelect',
+                data() {
+                    return {
+                        options: [{
+                            value: 'jsj1',
+                            label: '计算机一班'
+                        }, {
+                            value: 'jsj2',
+                            label: '计算机二班'
+                        }, {
+                            value: 'jsj3',
+                            label: '计算机三班'
+                        }],
+                        values: []
+                    }
+                }
+            })
+        </script>
     </div>
+
 
     <!--时间组件-->
     <div class="d-flex justify-content-around m-4 form-floating">
         <div class="">
             <label for="start_datetime">开始时间:</label>
-            <input type="text" class="form-control" id="start_datetime" />
+            <input type="text" class="form-control" id="start_datetime"/>
         </div>
         <div class="">
             <label for="end_datetime">结束时间:</label>
-            <input type="text" class="form-control" id="end_datetime" />
+            <input type="text" class="form-control" id="end_datetime"/>
         </div>
     </div>
 </div>
 <script>
-        var a = sessionStorage.getItem("id");
-        //sessionStorage.removeItem("id");
-        console.log(a);
-        document.getElementById("paper_id").innerHTML=a;
-        $("#start_datetime,#end_datetime").datetimepicker({
-            format: 'YYYY-MM-DD HH:mm',
-            locale: moment.locale('zh-CN'),
-            minDate: '2022/01/15',
-            maxDate: '2045/09/15',
-        });
-        axios.get("https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/paper?id="+a).then(function(res){
-            axios({
-                method:"GET",
-                url:"https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/tiku",
-                params:{
-                    id:res.data.paper[0].questionId
-                }
-            }).then(function (res){
-                console.log(res.data)
-                })
+    var a = sessionStorage.getItem("id");
+    //sessionStorage.removeItem("id");
+    console.log(a);
+    document.getElementById("paper_id").innerHTML = a;
+    $("#start_datetime,#end_datetime").datetimepicker({
+        format: 'YYYY-MM-DD HH:mm',
+        locale: moment.locale('zh-CN'),
+        minDate: '2022/01/15',
+        maxDate: '2045/09/15',
+    });
+    axios.get("https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/paper?id=" + a).then(function (res) {
+        axios({
+            method: "GET",
+            url: "https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/tiku",
+            params: {
+                id: res.data.paper[0].questionId
+            }
+        }).then(function (res) {
+            console.log(res.data)
         })
+    })
 </script>
 </body>
 </html>
