@@ -57,56 +57,67 @@
         <a class="btn btn-outline-primary me-2" href="../resources/templates/login.html" type="button">登录</a>
     </div>
 </header>
-<!--考试编号-->
-<div class="mb-3 row">
-    <label for="paper_id" class="col-sm-2 col-form-label">试卷编号</label>
-    <div class="col-sm-10">
-        <input type="text" readonly class="form-control-plaintext" id="paper_id" value="email@example.com">
+<div class="container" style="margin: auto;width: 40vw">
+    <!--考试编号-->
+    <div class="mb-3 row">
+        <label for="paper_id" class="col-sm-2 col-form-label">试卷编号:</label>
+        <div class="col-sm-10">
+            <label class="col-form-label" id="paper_id"></label>
+        </div>
     </div>
-</div>
-<!--考试标题-->
-<div class="mb-3 row">
-    <label for="paper_title" class="col-sm-2 col-form-label">考试标题</label>
-    <div class="col-sm-10">
-        <input type="text" class="form-control" id="paper_title">
+    <!--考试标题-->
+    <div class="mb-3 row">
+        <label for="paper_title" class="col-sm-2 col-form-label">考试标题:</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="paper_title">
+        </div>
     </div>
-</div>
-<!--考试科目-->
-<div class="form-floating">
-    <select class="form-select" id="subjects" aria-label="Floating label select example">
-        <option value="Chinese">语文</option>
-        <option value="Math">数学</option>
-        <option value="English">英语</option>
-        <option value="physics">物理</option>
-        <option value="chemistry">化学</option>
-        <option value="biology">生物</option>
-        <option value="politics">政治</option>
-        <option value="history">历史</option>
-        <option value="geography">地理</option>
-    </select>
-    <label for="classes">选择考试的科目</label>
-</div>
-<!--考试的班级-->
-<div class="form-floating">
-    <select class="form-select" id="classes" aria-label="Floating label select example">
-        <option value="21计算机一班">21计算机一班</option>
-        <option value="21计算机二班">21计算机二班</option>
-        <option value="21计算机三班">21计算机三班</option>
-    </select>
-    <label for="classes">选择考试的班级</label>
-</div>
-<!--时间组件-->
-<div class="col-sm-6">
-    <input type="text" id="start_datetime" />
-</div>
-<div class="col-sm-6">
-    <input type="text" id="end_datetime" />
+
+    <div class="d-flex justify-content-around">
+        <!--考试科目-->
+        <div class="m-2">
+            <label for="classes">选择考试的科目</label>
+            <select class="form-select" id="subjects" aria-label="Floating label select example">
+                <option value="Chinese">语文</option>
+                <option value="Math">数学</option>
+                <option value="English">英语</option>
+                <option value="Physics">物理</option>
+                <option value="Chemical">化学</option>
+                <option value="Biology">生物</option>
+                <option value="Politics">政治</option>
+                <option value="History">历史</option>
+                <option value="Geography">地理</option>
+                <option value="Technology">技术</option>
+            </select>
+        </div>
+        <!--考试的班级-->
+        <div class="m-2">
+            <label for="classes">选择考试的班级</label>
+            <select class="form-select" id="classes" aria-label="Floating label select example">
+                <option value="21计算机一班">21计算机一班</option>
+                <option value="21计算机二班">21计算机二班</option>
+                <option value="21计算机三班">21计算机三班</option>
+            </select>
+        </div>
+    </div>
+
+    <!--时间组件-->
+    <div class="d-flex justify-content-around m-4 form-floating">
+        <div class="">
+            <label for="start_datetime">开始时间:</label>
+            <input type="text" class="form-control" id="start_datetime" />
+        </div>
+        <div class="">
+            <label for="end_datetime">结束时间:</label>
+            <input type="text" class="form-control" id="end_datetime" />
+        </div>
+    </div>
 </div>
 <script>
         var a = sessionStorage.getItem("id");
         //sessionStorage.removeItem("id");
         console.log(a);
-        document.getElementById("paper_id").value=a;
+        document.getElementById("paper_id").innerHTML=a;
         $("#start_datetime,#end_datetime").datetimepicker({
             format: 'YYYY-MM-DD HH:mm',
             locale: moment.locale('zh-CN'),
