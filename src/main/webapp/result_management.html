@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>考试结果</title>
+    <!--    新 Bootstrap5 核心 CSS 文件 -->
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/css/bootstrap.min.css" rel="stylesheet">
+<!--        <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">-->
+
+    <link href="css/button-primary.css" rel="stylesheet">
+    <!--    引入element样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!--    popper.min.js 用于弹窗、提示、下拉菜单 -->
+    <script src="https://cdn.staticfile.org/popper.js/2.9.3/umd/popper.min.js"></script>
+
+    <!--    最新的 Bootstrap5 核心 JavaScript 文件 -->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/js/bootstrap.min.js"></script>
+<!--        <script src="/js/bootstrap/bootstrap.bundle.min.js"></script>-->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="js/showData.js"></script>
+    <script src="//cdn.bootcss.com/jquery/1.8.3/jquery.min.js"></script>
+    <!--    引入vue-->
+    <script src="js/vue.js"></script>
+    <!--    引入element组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <!--    引入图表库chart.js-->
+    <script src="js/chart/dist/chart.min.js"></script>
+
+</head>
+
+<body>
+
+<div class="container">
+    <header
+            class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+        <a class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none" href="/">
+            <svg aria-label="Bootstrap" class="bi me-2" height="32" role="img" width="40">
+                <use xlink:href="#bootstrap"/>
+            </svg>
+        </a>
+
+        <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+            <li class="nav-item dropdown">
+                <a aria-expanded="false" class="nav-link dropdown-toggle nav-link px-2 link-secondary"
+                   data-bs-toggle="dropdown"
+                   href="#" role="button">导入题库</a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="question_import_solo.html">单题导入</a></li>
+                    <li><a class="dropdown-item" href="question_import_multi.html">多题导入</a></li>
+                </ul>
+            </li>
+            <li><a class="nav-link px-2 link-dark" href="make_paper.html">组卷</a></li>
+            <li><a class="nav-link px-2 link-dark" href="exam_public.html">发布考试</a></li>
+            <li><a class="nav-link px-2 link-dark" href="result_management.html">考试结果</a></li>
+        </ul>
+
+        <div class="col-md-3 text-end">
+            <a class="btn btn-outline-primary me-2" href="../resources/templates/login.html" type="button">登录</a>
+        </div>
+    </header>
+</div>
+<div class="container">
+    <div id="classSelect">
+        <el-select v-model="value" placeholder="请选择">
+            <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+            </el-option>
+        </el-select>
+    </div>
+
+    <canvas id="classAverage">
+
+
+    </canvas>
+</div>
+</body>
+
+<script src="js/chartIndicate.js"></script>
+</html>
