@@ -1,3 +1,17 @@
+if(!false)
+{
+    axios.get("https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/mark").then(function (res){
+        console.log(res.data.mark);
+    })
+}
+else
+{
+    axios.get("https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/mark",{
+        class:a
+    }).then(function (res){
+        console.log(res.data.mark);
+    })
+}
 var classSelect = new Vue({
     el: '#classSelect',
     data() {
@@ -13,9 +27,6 @@ var classSelect = new Vue({
         }
     }
 })
-
-
-
 
 const labels = [
     'January',
