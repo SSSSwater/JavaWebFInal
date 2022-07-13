@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>发布考试</title>
+    <!-- 新 Bootstrap5 核心 CSS 文件 -->
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <!--        <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">-->
+    <link href="css/button-primary.css" rel="stylesheet">
+    <!--  popper.min.js 用于弹窗、提示、下拉菜单 -->
+    <script src="https://cdn.staticfile.org/popper.js/2.9.3/umd/popper.min.js"></script>
+
+    <!-- 最新的 Bootstrap5 核心 JavaScript 文件 -->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/js/bootstrap.min.js"></script>
+    <!--    <script src="/js/bootstrap/bootstrap.bundle.min.js"></script>-->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css"
+          rel="stylesheet">
+
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdn.bootcss.com/moment.js/2.22.1/moment-with-locales.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+    <!-- 引入element样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入vue-->
+    <script src="js/vue.js"></script>
+    <!-- 引入element组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+
+
+</head>
+<body>
+<header
+        class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+    <a class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none" href="/">
+        <svg aria-label="Bootstrap" class="bi me-2" height="32" role="img" width="40">
+            <use xlink:href="#bootstrap"/>
+        </svg>
+    </a>
+
+    <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+        <li class="nav-item dropdown">
+            <a aria-expanded="false" class="nav-link dropdown-toggle nav-link px-2 link-secondary"
+               data-bs-toggle="dropdown"
+               href="#" role="button">导入题库</a>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="../resources/templates/teacher/question_import_solo.html">单题导入</a></li>
+                <li><a class="dropdown-item" href="../resources/templates/teacher/question_import_multi.html">多题导入</a></li>
+                </li>
+            </ul>
+        </li>
+        <li><a class="nav-link px-2 link-dark" href="../resources/templates/teacher/make_paper.html">组卷</a></li>
+        <li><a class="nav-link px-2 link-dark" href="../resources/templates/teacher/exam_public.html">发布考试</a></li>
+        <li><a class="nav-link px-2 link-dark" href="../resources/templates/teacher/result_management.html">考试结果</a></li>
+    </ul>
+
+    <div class="col-md-3 text-end">
+        <a class="btn btn-outline-primary me-2" href="../resources/templates/login.html" type="button">登录</a>
+    </div>
+</header>
+<div class="container" style="margin: auto;width: 40vw">
+    <!--考试编号-->
+    <div class="mb-3 row">
+        <label for="paper_id" class="col-sm-2 col-form-label">试卷编号:</label>
+        <div class="col-sm-10">
+            <label class="col-form-label" id="paper_id"></label>
+        </div>
+    </div>
+    <!--考试标题-->
+    <div class="mb-3 row">
+        <label for="paper_title" class="col-sm-2 col-form-label">考试标题:</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="paper_title">
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-around">
+        <!--考试科目-->
+        <div id="subjectSelect" class="m-2">
+            <label>选择考试的科目</label><br>
+            <el-select class="m-1" id="subjects" v-model="value" placeholder="请选择">
+                <el-option
+                        v-for="item in options"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                </el-option>
+            </el-select>
+        </div>
+        <script>
+            var subjectSelect = new Vue({
+                el: '#subjectSelect',
+                data() {
+                    return {
+                        options: [{
+                            value: 'Chinese',
+                            label: '语文'
+                        }, {
+                            value: 'Math',
+                            label: '数学'
+                        }, {
+                            value: 'English',
+                            label: '英语'
+                        }, {
+                            value: 'Physics',
+                            label: '物理'
+                        }, {
+                            value: 'Chemical',
+                            label: '化学'
+                        }, {
+                            value: 'Biology',
+                            label: '生物'
+                        }, {
+                            value: 'History',
+                            label: '历史'
+                        }, {
+                            value: 'Geography',
+                            label: '地理'
+                        }, {
+                            value: 'Politics',
+                            label: '政治'
+                        }, {
+                            value: 'Technology',
+                            label: '技术'
+                        }],
+                        value: ''
+                    }
+                }
+            })
+        </script>
+        <!--考试的班级-->
+        <div id="classSelect" class="m-2">
+            <label>选择考试的班级</label><br>
+            <el-select v-model="values" multiple placeholder="请选择">
+                <el-option
+                        v-for="item in options"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                </el-option>
+            </el-select>
+        </div>
+        <script>
+            var classSelect = new Vue({
+                el: '#classSelect',
+                data() {
+                    return {
+                        options: [{
+                            value: 'jsj1',
+                            label: '计算机一班'
+                        }, {
+                            value: 'jsj2',
+                            label: '计算机二班'
+                        }, {
+                            value: 'jsj3',
+                            label: '计算机三班'
+                        }],
+                        values: []
+                    }
+                }
+            })
+        </script>
+    </div>
+
+    <!--时间组件-->
+    <div class="d-flex justify-content-around m-4 form-floating">
+        <div class="">
+            <label for="start_datetime">开始时间:</label>
+            <input type="text" class="form-control" id="start_datetime" />
+        </div>
+        <div class="">
+            <label for="end_datetime">结束时间:</label>
+            <input type="text" class="form-control" id="end_datetime" />
+        </div>
+    </div>
+</div>
+<div style="height: 5vh"></div>
+<div class="row" style="width: 40vw;margin: auto">
+    <input type="button " class="btn btn-outline-primary" onclick="submitIt()" value="发布考试">
+</div>
+
+<script>
+        var a = sessionStorage.getItem("id");
+        //sessionStorage.removeItem("id");
+        console.log(a);
+        function submitIt(){
+         var paperTitle=document.getElementById("paper_title").value;
+        var paperSubject=document.getElementById("subjects").value;
+        var paperClasses=classSelect.values;
+        var paperStartTime=document.getElementById("start_datetime").value;
+        var paperEndTime=document.getElementById("end_datetime").value;
+        axios.put("https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/paper",{
+            examid:a,
+            name:paperTitle,
+            subject:paperSubject,
+            examclass:paperClasses,
+            starttime:paperStartTime,
+            endtime:paperEndTime
+        })
+        }
+        document.getElementById("paper_id").innerHTML=a;
+        $("#start_datetime,#end_datetime").datetimepicker({
+            format: 'YYYY-MM-DD HH:mm',
+            locale: moment.locale('zh-CN'),
+            minDate: '2022/01/15',
+            maxDate: '2045/09/15',
+        });
+        axios.get("https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/paper?id="+a).then(function(res){
+            axios({
+                method:"GET",
+                url:"https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/tiku",
+                params:{
+                    id:res.data.paper[0].questionId
+                }
+            }).then(function (res){
+                console.log(res.data)
+                })
+        })
+
+        $(window).on('load', function () {
+            $('#usertype').selectpicker({
+                'selectedText': 'cat'
+            });
+        });
+
+</script>
+</body>
+</html>

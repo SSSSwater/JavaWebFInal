@@ -1,7 +1,5 @@
 package com.example.basicLayout;
 
-import lombok.Data;
-
 public class Student extends User{
     private int id;
     private String name;
@@ -13,6 +11,7 @@ public class Student extends User{
     public Student(){
         super(1);
     }
+
 
     public Student(int id, String name, String classnum, String school, String account, String password) {
         super(1);

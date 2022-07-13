@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>组卷</title>
+    <!-- 新 Bootstrap5 核心 CSS 文件 -->
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <!--        <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">-->
+
+    <link href="css/button-primary.css" rel="stylesheet">
+    <!-- 引入element样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!--  popper.min.js 用于弹窗、提示、下拉菜单 -->
+    <script src="https://cdn.staticfile.org/popper.js/2.9.3/umd/popper.min.js"></script>
+
+    <!-- 最新的 Bootstrap5 核心 JavaScript 文件 -->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/js/bootstrap.min.js"></script>
+    <!--    <script src="/js/bootstrap/bootstrap.bundle.min.js"></script>-->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="js/showData.js"></script>
+    <script src="//cdn.bootcss.com/jquery/1.8.3/jquery.min.js"></script>
+    <!-- 引入vue-->
+    <script src="js/vue.js"></script>
+    <!-- 引入element组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+
+</head>
+
+<body>
+
+<div class="container">
+    <header
+            class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+        <a class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none" href="/">
+            <svg aria-label="Bootstrap" class="bi me-2" height="32" role="img" width="40">
+                <use xlink:href="#bootstrap"/>
+            </svg>
+        </a>
+
+        <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+            <li class="nav-item dropdown">
+                <a aria-expanded="false" class="nav-link dropdown-toggle nav-link px-2 link-secondary"
+                   data-bs-toggle="dropdown"
+                   href="#" role="button">导入题库</a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="question_import_solo.html">单题导入</a></li>
+                    <li><a class="dropdown-item" href="question_import_multi.html">多题导入</a></li>
+                </ul>
+            </li>
+            <li><a class="nav-link px-2 link-dark" href="make_paper.html">组卷</a></li>
+            <li><a class="nav-link px-2 link-dark" href="exam_public.html">发布考试</a></li>
+            <li><a class="nav-link px-2 link-dark" href="result_management.html">考试结果</a></li>
+        </ul>
+
+        <div class="col-md-3 text-end">
+            <a class="btn btn-outline-primary me-2" href="../resources/public/login.html" type="button">登录</a>
+        </div>
+    </header>
+</div>
+
+<div class="d-flex justify-content-center" id="request">
+    <input class="textInput-dynamic-left" id="searchText" name='search'
+           onkeyup="this.value=this.value.replace(/[^0-9]+/,'')" type="text">
+    <button class="button-static-right" onclick="bind()">查找</button>
+</div>
+<div style="height: 5vh"></div>
+<script>
+    function bind() {
+        var textValue = document.getElementById("searchText").value;
+        var subject = document.getElementsByName("distribute-by-subject");
+        var subjectValue;
+        for (i = 0; i < subject.length; i++) {
+            if (subject[i].checked) {
+                subjectValue = subject[i].value;
+            }
+        }
+        var type = document.getElementsByName("distribute-by-type");
+        var typeValue;
+        for (i = 0; i < type.length; i++) {
+            if (type[i].checked) {
+                typeValue = type[i].value;
+            }
+        }
+        axios({
+            method: 'GET',
+            url: "https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/tiku",
+        })
+            .then(function (res) {
+                t = res.data.Qarr;
+                i = 0;
+                while (t[i] != null) {
+                    console.log(res.data.Qarr[i]);
+                    if (t[i].analysisEnabled) anl = t[i].analysis;
+                    else anl = "无";
+
+                    paperTransfer.data.push({
+                        label: '['+t[i].id+']'+t[i].title,
+                        key: t[i].id
+                    })
+                    i++;
+                }
+
+            })
+    }
+
+</script>
+
+
+<div>
+    <!--    aaa-->
+    <form>
+
+        <!--        <div class="container d-flex m-2">-->
+        <!--            <div class="container overflow-auto border border-primary rounded-2 m-2" style="width: 20vw;height: 60vh;">-->
+
+        <!--                <ul>-->
+        <!--                    <label style="font-size: 20px;">按学科分类</label>-->
+        <!--                    <ul>-->
+        <!--                        <li class="form-check">-->
+        <!--                            <input class="form-check-input" id="distribute-by-subject-Chinese"-->
+        <!--                                   name="distribute-by-subject"-->
+        <!--                                   type="radio" value="Chinese"><label-->
+        <!--                                for="distribute-by-subject-Chinese">语文</label>-->
+        <!--                        </li>-->
+        <!--                        <li class="form-check">-->
+        <!--                            <input class="form-check-input" id="distribute-by-subject-Math" name="distribute-by-subject"-->
+        <!--                                   type="radio" value="Math"><label-->
+        <!--                                for="distribute-by-subject-Math">数学</label>-->
+        <!--                        </li>-->
+        <!--                        <li class="form-check">-->
+        <!--                            <input class="form-check-input" id="distribute-by-subject-English"-->
+        <!--                                   name="distribute-by-subject"-->
+        <!--                                   type="radio" value="English"><label-->
+        <!--                                for="distribute-by-subject-English">外语</label>-->
+        <!--                        </li>-->
+        <!--                        <li class="form-check">-->
+        <!--                            <input class="form-check-input" id="distribute-by-subject-Physics"-->
+        <!--                                   name="distribute-by-subject"-->
+        <!--                                   type="radio" value="Physics"><label-->
+        <!--                                for="distribute-by-subject-Physics">物理</label>-->
+        <!--                        </li>-->
+        <!--                        <li class="form-check">-->
+        <!--                            <input class="form-check-input" id="distribute-by-subject-Chemical"-->
+        <!--                                   name="distribute-by-subject"-->
+        <!--                                   type="radio" value="Chemical"><label-->
+        <!--                                for="distribute-by-subject-Chemical">化学</label>-->
+        <!--                        </li>-->
+        <!--                        <li class="form-check">-->
+        <!--                            <input class="form-check-input" id="distribute-by-subject-Biology"-->
+        <!--                                   name="distribute-by-subject"-->
+        <!--                                   type="radio" value="Biology"><label-->
+        <!--                                for="distribute-by-subject-Biology">生物</label>-->
+        <!--                        </li>-->
+        <!--                        <li class="form-check">-->
+        <!--                            <input class="form-check-input" id="distribute-by-subject-History"-->
+        <!--                                   name="distribute-by-subject"-->
+        <!--                                   type="radio" value="History"><label-->
+        <!--                                for="distribute-by-subject-History">历史</label>-->
+        <!--                        </li>-->
+        <!--                        <li class="form-check">-->
+        <!--                            <input class="form-check-input" id="distribute-by-subject-Geography"-->
+        <!--                                   name="distribute-by-subject"-->
+        <!--                                   type="radio" value="Geography"><label-->
+        <!--                                for="distribute-by-subject-Geography">地理</label>-->
+        <!--                        </li>-->
+        <!--                        <li class="form-check">-->
+        <!--                            <input class="form-check-input" id="distribute-by-subject-Politics"-->
+        <!--                                   name="distribute-by-subject"-->
+        <!--                                   type="radio" value="Politics"><label-->
+        <!--                                for="distribute-by-subject-Politics">政治</label>-->
+        <!--                        </li>-->
+        <!--                        <li class="form-check">-->
+        <!--                            <input class="form-check-input" id="distribute-by-subject-Technology"-->
+        <!--                                   name="distribute-by-subject"-->
+        <!--                                   type="radio" value="Technology"><label-->
+        <!--                                for="distribute-by-subject-Technology">技术</label>-->
+        <!--                        </li>-->
+
+        <!--                    </ul>-->
+        <!--                    <label style="font-size: 20px;">按题型分类</label>-->
+        <!--                    <ul>-->
+        <!--                        <li class="form-check">-->
+        <!--                            <input class="form-check-input" id="distribute-by-type-single" name="distribute-by-type"-->
+        <!--                                   type="radio" value="single"><label-->
+        <!--                                for="distribute-by-type-single">单选</label>-->
+        <!--                        </li>-->
+        <!--                        <li class="form-check">-->
+        <!--                            <input class="form-check-input" id="distribute-by-type-multiple" name="distribute-by-type"-->
+        <!--                                   type="radio" value="multiple"><label-->
+        <!--                                for="distribute-by-type-multiple">多选</label>-->
+        <!--                        </li>-->
+        <!--                        <li class="form-check">-->
+        <!--                            <input class="form-check-input" id="distribute-by-type-judge" name="distribute-by-type"-->
+        <!--                                   type="radio" value="judge"><label-->
+        <!--                                for="distribute-by-type-judge">判断</label>-->
+        <!--                        </li>-->
+        <!--                        <li class="form-check">-->
+        <!--                            <input class="form-check-input" id="distribute-by-type-cloze" name="distribute-by-type"-->
+        <!--                                   type="radio" value="cloze"><label-->
+        <!--                                for="distribute-by-type-cloze">填空</label>-->
+        <!--                        </li>-->
+        <!--                        <li class="form-check">-->
+        <!--                            <input class="form-check-input" id="distribute-by-type-short" name="distribute-by-type"-->
+        <!--                                   type="radio" value="short"><label-->
+        <!--                                for="distribute-by-type-short">简答</label>-->
+        <!--                        </li>-->
+        <!--                        <li class="form-check">-->
+        <!--                            <input class="form-check-input" id="distribute-by-type-discuss" name="distribute-by-type"-->
+        <!--                                   type="radio" value="discuss"><label-->
+        <!--                                for="distribute-by-type-discuss">论述</label>-->
+        <!--                    </ul>-->
+        <!--                </ul>-->
+        <!--            </div>-->
+        <!--            <div class="container overflow-auto border border-primary rounded-2 m-2" id="selected"-->
+        <!--                 style="width: 30vw; height: 60vh;">-->
+
+        <!--            </div>-->
+        <!--            <div class="container overflow-auto border border-primary rounded-2 m-2" id="exam"-->
+        <!--                 style="width: 30vw; height: 60vh;">-->
+
+        <!--            </div>-->
+
+        <!--        </div>-->
+        <div class="d-flex justify-content-center">
+            <div id="paperTransfer">
+                <el-transfer
+                        filterable
+                        :filter-method="filterMethod"
+                        filter-placeholder="请输入试题id/标题"
+                        :titles="['待选', '已选']"
+                        :button-texts="['取消', '选择']"
+                        v-model="value"
+                        :data="data">
+                </el-transfer>
+            </div>
+            <script>
+                var paperTransfer = new Vue({
+                    el: '#paperTransfer',
+                    data() {
+                        const generateData = _ => {
+                            const data = [];
+                            return data;
+                        };
+                        return {
+                            data: generateData(),
+                            value: []
+                        };
+                    }
+                })
+            </script>
+        </div>
+
+        <div style="height: 5vh"></div>
+        <div class="row" style="width: 60vw;margin: auto">
+            <input type="button " class="btn btn-outline-primary" onclick="submitIt()" value="组卷">
+        </div>
+
+    </form>
+</div>
+<script>
+    function submitIt() {
+        var questionIds = document.getElementsByName("question");
+        var questionIdValue = new Array();
+        for (i = 0; i < questionIds.length; i++) {
+            if (questionIds[i].checked) {
+                questionIdValue.push(questionIds[i].value);
+            }
+
+        }
+        console.log(questionIdValue);
+        axios.post("https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/paper", {
+            "id": questionIdValue
+        }).then(function (res) {
+            console.log(res.data);
+            alert("组卷成功");
+        }).catch(function (res) {
+            alert("上传失败");
+        })
+    }
+
+    $("body").on("click", "input[name='question']", function () {
+        var before = document.getElementById("exam");
+        var after = document.getElementById("selected");
+        var self = document.getElementById("div_" + this.value);
+        var check = document.getElementById("check_" + this.value);
+        if (this.checked) {
+            before.removeChild(self);
+            let queNo = document.createElement('input');
+            queNo.className = 'form-control';
+            let queSc = document.createElement('input');
+            queSc.className = 'form-control';
+            check.appendChild(queNo);
+            check.appendChild(queSc);
+            after.appendChild(self);
+        } else {
+            after.removeChild(self);
+            before.appendChild(self);
+        }
+    });
+
+
+</script>
+</body>
+
+</html>
