@@ -1,15 +1,26 @@
+var exam_id = sessionStorage.getItem("id");
+axios.get("https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/exam?exam_id="+exam_id
+).then(function (res){
+    console.log(res.data.exam[0].class);
+})
+
 if(!false)
 {
-    axios.get("https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/mark").then(function (res){
+    axios.get("https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/mark?mark_id="+exam_id).then(function (res){
         console.log(res.data.mark);
     })
 }
 else
 {
-    axios.get("https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/mark",{
-        class:a
+    axios({
+        method:"GET",
+        url:"https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/mark",
+        params:{
+            mark_id:exam_id,
+            class:classes
+        }
     }).then(function (res){
-        console.log(res.data.mark);
+        console.log(res.data.mark)
     })
 }
 var classSelect = new Vue({
