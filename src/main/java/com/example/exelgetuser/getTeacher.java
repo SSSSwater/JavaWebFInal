@@ -1,6 +1,5 @@
 package com.example.exelgetuser;
 
-import com.example.basicLayout.Student;
 import com.example.basicLayout.Teacher;
 import com.example.jdbc.IloginDao;
 import org.apache.poi.ss.usermodel.Row;

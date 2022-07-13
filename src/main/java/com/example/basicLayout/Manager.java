@@ -1,7 +1,5 @@
 package com.example.basicLayout;
 
-import lombok.Data;
-
 public class Manager extends User{
     private String account;
     private String password;

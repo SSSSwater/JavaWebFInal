@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>发布考试</title>
+    <!-- 新 Bootstrap5 核心 CSS 文件 -->
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <!--        <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">-->
+    <link href="css/button-primary.css" rel="stylesheet">
+    <!--  popper.min.js 用于弹窗、提示、下拉菜单 -->
+    <script src="https://cdn.staticfile.org/popper.js/2.9.3/umd/popper.min.js"></script>
+
+    <!-- 最新的 Bootstrap5 核心 JavaScript 文件 -->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/js/bootstrap.min.js"></script>
+    <!--    <script src="/js/bootstrap/bootstrap.bundle.min.js"></script>-->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css"
+          rel="stylesheet">
+
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdn.bootcss.com/moment.js/2.22.1/moment-with-locales.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+
+
+</head>
+<body>
+<header
+        class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+    <a class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none" href="/">
+        <svg aria-label="Bootstrap" class="bi me-2" height="32" role="img" width="40">
+            <use xlink:href="#bootstrap"/>
+        </svg>
+    </a>
+
+    <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+        <li class="nav-item dropdown">
+            <a aria-expanded="false" class="nav-link dropdown-toggle nav-link px-2 link-secondary"
+               data-bs-toggle="dropdown"
+               href="#" role="button">导入题库</a>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="../resources/templates/teacher/question_import_solo.html">单题导入</a></li>
+                <li><a class="dropdown-item" href="../resources/templates/teacher/question_import_multi.html">多题导入</a></li>
+                </li>
+            </ul>
+        </li>
+        <li><a class="nav-link px-2 link-dark" href="../resources/templates/teacher/make_paper.html">组卷</a></li>
+        <li><a class="nav-link px-2 link-dark" href="../resources/templates/teacher/exam_public.html">发布考试</a></li>
+        <li><a class="nav-link px-2 link-dark" href="../resources/templates/teacher/result_management.html">考试结果</a></li>
+    </ul>
+
+    <div class="col-md-3 text-end">
+        <a class="btn btn-outline-primary me-2" href="../resources/templates/login.html" type="button">登录</a>
+    </div>
+</header>
+<!--考试编号-->
+<div class="mb-3 row">
+    <label for="paper_id" class="col-sm-2 col-form-label">试卷编号</label>
+    <div class="col-sm-10">
+        <input type="text" readonly class="form-control-plaintext" id="paper_id" value="email@example.com">
+    </div>
+</div>
+<!--考试标题-->
+<div class="mb-3 row">
+    <label for="paper_title" class="col-sm-2 col-form-label">考试标题</label>
+    <div class="col-sm-10">
+        <input type="text" class="form-control" id="paper_title">
+    </div>
+</div>
+<!--考试科目-->
+<div class="form-floating">
+    <select class="form-select" id="subjects" aria-label="Floating label select example">
+        <option value="Chinese">语文</option>
+        <option value="Math">数学</option>
+        <option value="English">英语</option>
+        <option value="physics">物理</option>
+        <option value="chemistry">化学</option>
+        <option value="biology">生物</option>
+        <option value="politics">政治</option>
+        <option value="history">历史</option>
+        <option value="geography">地理</option>
+    </select>
+    <label for="classes">选择考试的科目</label>
+</div>
+<!--考试的班级-->
+<div class="form-floating">
+    <select class="form-select" id="classes" aria-label="Floating label select example">
+        <option value="21计算机一班">21计算机一班</option>
+        <option value="21计算机二班">21计算机二班</option>
+        <option value="21计算机三班">21计算机三班</option>
+    </select>
+    <label for="classes">选择考试的班级</label>
+</div>
+<!--时间组件-->
+<div class="col-sm-6">
+    <input type="text" id="start_datetime" />
+</div>
+<div class="col-sm-6">
+    <input type="text" id="end_datetime" />
+</div>
+<script>
+        var a = sessionStorage.getItem("id");
+        //sessionStorage.removeItem("id");
+        console.log(a);
+        document.getElementById("paper_id").value=a;
+        $("#start_datetime,#end_datetime").datetimepicker({
+            format: 'YYYY-MM-DD HH:mm',
+            locale: moment.locale('zh-CN'),
+            minDate: '2022/01/15',
+            maxDate: '2045/09/15',
+        });
+        axios.get("https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/paper?id="+a).then(function(res){
+            axios({
+                method:"GET",
+                url:"https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/tiku",
+                params:{
+                    id:res.data.paper[0].questionId
+                }
+            }).then(function (res){
+                console.log(res.data)
+                })
+        })
+</script>
+</body>
+</html>

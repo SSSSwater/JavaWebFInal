@@ -1,7 +1,5 @@
 package com.example.basicLayout;
 
-import lombok.Data;
-
 
 public class Teacher extends User{
     private int worknum;

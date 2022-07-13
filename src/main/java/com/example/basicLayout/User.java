@@ -6,7 +6,11 @@ import lombok.Data;
 public class User {
     private String account;
     private String password;
-    private int role;
+    private int role=0;
+
+    public User() {
+        role=0;
+    }
 
     public User(int role) {
         this.role = role;
@@ -39,5 +43,14 @@ public class User {
 
     public void setRole(int role) {
         this.role = role;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "account='" + account + '\'' +
+                ", password='" + password + '\'' +
+                ", role=" + role +
+                '}';
     }
 }
