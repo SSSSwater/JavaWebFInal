@@ -64,7 +64,7 @@
 </div>
 <div class="container">
   <div id="classSelect">
-    <el-select v-model="value" placeholder="请选择">
+    <el-select v-model="value" @change="selectChange" placeholder="请选择">
       <el-option
               v-for="item in options"
               :key="item.value"
