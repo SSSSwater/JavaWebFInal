@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>单题导入</title>
+    <!-- 新 Bootstrap5 核心 CSS 文件 -->
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <!--        <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">-->
+
+    <!--  popper.min.js 用于弹窗、提示、下拉菜单 -->
+    <script src="https://cdn.staticfile.org/popper.js/2.9.3/umd/popper.min.js"></script>
+
+    <!-- 最新的 Bootstrap5 核心 JavaScript 文件 -->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/js/bootstrap.min.js"></script>
+    <!--    <script src="/js/bootstrap/bootstrap.bundle.min.js"></script>-->
+</head>
+
+<body>
+<div class="container">
+    <header
+            class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+        <a class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none" href="/">
+            <svg aria-label="Bootstrap" class="bi me-2" height="32" role="img" width="40">
+                <use xlink:href="#bootstrap"/>
+            </svg>
+        </a>
+
+        <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+            <li class="nav-item dropdown">
+                <a aria-expanded="false" class="nav-link dropdown-toggle nav-link px-2 link-secondary"
+                   data-bs-toggle="dropdown"
+                   href="#" role="button">导入题库</a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="question_import_solo.html">单题导入</a></li>
+                    <li><a class="dropdown-item" href="question_import_multi.html">多题导入</a></li>
+                    </li>
+                </ul>
+            </li>
+            <li><a class="nav-link px-2 link-dark" href="../resources/templates/teacher/make_paper.html">组卷</a></li>
+            <li><a class="nav-link px-2 link-dark" href="exam_public.html">发布考试</a></li>
+            <li><a class="nav-link px-2 link-dark" href="#">考试结果</a></li>
+        </ul>
+
+        <div class="col-md-3 text-end">
+            <a class="btn btn-outline-primary me-2" href="../resources/public/login.html" type="button">登录</a>
+        </div>
+    </header>
+</div>
+
+<div class="b-example-divider"></div>
+<form action="QuestionGetServlet" method="POST">
+
+    <div class="m-2 row">
+
+        <label class="text-center p-3">试题类型</label>
+
+            <ul class="d-flex justify-content-center">
+
+                <li class="form-check m-2">
+                    <input class="form-check-input" id="select-simple" name="question_type" onclick="showTheElement()"
+                           type="radio" value="single"><label class="form-check-label"
+                                                              for="select-simple">单选题</label>
+                </li>
+                <li  class="form-check m-2">
+                    <input class="form-check-input" id="select-multiple" name="question_type" onclick="showTheElement()"
+                           type="radio" value="multiple"><label class="form-check-label"
+                                                                for="select-multiple">多选题</label>
+                </li>
+                <li class="form-check m-2">
+                    <input class="form-check-input" id="select-judge" name="question_type" onclick="showTheElement()"
+                           type="radio" value="judge"><label class="form-check-label"
+                                                             for="select-judge">判断题</label>
+                </li>
+                <li class="form-check m-2">
+                    <input class="form-check-input" id="select-cloze" name="question_type" onclick="showTheElement()"
+                           type="radio" value="cloze"><label class="form-check-label"
+                                                             for="select-cloze">填空题</label>
+                </li>
+                <li class="form-check m-2">
+                    <input class="form-check-input" id="select-short" name="question_type" onclick="showTheElement()"
+                           type="radio" value="short"><label class="form-check-label"
+                                                             for="select-short">简答题</label>
+                </li>
+                <li class="form-check m-2">
+                    <input class="form-check-input" id="select-discuss" name="question_type" onclick="showTheElement()"
+                           type="radio" value="discuss"><label class="form-check-label"
+                                                               for="select-discuss">论述题</label>
+                </li>
+                <li class="form-check form-switch m-2">
+                    <input class="form-check-input" id="analysis_enabled" name="analysis_enabled" onclick="analysisRefresh()" type="checkbox" value="enabled"><label class="form-check-label"
+                                                               for="analysis_enabled">带解析</label>
+                </li>
+
+
+            </ul>
+
+    </div>
+
+
+    <div class="m-2 row d-flex justify-content-lg-center">
+        <div class="col m-4">
+            <label style="font-size: 125%;" class="p-2 text-center">试题题目</label>
+            <input class="form-control" name="question_title" placeholder="请输入试题题目" type="text"><br>
+
+
+            <!-- 单选 -->
+            <div id="single">
+                <label>试题选项(请勾选正确答案)</label>
+                <ul class="d-flex justify-content-between">
+                    <li class=" form-check">
+                        <input class="form-check-input" name="single_answer" type="radio" value="A">A<input class="form-control" name="single_choice"
+                                                                                                            placeholder="请输入试题选项"
+                                                                                                            type="text"><br>
+                    </li>
+                    <li class=" form-check">
+                        <input class="form-check-input" name="single_answer" type="radio" value="B">B<input class="form-control" name="single_choice"
+                                                                                                            placeholder="请输入试题选项"
+                                                                                                            type="text"><br>
+                    </li>
+                </ul>
+                <ul class="d-flex justify-content-between">
+                    <li class=" form-check">
+                        <input class="form-check-input" name="single_answer" type="radio" value="C">C<input class="form-control" name="single_choice"
+                                                                                                            placeholder="请输入试题选项"
+                                                                                                            type="text"><br>
+                    </li>
+                    <li class=" form-check">
+                        <input class="form-check-input" name="single_answer" type="radio" value="D">D<input class="form-control" name="single_choice"
+                                                                                                            placeholder="请输入试题选项"
+                                                                                                            type="text"><br>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 多选 -->
+            <div id="multiple">
+                <label>试题选项(请勾选正确答案)</label>
+                <ul class="d-flex justify-content-between">
+                    <li class=" form-check">
+                        <input class="form-check-input" name="multiple_answer" type="checkbox" value="A">A<input class="form-control" name="multiple_choice"
+                                                                                                            placeholder="请输入试题选项"
+                                                                                                            type="text"><br>
+                    </li>
+                    <li class=" form-check">
+                        <input class="form-check-input" name="multiple_answer" type="checkbox" value="B">B<input class="form-control" name="multiple_choice"
+                                                                                                            placeholder="请输入试题选项"
+                                                                                                            type="text"><br>
+                    </li>
+                </ul>
+                <ul class="d-flex justify-content-between">
+                    <li class=" form-check">
+                        <input class="form-check-input" name="multiple_answer" type="checkbox" value="C">C<input class="form-control" name="multiple_choice"
+                                                                                                            placeholder="请输入试题选项"
+                                                                                                            type="text"><br>
+                    </li>
+                    <li class=" form-check">
+                        <input class="form-check-input" name="multiple_answer" type="checkbox" value="D">D<input class="form-control" name="multiple_choice"
+                                                                                                            placeholder="请输入试题选项"
+                                                                                                            type="text"><br>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 判断 -->
+            <div id="judge">
+                <label>正确答案</label>
+                <ul class="d-flex justify-content-between">
+                    <li class=" form-check">
+                        <input class="form-check-input" id="judge_true" name="judge_answer" type="radio" value="T"><label class="form-check-label"
+                                                                                                          for="judge_true">正确</label><br>
+                    </li>
+                    <li class=" form-check">
+                        <input class="form-check-input" id="judge_false" name="judge_answer" type="radio" value="F"><label class="form-check-label"
+                                                                                                          for="judge_false">错误</label><br>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 填空 -->
+            <div id="cloze">
+                <label>正确答案</label>
+                <input name="cloze_answer" class="form-control" placeholder="请输入正确答案" type="text"><br>
+            </div>
+
+            <!-- 简答 -->
+            <div id="short">
+                <label>正确答案</label>
+                <textarea style="height: 25vh; resize: none" name="s_answer" class="form-control" placeholder="请输入正确答案" rows="8"></textarea><br>
+            </div>
+
+        </div>
+
+        <div style="height: 50vh;" class="col form-check form-switch m-4">
+            <!-- 解析 -->
+
+            <div id="analysis">
+                <p>解析内容</p>
+                <textarea style="height: 40vh; resize: none" class="form-control" name="analysis" placeholder="请输入试题解析"></textarea>
+            </div>
+
+        </div>
+    </div>
+    <div style="width: 60vw;margin: auto" class="row">
+        <button class="btn btn-outline-primary" name="submit" placeholder="录入试题" type="submit">提交</button>
+    </div>
+</form>
+<script src="/js/questionImportSolo.js"></script>
+<style>
+
+    .div-default-border{
+        border-radius: 10px;
+        border: rgba(15,15,15,0.5) solid 2px;
+
+    }
+</style>
+</body>
