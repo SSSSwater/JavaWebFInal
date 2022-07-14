@@ -44,6 +44,11 @@ public class LoginController {
         return "index";
     }
 
+    @RequestMapping("/login.html")
+    public String toLogin(){
+        return "login";
+    }
+
 
 
 
