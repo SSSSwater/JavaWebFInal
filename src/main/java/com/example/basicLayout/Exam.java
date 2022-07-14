@@ -9,6 +9,16 @@ public class Exam {
     private String endTime;
     private boolean finish;
 
+    public Exam(int examId, String name, int paperId, String examClass, String startTime, String endTime, boolean finish) {
+        this.examId = examId;
+        this.name = name;
+        this.paperId = paperId;
+        this.examClass = examClass;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.finish = finish;
+    }
+
     public int getExamId() {
         return examId;
     }
