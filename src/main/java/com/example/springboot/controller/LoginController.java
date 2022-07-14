@@ -19,14 +19,14 @@ public class LoginController {
     UserService userService;
     @ResponseBody
     @RequestMapping(value = "/login")
-    public Object doLogin(User user, HttpSession session,HttpServletRequest request){
+    public Object doLogin(HttpSession session, HttpServletRequest request){
         String account = request.getParameter("account");
         String password = request.getParameter("password");
-        user=userService.login(account,password);
-        log.info(user.getAccount()+" "+user.getPassword()+" "+user.getRole());
+        User user = userService.login(account, password);
+        log.info(user.getAccount()+" "+ user.getPassword()+" "+ user.getRole());
         if(user.getRole()!=0) {
             // 登录成功，将用户信息保存到session对象中
-            session.setAttribute("loginUser",user);
+            session.setAttribute("loginUser", user);
             log.info("登录成功");
             //防止重复提交使用重定向
 //            return "redirect:/index";
@@ -43,6 +43,12 @@ public class LoginController {
     public String toIndex(){
         return "index";
     }
+
+    @RequestMapping("/login.html")
+    public String toLogin(){
+        return "login";
+    }
+
 
 
 

@@ -14,22 +14,14 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class QuestionController {
 
-    @Autowired
-    QuestionService questionService;
-    @ResponseBody
-    @GetMapping(value = "/teacher/make_paper.html")
-    public Object getQuestion(HttpServletRequest request){
-        log.info("获取题目");
-        int id=Integer.parseInt(request.getParameter("id"));
-        String subject=request.getParameter("subject");
-        String type=request.getParameter("type");
-        log.info(id+subject+type);
-        log.info(questionService.getQuestion(id,subject,type).toString());
-        return questionService.getQuestion(id,subject,type);
-    }
     @RequestMapping("/teacher/question_import_solo.html")
     public String importSolo(){
         return "/teacher/question_import_solo";
+    }
+
+    @RequestMapping("/teacher/question_import_multi.html")
+    public String importMulti(){
+        return "/teacher/question_import_multi";
     }
 
 }
