@@ -14,4 +14,13 @@ public class ResultController {
         return "/teacher/result_management";
     }
 
+
+    @RequestMapping("/teacher/result_management_sub")
+    public String manageSub(){
+        return "/teacher/result_management_sub.html";
+    }
+    @RequestMapping("/teacher/result_management_sub.html")
+    public String doSub(){
+        return "/teacher/result_management_sub";
+    }
 }
