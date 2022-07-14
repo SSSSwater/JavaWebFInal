@@ -1,5 +1,6 @@
 package com.example.jdbc;
 
+import com.example.basicLayout.Paper;
 import com.example.basicLayout.Question;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -8,21 +9,38 @@ import java.util.List;
 
 public class JdbcTemplate {
     public static void main(String[] args) {
+//        Paper paper1 = new Paper(1,"单元一测试卷","Math","3-5-2-6-10","20-20-20-20-20");
+//        Paper paper2 = new Paper(2,"单元二测试卷","Math","3-5-2-6-10","20-20-20-20-20");
+        ApplicationContext ac = new ClassPathXmlApplicationContext("Bean.xml");
+        IPaperDao ipaperDao = ac.getBean("paperDao",IPaperDao.class);
+//        List<Paper> papers = ipaperDao.getPaperbysubject("Math");
+        Paper paper = ipaperDao.getpaperbyname("单元一测试卷");
+//        ipaperDao.updatePaper(paper1);
+//        ipaperDao.updatePaper(paper2);
+//        List<Paper> papers = ipaperDao.getAllpaper();
+//        for(Paper p: papers){
+            System.out.println(paper);
+//        }
+
+
+
+
+
         //获取容器
 //        ApplicationContext ac = new ClassPathXmlApplicationContext("Bean.xml");
 //        IloginDao loginDao = ac.getBean("loginDao", IloginDao.class);
-//        System.out.println(loginDao.findStudentbyap("1234","zyj12345"));
-        ApplicationContext ac =new ClassPathXmlApplicationContext("Bean.xml");
-        IQuestionDao questionDao =ac.getBean("questionDao",IQuestionDao.class);
-        List<Question> questions = questionDao.getallQuestion();
+//        System.out.println(loginDao.findStudentByAp("1234","zyj12345"));
+//        ApplicationContext ac =new ClassPathXmlApplicationContext("Bean.xml");
+//        IQuestionDao questionDao =ac.getBean("questionDao",IQuestionDao.class);
+//        List<Question> questions = questionDao.getallQuestion();
 //        Question q = new Question("Physics","judge","时间的流逝有快有慢","A.对","B.错",null,null,"B","flase",null);
 //        questionDao.updateQuestion(q);
 //        Question q2 = new Question("Physics","judge","衣服会产热","A.对","B.错",null,null,"B","flase",null);
 //        questionDao.updateQuestion(q2);
 //        List<Question> questions = questionDao.findQuestionbySubject("Math");
-        for(Question q:questions ){
-            System.out.println(q);
-        }
+//        for(Question q:questions ){
+//            System.out.println(q);
+//        }
 
 //        Question question = questionDao.findQuestionbyID(1);
 //        System.out.println(question);
@@ -35,26 +53,6 @@ public class JdbcTemplate {
     }
 }
 
-
-//自定义封装
-//class QuestionRowMapper implements RowMapper<Question> {
-//    //把结果集中的数据封装到Text中，然后由spring把每个Text加到集合中
-//
-//    @Override
-//    public Question mapRow(ResultSet rs, int rowNum) throws SQLException {
-//        Question questions = new Question();
-//        questions.setId(rs.getInt("id"));
-//        questions.setSubject(rs.getString("subject"));
-//        questions.setType(rs.getString("type"));
-//        questions.setTitle(rs.getString("title"));
-//        questions.setChoiceA(rs.getString("choiceA"));
-//        questions.setChoiceB(rs.getString("choiceB"));
-//        questions.setChoiceC(rs.getString("choiceC"));
-//        questions.setChoiceD(rs.getString("choiceD"));
-//        questions.setAnswer(rs.getString("answer"));
-//        questions.setAnalysisEnabled(rs.getString("analysisenabled"));
-//        questions.setAnalysis(rs.getString("analysis"));
-//        return questions;
 //
 //    }
 //}

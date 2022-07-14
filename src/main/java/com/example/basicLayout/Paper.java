@@ -4,14 +4,16 @@ import org.apache.xmlbeans.impl.xb.xsdschema.Public;
 
 public class Paper {
     private int paperid;
+    private String papername;
     private String subject;
     private String titlenum;
     private String exammark;
 
     public Paper(){}
 
-    public Paper(int paperid, String subject, String titlenum, String exammark) {
+    public Paper(int paperid, String papername, String subject, String titlenum, String exammark) {
         this.paperid = paperid;
+        this.papername = papername;
         this.subject = subject;
         this.titlenum = titlenum;
         this.exammark = exammark;
@@ -47,5 +49,24 @@ public class Paper {
 
     public void setExammark(String exammark) {
         this.exammark = exammark;
+    }
+
+    public String getPapername() {
+        return papername;
+    }
+
+    public void setPapername(String papername) {
+        this.papername = papername;
+    }
+
+    @Override
+    public String toString() {
+        return "Paper{" +
+                "paperid=" + paperid +
+                ", papername='" + papername + '\'' +
+                ", subject='" + subject + '\'' +
+                ", titlenum='" + titlenum + '\'' +
+                ", exammark='" + exammark + '\'' +
+                '}';
     }
 }

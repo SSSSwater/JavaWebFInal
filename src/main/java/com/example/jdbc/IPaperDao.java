@@ -12,4 +12,6 @@ public interface IPaperDao {
     public List<Paper> getPaperbysubject(String subject);
 
     public Paper getpaperbyid(int paperid);
+
+    public Paper getpaperbyname(String papername);
 }
