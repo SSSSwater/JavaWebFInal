@@ -17,4 +17,14 @@ public class ExamController {
         return "/teacher/exam_public";
     }
 
+
+    @RequestMapping("/teacher/exam_public_sub")
+    public String manageSub(){
+        return "/teacher/exam_public_sub.html";
+    }
+    @RequestMapping("/teacher/exam_public_sub.html")
+    public String doSub(){
+        return "/teacher/exam_public_sub";
+    }
+
 }
