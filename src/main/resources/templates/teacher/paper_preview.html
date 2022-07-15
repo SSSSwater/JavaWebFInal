@@ -19,12 +19,12 @@
     function getPaper() {
         var a = sessionStorage.getItem("id");
         sessionStorage.removeItem("id");
-        axios.get("https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/paper?id=" + a).then(function (res) {
+        axios.get("https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/exam?id=" + a).then(function (res) {
             axios({
                 method: "GET",
                 url: "https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/tiku",
                 params: {
-                    id: res.data.paper[0].questionId
+                    id: res.data.exam[0].questionId
                 }
             }).then(function (res) {
                 examdiv = document.getElementById('exam');

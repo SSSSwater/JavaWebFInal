@@ -7,9 +7,12 @@ public class Exam {
     private String examClass;
     private String startTime;
     private String endTime;
-    private boolean finish;
+    private int finish;
 
-    public Exam(int examId, String name, int paperId, String examClass, String startTime, String endTime, boolean finish) {
+    public Exam() {
+    }
+
+    public Exam(int examId, String name, int paperId, String examClass, String startTime, String endTime, int finish) {
         this.examId = examId;
         this.name = name;
         this.paperId = paperId;
@@ -67,11 +70,24 @@ public class Exam {
         this.endTime = endTime;
     }
 
-    public boolean isFinish() {
+    public int isFinish() {
         return finish;
     }
 
-    public void setFinish(boolean finish) {
+    public void setFinish(int finish) {
         this.finish = finish;
+    }
+
+    @Override
+    public String toString() {
+        return "Exam{" +
+                "examId=" + examId +
+                ", name='" + name + '\'' +
+                ", paperId=" + paperId +
+                ", examClass='" + examClass + '\'' +
+                ", startTime='" + startTime + '\'' +
+                ", endTime='" + endTime + '\'' +
+                ", finish=" + finish +
+                '}';
     }
 }

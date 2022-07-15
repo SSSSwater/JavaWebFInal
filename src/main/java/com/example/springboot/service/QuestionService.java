@@ -16,6 +16,7 @@ public class QuestionService {
     ApplicationContext ac =new ClassPathXmlApplicationContext("Bean.xml");
     IQuestionDao questionDao =ac.getBean("questionDao", IQuestionDao.class);
 
+    //用于组卷时筛选符合条件的题目
     public List<Question> getQuestion(int id, String subject, String type){
         List<Question> questions=new ArrayList<>();
         if(id!=0){
@@ -32,4 +33,12 @@ public class QuestionService {
 
         return questions;
     }
+
+    //用于单题导入数据库
+    public void postQuestion(Question question){
+        questionDao.updateQuestion(question);
+    }
+
+
+
 }
