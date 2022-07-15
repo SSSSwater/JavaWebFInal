@@ -13,6 +13,8 @@ public interface IloginDao {
 
     Manager findManagerByAp(String account,String password);
 
+    String findTeaClass(int worknum);
+
     void updateStudent(Student students);
 
     void updateTeacher(Teacher teachers);
