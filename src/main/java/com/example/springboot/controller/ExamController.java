@@ -35,7 +35,7 @@ public class ExamController {
         Exam exam = new Exam();
         exam.setName(request.getParameter("name"));
         exam.setPaperId(request.getIntHeader("paperid"));
-        exam.setExamClass(request.getParameter("examClass"));
+        exam.setExamClass(request.getParameter("examclass"));
         exam.setStartTime(request.getParameter("starttime"));
         exam.setEndTime(request.getParameter("endtime"));
         exam.setFinish(0);
