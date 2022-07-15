@@ -12,14 +12,15 @@ public class JdbcTemplate {
 //        Paper paper1 = new Paper(1,"单元一测试卷","Math","3-5-2-6-10","20-20-20-20-20");
 //        Paper paper2 = new Paper(2,"单元二测试卷","Math","3-5-2-6-10","20-20-20-20-20");
         ApplicationContext ac = new ClassPathXmlApplicationContext("Bean.xml");
-        IPaperDao ipaperDao = ac.getBean("paperDao",IPaperDao.class);
+        IExamDao iexamDao = ac.getBean("examDao",IExamDao.class);
+        boolean yn = iexamDao.finish(1);
 //        List<Paper> papers = ipaperDao.getPaperbysubject("Math");
-        Paper paper = ipaperDao.getpaperbyname("单元一测试卷");
+//        Paper paper = ipaperDao.getpaperbyname("单元一测试卷");
 //        ipaperDao.updatePaper(paper1);
 //        ipaperDao.updatePaper(paper2);
 //        List<Paper> papers = ipaperDao.getAllpaper();
 //        for(Paper p: papers){
-            System.out.println(paper);
+            System.out.println(yn);
 //        }
 
 
