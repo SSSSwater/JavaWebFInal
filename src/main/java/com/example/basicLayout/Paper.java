@@ -10,8 +10,8 @@ public class Paper {
 
     public Paper(){}
 
-    public Paper(int paperid, String papername, String subject, String titlenum, String exammark) {
-        this.paperid = paperid;
+    public Paper(String papername, String subject, String titlenum, String exammark) {
+        //this.paperid = paperid;
         this.papername = papername;
         this.subject = subject;
         this.titlenum = titlenum;

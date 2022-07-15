@@ -11,7 +11,7 @@ public class PaperDaoImp extends JdbcDaoSupport implements IPaperDao{
 
     @Override
     public void updatePaper(Paper paper) {
-        String sql="insert into paper (paperid,papername,subject,titlenum,exammark)value('"+paper.getPaperid()+"','"+paper.getPapername()+"','"+paper.getSubject()+"','"+paper.getTitlenum()+"','"+paper.getExammark()+"')";
+        String sql="insert into paper (papername,subject,titlenum,exammark)value('"+paper.getPapername()+"','"+paper.getSubject()+"','"+paper.getTitlenum()+"','"+paper.getExammark()+"')";
         getJdbcTemplate().execute(sql);
     }
 
