@@ -1,6 +1,5 @@
 package com.example.basicLayout;
 
-import org.apache.xmlbeans.impl.xb.xsdschema.Public;
 
 public class Paper {
     private int paperid;

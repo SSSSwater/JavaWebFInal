@@ -140,13 +140,16 @@
          var paperTitle=document.getElementById("paper_title").value;var paperClasses=classSelect.values;
         var paperStartTime=document.getElementById("start_datetime").value;
         var paperEndTime=document.getElementById("end_datetime").value;
-        axios.put("https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/exam",{
+        axios({
+            method:"POST",
+            url:"http://127.0.0.1:8080/teacher/exam_public_sub",
+            params:{
             paperid:a,
             name:paperTitle,
             examclass:paperClasses,
             starttime:paperStartTime,
             endtime:paperEndTime
-        })
+        }})
             location.href="exam_public_sub"
         }
         document.getElementById("paper_id").innerHTML=a;
