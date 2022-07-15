@@ -79,64 +79,12 @@
         </div>
     </div>
 
-    <div class="d-flex justify-content-around">
-        <!--考试科目-->
-        <div id="subjectSelect" class="m-2">
-            <label>选择考试的科目</label><br>
-            <el-select class="m-1" id="subjects" v-model="value" placeholder="请选择">
-                <el-option
-                        v-for="item in options"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                </el-option>
-            </el-select>
-        </div>
-        <script>
-            var subjectSelect = new Vue({
-                el: '#subjectSelect',
-                data() {
-                    return {
-                        options: [{
-                            value: 'Chinese',
-                            label: '语文'
-                        }, {
-                            value: 'Math',
-                            label: '数学'
-                        }, {
-                            value: 'English',
-                            label: '英语'
-                        }, {
-                            value: 'Physics',
-                            label: '物理'
-                        }, {
-                            value: 'Chemical',
-                            label: '化学'
-                        }, {
-                            value: 'Biology',
-                            label: '生物'
-                        }, {
-                            value: 'History',
-                            label: '历史'
-                        }, {
-                            value: 'Geography',
-                            label: '地理'
-                        }, {
-                            value: 'Politics',
-                            label: '政治'
-                        }, {
-                            value: 'Technology',
-                            label: '技术'
-                        }],
-                        value: ''
-                    }
-                }
-            })
-        </script>
+    <div class="d-flex justify-content-center">
+
         <!--考试的班级-->
-        <div id="classSelect" class="m-2">
+        <div id="classSelect" class="mb-3 row" style="width: 100%">
             <label>选择考试的班级</label><br>
-            <el-select v-model="values" multiple placeholder="请选择">
+            <el-select v-model="values" multiple placeholder="请选择" style="width: 100%">
                 <el-option
                         v-for="item in options"
                         :key="item.value"
@@ -168,7 +116,7 @@
     </div>
 
     <!--时间组件-->
-    <div class="d-flex justify-content-around m-4 form-floating">
+    <div class="d-flex justify-content-between m-4 form-floating">
         <div class="">
             <label for="start_datetime">开始时间:</label>
             <input type="text" class="form-control" id="start_datetime" />
@@ -189,19 +137,17 @@
         //sessionStorage.removeItem("id");
         console.log(a);
         function submitIt(){
-         var paperTitle=document.getElementById("paper_title").value;
-        var paperSubject=document.getElementById("subjects").value;
-        var paperClasses=classSelect.values;
+         var paperTitle=document.getElementById("paper_title").value;var paperClasses=classSelect.values;
         var paperStartTime=document.getElementById("start_datetime").value;
         var paperEndTime=document.getElementById("end_datetime").value;
-        axios.put("https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/paper",{
-            examid:a,
+        axios.put("https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/exam",{
+            paperid:a,
             name:paperTitle,
-            subject:paperSubject,
             examclass:paperClasses,
             starttime:paperStartTime,
             endtime:paperEndTime
         })
+            location.href="exam_public_sub"
         }
         document.getElementById("paper_id").innerHTML=a;
         $("#start_datetime,#end_datetime").datetimepicker({
@@ -210,17 +156,17 @@
             minDate: '2022/01/15',
             maxDate: '2045/09/15',
         });
-        axios.get("https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/paper?id="+a).then(function(res){
-            axios({
-                method:"GET",
-                url:"https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/tiku",
-                params:{
-                    id:res.data.paper[0].questionId
-                }
-            }).then(function (res){
-                console.log(res.data)
-                })
-        })
+        // axios.get("https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/paper?id="+a).then(function(res){
+        //     axios({
+        //         method:"GET",
+        //         url:"https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/tiku",
+        //         params:{
+        //             id:res.data.paper[0].questionId
+        //         }
+        //     }).then(function (res){
+        //         console.log(res.data)
+        //         })
+        // })
 
         $(window).on('load', function () {
             $('#usertype').selectpicker({
