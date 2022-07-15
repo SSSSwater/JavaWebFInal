@@ -4,8 +4,9 @@ axios.get("https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/
     classes = res.data.exam[0].class;
     console.log(classes)
     for (i in classes) {
-        classSelect.options.push({
-            value: classes[i],
+        app.classSelectOptions.push({
+            // value: classes[i],
+            value: parseInt(i)+1,
             label: classes[i]
         })
     }
@@ -14,19 +15,21 @@ axios.get("https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/
 function requestDetail(selected) {
     if (selected == "All") {
         axios.get("https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/mark?mark_id=" + exam_id).then(function (res) {
-            console.log(res.data.mark);
             handleData(res.data.mark);
         })
     } else {
-        axios({
+        console.log(selected);
+        axios(
+            {
             method: "GET",
-            url: "https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/mark",
+            url: "https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/mark"+selected,
             params: {
                 mark_id: exam_id,
                 class: selected
             }
-        }).then(function (res) {
-            console.log(res.data.mark)
+        }
+        ).then(function (res) {
+            console.log(res.data.mark);
             handleData(res.data.mark);
         })
     }
@@ -34,50 +37,76 @@ function requestDetail(selected) {
 }
 
 function handleData(gotData){
+    tData=[0,0,0];
+    tScoreData=[];
     for(i in gotData){
-        labels.push(gotData[i].name);
-        data.datasets[0].data.push(gotData[i].mark);
+        if(gotData[i].mark<60) tData[0]++;
+        else if(gotData[i].mark<80) tData[1]++;
+        else tData[2]++;
+        tScoreData.push({
+            name:gotData[i].name,
+            score:gotData[i].mark,
+        })
     }
-    console.log(labels);
+    tMaxScore=0;
+    tMaxScoreName='null';
+    for(i=0;i<tScoreData.length;i++){
+        if(tScoreData[i].score>tMaxScore) {tMaxScore=tScoreData[i].score;tMaxScoreName=tScoreData[i].name;}
+    }
+    app.gotScoreData=tScoreData;
+    app.maxScore=tMaxScore;
+    app.maxScoreName=tMaxScoreName;
+    refreshData(classAverage,tData);
 }
 
-var classSelect = new Vue({
-    el: '#classSelect',
+var app = new Vue({
+    el: '#app',
     data() {
         return {
-            options: [{
+            tagActiveName: 'second',
+            classSelectOptions: [{
                 value: 'All',
                 label: '全部'
             }],
-            value: ''
+            classSelectValue: '',
+            gotScoreData:[],
+            maxScoreName:'null',
+            maxScore:0
         }
     },
     methods: {
         selectChange(selectedClass) {
-            console.log(selectedClass);
+            app.maxScore=0;
+            app.maxScoreName='';
             requestDetail(selectedClass);
-            const classAverage = new Chart(
-                document.getElementById('classAverage'),
-                config
-            );
+        },
+        handleClick(tab, event) {
+            console.log(tab, event);
         }
     }
 })
-
-const labels = [];
-
+function refreshData(chart,data){
+    chart.data.datasets[0].data=data;
+    chart.update();
+}
+;
+const labels = ['不及格','及格','优秀']
 const data = {
     labels: labels,
     datasets: [{
-        label: 'My First dataset',
-        backgroundColor: 'rgb(255, 99, 132)',
-        borderColor: 'rgb(255, 99, 132)',
-        data: [],
+        label: '学生成绩分布',
+        backgroundColor: ['rgb(255, 73, 71)','rgb(220, 145, 53)','rgb(109, 225, 134)'],
+        data: [0,0,0],
     }]
 };
 
 const config = {
-    type: 'bar',
+    type: 'pie',
     data: data,
     options: {}
 };
+
+classAverage = new Chart(
+    document.getElementById('classAverage'),
+    config
+);
