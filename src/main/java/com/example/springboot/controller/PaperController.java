@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
+import java.util.Objects;
 
 @Slf4j
 @Controller
@@ -37,12 +39,13 @@ public class PaperController {
     @PatchMapping("/teacher/post_paper")
     public Object postPaper(HttpServletRequest request){
         Paper paper=new Paper();
-        paper.setPaperid(Integer.parseInt(request.getParameter("paperid")));
         paper.setSubject(request.getParameter("subject"));
+        paper.setTitlenum(Arrays.toString(request.getParameterValues("titlenum")));
+        paper.setExammark(request.getParameter("exammark"));
+        paper.setPapername(request.getParameter("papername"));
 
-        //等前端捏( ´･ω･)ﾉ(._.`)
-
-
+        log.info(paper.toString());
+        paperService.postPaper(paper);
 
 
         return paper;

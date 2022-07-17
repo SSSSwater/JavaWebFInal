@@ -30,13 +30,12 @@ public class LoginController {
             log.info("登录成功");
             //防止重复提交使用重定向
 //            return "redirect:/index";
-            return user;
+
         }else{
             log.error("登录失败");
 //            return "index";
-            return null;
         }
-
+        return user;
     }
 
     @RequestMapping("/index.html")
