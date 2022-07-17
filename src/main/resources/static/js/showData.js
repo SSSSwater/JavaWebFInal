@@ -5,12 +5,16 @@ function showDataHead(tDiv, queDiv, id, type, title, mode) {
     if (mode == 1) {
         let checkDiv = document.createElement('div');
         checkDiv.className = 'col-2';
+        checkDiv.style="padding:0";
         checkDiv.id='check_'+id;
         let check = document.createElement('input');
-        check.type = "checkbox";
-        check.name = "question";
-        check.className = "form-check-input";
-        check.value = id;
+        check.type = 'text';
+        check.name = "mark";
+        check.style=" width: 27.99148px";
+        check.className='form-control';
+        check.style="padding:0";
+
+        // check.className = "form-check-input";
         checkDiv.appendChild(check);
         tDiv.appendChild(checkDiv);
     }
