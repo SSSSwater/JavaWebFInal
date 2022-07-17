@@ -1,10 +1,13 @@
 package com.example.springboot.controller;
 
+import com.example.basicLayout.Paper;
+import com.example.springboot.service.PaperService;
 import com.example.springboot.service.QuestionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -15,6 +18,9 @@ import javax.servlet.http.HttpServletRequest;
 public class PaperController {
     @Autowired
     QuestionService questionService;
+    @Autowired
+    PaperService paperService;
+
     @ResponseBody
     @GetMapping(value = "/teacher/make_paper")
     public Object makePaper(HttpServletRequest request){
@@ -27,11 +33,37 @@ public class PaperController {
         return questionService.getQuestion(id,subject,type);
     }
 
+    @ResponseBody
+    @PatchMapping("/teacher/post_paper")
+    public Object postPaper(HttpServletRequest request){
+        Paper paper=new Paper();
+        paper.setPaperid(Integer.parseInt(request.getParameter("paperid")));
+        paper.setSubject(request.getParameter("subject"));
+
+        //等前端捏( ´･ω･)ﾉ(._.`)
+
+
+
+
+        return paper;
+    }
+
     @RequestMapping("/teacher/make_paper.html")
     public String doPaper(){
         return "/teacher/make_paper";
     }
 
+    @ResponseBody
+    @RequestMapping("/teacher/paper_preview")
+    public Object doPreview(HttpServletRequest request){
 
+        return paperService.previewPaper(request.getIntHeader("paperid"));
+    }
+
+    @RequestMapping("/teacher/paper_preview.html")
+    public String paperPreview(){
+
+        return "/teacher/paper_preview";
+    }
 
 }

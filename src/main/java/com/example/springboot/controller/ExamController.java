@@ -52,16 +52,4 @@ public class ExamController {
         return "/teacher/exam_public_sub";
     }
 
-
-    @RequestMapping("/teacher/paper_preview")
-    public String doPreview() {
-
-
-        return "/teacher/paper_preview.html";
-    }
-
-    @RequestMapping("/teacher/paper_preview.html")
-    public String toPreview() {
-        return "/teacher/paper_preview";
-    }
 }

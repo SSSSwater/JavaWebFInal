@@ -3,16 +3,13 @@ package com.example.springboot.controller;
 import com.example.basicLayout.Question;
 import com.example.exelgetquestion.Getquestion;
 import com.example.springboot.service.QuestionService;
-import com.example.test.file.FileWrite;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
@@ -74,7 +71,6 @@ public class QuestionController {
     }
 
 
-    private static final long serialVersionUID = 1L;
 
     // 上传文件存储目录
     private static final String UPLOAD_DIRECTORY = "upload";
@@ -116,9 +112,6 @@ public class QuestionController {
 
         // 如果目录不存在则创建
         File uploadDir = new File(uploadPath);
-        if (!uploadDir.exists()) {
-            uploadDir.mkdir();
-        }
         try {
             // 解析请求的内容提取文件数据
             List<FileItem> formItems = upload.parseRequest(request);
@@ -130,10 +123,8 @@ public class QuestionController {
                     if (!item.isFormField()) {
                         String fileName = new File(item.getName()).getName();
                         String filePath = uploadPath + File.separator + fileName;//文件储存相对目录
-                        File file = new File(filePath);//将当前路径封装成File对象
 
                         // 保存文件到硬盘
-                        item.write(file);
                         log.info(filePath);
                         Getquestion.getQuestion(filePath);
 
@@ -148,35 +139,5 @@ public class QuestionController {
         return "/teacher/question_import_multi.html";
     }
 
-    public static void merge() throws IOException {
-        //如果没有文件夹则创建文件夹
-        File splits = new File("splits");
-        if (!splits.exists()) {
-            splits.mkdir();
-        }
-        ArrayList<FileInputStream> al = new ArrayList<>();
-        for (int x = 1; x <= 2; x++) {
-            al.add(new FileInputStream(splits + "\\" + x + ".part"));
-        }
-        //Enumeration使用匿名内部类，所以对访问的局部变量进行final修饰
-        final Iterator<FileInputStream> it = al.iterator();
-        Enumeration<FileInputStream> en = new Enumeration<FileInputStream>() {
-            public boolean hasMoreElements() {
-                return it.hasNext();
-            }
 
-            public FileInputStream nextElement() {
-                return it.next();
-            }
-        };
-        SequenceInputStream sis = new SequenceInputStream(en);
-        FileOutputStream fos = new FileOutputStream(splits + "\\" + "0.mp3");
-        byte[] buf = new byte[1024];
-        int len;
-        while ((len = sis.read(buf)) != -1) {
-            fos.write(buf, 0, len);
-        }
-        fos.close();
-        sis.close();
-    }
 }
