@@ -91,7 +91,7 @@
         }
         axios({
             method: 'GET',
-            url: "http://127.0.0.1:8080/teacher/make_paper",
+            url: "https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/tiku",
             params: {
                 subject:subjectValue,
                 type:typeValue,
@@ -99,7 +99,7 @@
             }
         })
             .then(function (res) {
-                console.log(res);
+                console.log();
                 t = res.data.Qarr;
                 i = 0;
                 while (t[i] != null) {
