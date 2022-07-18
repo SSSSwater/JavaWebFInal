@@ -26,302 +26,132 @@
     <script src="/js/vue.js"></script>
     <!-- 引入element组件库 -->
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
-    <style>
-        .el-transfer-panel__body{
-            height: 54vh;
-        }
-    </style>
 
 </head>
 
 <body>
 
-<div class="container">
-    <header
-            class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
-        <a class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none" href="/">
-            <svg aria-label="Bootstrap" class="bi me-2" height="32" role="img" width="40">
-                <use xlink:href="#bootstrap"/>
-            </svg>
-        </a>
+<div id="app">
+    <div class="container">
+        <header
+                class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+            <a class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none" href="/">
+                <svg aria-label="Bootstrap" class="bi me-2" height="32" role="img" width="40">
+                    <use xlink:href="#bootstrap"/>
+                </svg>
+            </a>
 
-        <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-            <li class="nav-item dropdown">
-                <a aria-expanded="false" class="nav-link dropdown-toggle nav-link px-2 link-secondary"
-                   data-bs-toggle="dropdown"
-                   href="#" role="button">导入题库</a>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="question_import_solo.html">单题导入</a></li>
-                    <li><a class="dropdown-item" href="question_import_multi.html">多题导入</a></li>
-                </ul>
-            </li>
-            <li><a class="nav-link px-2 link-dark" href="make_paper.html">组卷</a></li>
-            <li><a class="nav-link px-2 link-dark" href="exam_public.html">发布考试</a></li>
-            <li><a class="nav-link px-2 link-dark" href="result_management.html">考试结果</a></li>
-        </ul>
+            <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+                <li class="nav-item dropdown">
+                    <a aria-expanded="false" class="nav-link dropdown-toggle nav-link px-2 link-secondary"
+                       data-bs-toggle="dropdown"
+                       href="#" role="button">导入题库</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="question_import_solo.html">单题导入</a></li>
+                        <li><a class="dropdown-item" href="question_import_multi.html">多题导入</a></li>
+                    </ul>
+                </li>
+                <li><a class="nav-link px-2 link-dark" href="make_paper.html">组卷</a></li>
+                <li><a class="nav-link px-2 link-dark" href="exam_public.html">发布考试</a></li>
+                <li><a class="nav-link px-2 link-dark" href="result_management.html">考试结果</a></li>
+            </ul>
 
-        <div class="col-md-3 text-end">
-            <a class="btn btn-outline-primary me-2" href="http://localhost:8080/login.html" type="button">登录</a>
+            <div class="col-md-3 text-end">
+                <a class="btn btn-outline-primary me-2" href="http://localhost:8080/login.html" type="button">登录</a>
+            </div>
+        </header>
+    </div>
+
+    <div class="d-flex justify-content-center" id="request">
+        <div class="m-1" style="width: 60%">
+            <el-input
+                    placeholder="请输入题目id"
+                    v-model="searchText"
+                    clearable>
+            </el-input>
         </div>
-    </header>
-</div>
+        <div class="m-1">
+            <el-button icon="el-icon-search" @click="bind" circle></el-button>
+        </div>
+<!--        <input class="textInput-dynamic-left" id="searchText" name='search'-->
+<!--               onkeyup="this.value=this.value.replace(/[^0-9]+/,'')" type="text" placeholder="输入题目id">-->
+<!--        <button class="button-static-right" onclick="bind()">查找</button>-->
+    </div>
+    <div style="height: 5vh"></div>
 
-<div class="d-flex justify-content-center" id="request">
-    <input class="textInput-dynamic-left" id="searchText" name='search'
-           onkeyup="this.value=this.value.replace(/[^0-9]+/,'')" type="text" placeholder="输入题目id">
-    <button class="button-static-right" onclick="bind()">查找</button>
-</div>
-<div style="height: 5vh"></div>
-<script>
-    function bind() {
-        var textValue = document.getElementById("searchText").value;
-        var subject = document.getElementsByName("distribute-by-subject");
-        var subjectValue;
-        for (i = 0; i < subject.length; i++) {
-            if (subject[i].checked) {
-                subjectValue = subject[i].value;
-            }
-        }
-        var type = document.getElementsByName("distribute-by-type");
-        var typeValue;
-        for (i = 0; i < type.length; i++) {
-            if (type[i].checked) {
-                typeValue = type[i].value;
-            }
-        }
-        axios({
-            method: 'GET',
-            url: "https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/tiku",
-            params: {
-                subject:subjectValue,
-                type:typeValue,
-                id:textValue
-            }
-        })
-            .then(function (res) {
-                console.log();
-                t = res.data.Qarr;
-                i = 0;
-                while (t[i] != null) {
-                    console.log(res.data.Qarr[i]);
-                    if (t[i].analysisEnabled) anl = t[i].analysis;
-                    else anl = "无";
+    <div>
+        <form>
 
-                    paperTransfer.data.push({
-                        label: '['+t[i].id+']'+t[i].title,
-                        key: t[i].id
-                    })
-                    i++;
-                }
+            <div class="container overflow-auto mb-2 justify-content-lg-center">
 
-            })
-    }
-
-</script>
-
-
-<div>
-    <form>
-
-                <div class="container d-flex justify-content-lg-center" style="height: 520px">
-                    <div class="container overflow-auto border border-primary rounded-2 m-2" style="width: 20%;height: 60vh;">
-
-                        <ul style="padding: 0">
-                            <label style="font-size: 20px; padding: 0">按学科分类</label>
-                            <ul >
-                                <li class="form-check">
-                                    <input class="form-check-input" id="distribute-by-subject-Chinese"
-                                           name="distribute-by-subject"
-                                           type="radio" value="Chinese"><label
-                                        for="distribute-by-subject-Chinese">语文</label>
-                                </li>
-                                <li class="form-check">
-                                    <input class="form-check-input" id="distribute-by-subject-Math" name="distribute-by-subject"
-                                           type="radio" value="Math"><label
-                                        for="distribute-by-subject-Math">数学</label>
-                                </li>
-                                <li class="form-check">
-                                    <input class="form-check-input" id="distribute-by-subject-English"
-                                           name="distribute-by-subject"
-                                           type="radio" value="English"><label
-                                        for="distribute-by-subject-English">外语</label>
-                                </li>
-                                <li class="form-check">
-                                    <input class="form-check-input" id="distribute-by-subject-Physics"
-                                           name="distribute-by-subject"
-                                           type="radio" value="Physics"><label
-                                        for="distribute-by-subject-Physics">物理</label>
-                                </li>
-                                <li class="form-check">
-                                    <input class="form-check-input" id="distribute-by-subject-Chemical"
-                                           name="distribute-by-subject"
-                                           type="radio" value="Chemical"><label
-                                        for="distribute-by-subject-Chemical">化学</label>
-                                </li>
-                                <li class="form-check">
-                                    <input class="form-check-input" id="distribute-by-subject-Biology"
-                                           name="distribute-by-subject"
-                                           type="radio" value="Biology"><label
-                                        for="distribute-by-subject-Biology">生物</label>
-                                </li>
-                                <li class="form-check">
-                                    <input class="form-check-input" id="distribute-by-subject-History"
-                                           name="distribute-by-subject"
-                                           type="radio" value="History"><label
-                                        for="distribute-by-subject-History">历史</label>
-                                </li>
-                                <li class="form-check">
-                                    <input class="form-check-input" id="distribute-by-subject-Geography"
-                                           name="distribute-by-subject"
-                                           type="radio" value="Geography"><label
-                                        for="distribute-by-subject-Geography">地理</label>
-                                </li>
-                                <li class="form-check">
-                                    <input class="form-check-input" id="distribute-by-subject-Politics"
-                                           name="distribute-by-subject"
-                                           type="radio" value="Politics"><label
-                                        for="distribute-by-subject-Politics">政治</label>
-                                </li>
-                                <li class="form-check">
-                                    <input class="form-check-input" id="distribute-by-subject-Technology"
-                                           name="distribute-by-subject"
-                                           type="radio" value="Technology"><label
-                                        for="distribute-by-subject-Technology">技术</label>
-                                </li>
-
-                            </ul>
-                            <label style="font-size: 20px; padding: 0">按题型分类</label>
-                            <ul >
-                                <li class="form-check">
-                                    <input class="form-check-input" id="distribute-by-type-single" name="distribute-by-type"
-                                           type="radio" value="single"><label
-                                        for="distribute-by-type-single">单选</label>
-                                </li>
-                                <li class="form-check">
-                                    <input class="form-check-input" id="distribute-by-type-multiple" name="distribute-by-type"
-                                           type="radio" value="multiple"><label
-                                        for="distribute-by-type-multiple">多选</label>
-                                </li>
-                                <li class="form-check">
-                                    <input class="form-check-input" id="distribute-by-type-judge" name="distribute-by-type"
-                                           type="radio" value="judge"><label
-                                        for="distribute-by-type-judge">判断</label>
-                                </li>
-                                <li class="form-check">
-                                    <input class="form-check-input" id="distribute-by-type-cloze" name="distribute-by-type"
-                                           type="radio" value="cloze"><label
-                                        for="distribute-by-type-cloze">填空</label>
-                                </li>
-                                <li class="form-check">
-                                    <input class="form-check-input" id="distribute-by-type-short" name="distribute-by-type"
-                                           type="radio" value="short"><label
-                                        for="distribute-by-type-short">简答</label>
-                                </li>
-                                <li class="form-check">
-                                    <input class="form-check-input" id="distribute-by-type-discuss" name="distribute-by-type"
-                                           type="radio" value="discuss"><label
-                                        for="distribute-by-type-discuss">论述</label>
-                            </ul>
-                        </ul>
+                <div class="container d-flex justify-content-center">
+                    <label style="font-size: 20px" class="m-2">按学科分类</label>
+                    <div class="m-2">
+                        <el-radio-group v-model="subjectSelected">
+                            <el-radio-button
+                                    v-for="item in subjectSelectOptions"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                            </el-radio-button>
+                        </el-radio-group>
                     </div>
-                    <div class="container">
-                        <div  >
-                            <div id="paperTransfer" style="height: 70vh">
-                                <el-transfer
-                                        filterable
-                                        :filter-method="filterMethod"
-                                        filter-placeholder="请输入试题标题"
-                                        :titles="['待选', '已选']"
-
-                                        :button-texts="['取消', '选择']"
-                                        v-model="value"
-                                        :data="data"
-                                        @right-check-change="pop"
-                                >
-                                </el-transfer>
-                            </div>
-                            <script>  function submitIt() {
-                                var papername=document.getElementById("papername").value;
-                                var markIds = document.getElementsByName("mark");
-                                var markIdValue = new Array();
-                    console.log(markIds);
-                        for (i = 0; i < markIds.length; i++) {
-                                    if (markIds[i].value>0) {
-                                        markIdValue.push(markIds[i].value);
-                                    }
-                                }
-                                console.log(markIdValue);
-                                axios.post("https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/paper", {
-                                    "examark": markIdValue,
-                                    "titlenum":titlenum,
-                                    "papername":papername
-                                }).then(function (res) {
-                                    console.log(res.data);
-                                    alert("组卷成功");
-                                }).catch(function (res) {
-                                    alert("上传失败");
-                                })
-                            }
-                                var titlenum=new Array();
-                                var paperTransfer = new Vue({
-                                    el: '#paperTransfer',
-                                    data() {
-                                        const generateData = _ => {
-                                            const data = [];
-                                            return data;
-                                        };
-                                        return {
-                                            data: generateData(),
-                                            value: []
-                                        };
-                                        },
-                                methods:{
-                                    pop:(aa)=>{
-                                        if(aa.length>0)
-                                        {
-                                            titlenum=aa;
-                                            console.log(titlenum);
-                                            axios({methods:"GET",url:"https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/tiku",params:{
-                                                id:aa
-                                            }}).then(function (res){
-                                                examdiv = document.getElementById('exam');
-                                                while (examdiv.hasChildNodes()) {
-                                                    examdiv.removeChild(examdiv.firstChild);
-                                                }
-                                                t = res.data.Qarr;
-                                                i = 0;
-                                                while (t[i] != null) {
-                                                    console.log(res.data.Qarr[i]);
-                                                    if (t[i].analysisEnabled) anl = t[i].analysis;
-                                                    else anl = "无";
-                                                    if (t[i].type == "single" || t[i].type == "multiple") showData1(t[i].id, t[i].type, t[i].title, t[i].choiceA, t[i].choiceB, t[i].choiceC, t[i].choiceD, t[i].answer, anl, 1);
-                                                    else if (t[i].type == "judge") showData2(t[i].id, t[i].type, t[i].title, "Yes", "No", t[i].answer, anl, 1);
-                                                    else showData3(t[i].id, t[i].type, t[i].title, t[i].answer, anl, 1);
-                                                    i++;
-                                                }
-                                            })
-                                        }
-                                    }
-                                    }
-                                })
-                            </script>
-                        </div>
+                </div>
+                <div class="container d-flex justify-content-center">
+                    <label style="font-size: 20px" class="m-2">按题型分类</label>
+                    <div class="m-2">
+                        <el-radio-group v-model="typeSelected">
+                            <el-radio-button
+                                    v-for="item in typeSelectOptions"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                            </el-radio-button>
+                        </el-radio-group>
                     </div>
-                    <div class="container overflow-auto border border-primary rounded-2" style="width: 40%;height: 60vh;" id="exam">
-                        </div>
-
                 </div>
 
-        <div class="d-flex justify-content-center" >
-            <input type="text" class="form-control justify-content-lg-center" placeholder="输入试卷名称"  style="width: 700px;" id="papername">
-        </div>
-        <div style="height: 5vh"></div>
-        <div class="row" style="width: 60vw;margin: auto">
-            <input type="button " class="btn btn-outline-primary" onclick="submitIt()" value="组卷">
-        </div>
+            </div>
+            <div class="container d-flex justify-content-around">
 
-    </form>
+                <div class="container justify-content-center m-1" style="width: 60%">
+                    <el-transfer
+                            filterable
+                            filter-placeholder="请输入试题标题"
+                            :titles="['待选', '已选']"
+
+                            :button-texts="['取消', '选择']"
+                            v-model="transferValue"
+                            :data="transferData"
+                            @right-check-change="pop"
+                    >
+                    </el-transfer>
+                </div>
+                <div class="container m-2" style="height: 400px;width: 30%">
+
+                    <div class="d-flex justify-content-center">
+                        <el-input
+                                placeholder="请输入试卷名称"
+                                v-model="paperTitle"
+                                clearable>
+                        </el-input>
+<!--                        <input type="text" class="form-control" placeholder="输入试卷名称" id="papername">-->
+                    </div>
+                    <div class="container overflow-auto m-2" style="height: 60%" id="exam">
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="container d-flex justify-content-center" style="width: 60%;">
+                <el-button type="primary" icon="el-icon-edit" @click="submitIt" style="width: 30%">组卷</el-button>
+<!--                <input type="button" class="btn btn-outline-primary" style="width: 30%" onclick="submitIt()" value="组卷">-->
+            </div>
+
+        </form>
+    </div>
 </div>
+
 <script>
 
 
@@ -347,6 +177,8 @@
 
 
 </script>
+
+<script src="/js/makePaper.js"></script>
 </body>
 
 </html>
