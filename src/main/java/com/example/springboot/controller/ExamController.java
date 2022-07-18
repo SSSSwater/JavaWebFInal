@@ -1,11 +1,13 @@
 package com.example.springboot.controller;
 
 import com.example.basicLayout.Exam;
+import com.example.basicLayout.User;
 import com.example.springboot.service.ExamService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -47,9 +49,27 @@ public class ExamController {
     }
 
     @RequestMapping(value = "/teacher/exam_public_sub.html")
-    public String toPublicSub(HttpServletRequest request) {
+    public String toPublicSub() {
 
         return "/teacher/exam_public_sub";
     }
+
+
+
+    @ResponseBody
+    @RequestMapping("/student/my_exam.html")
+    public Object doMyExam(HttpServletRequest request){
+        User user= (User)request.getSession().getAttribute("loginUser");
+        log.info(user.toString());
+
+        return examService.getStuExam(user.getAccount());
+    }
+
+    @RequestMapping("/student/my_exam")
+    public String toMyExam(){
+        return "/student/my_exam.html";
+    }
+
+
 
 }

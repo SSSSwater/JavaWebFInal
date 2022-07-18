@@ -70,4 +70,16 @@ public class Student extends User{
     public void setPassword(String password) {
         this.password = password;
     }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", classnum='" + classnum + '\'' +
+                ", school='" + school + '\'' +
+                ", account='" + account + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
 }

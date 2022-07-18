@@ -2,6 +2,8 @@ package com.example.jdbc;
 
 import com.example.basicLayout.Paper;
 import com.example.basicLayout.Question;
+import com.example.basicLayout.Student;
+import com.example.springboot.Application;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -11,16 +13,19 @@ public class JdbcTemplate {
     public static void main(String[] args) {
 //        Paper paper1 = new Paper(1,"单元一测试卷","Math","3-5-2-6-10","20-20-20-20-20");
 //        Paper paper2 = new Paper(2,"单元二测试卷","Math","3-5-2-6-10","20-20-20-20-20");
+//        ApplicationContext ac = new ClassPathXmlApplicationContext("Bean.xml");
+//        IExamDao iexamDao = ac.getBean("examDao",IExamDao.class);
+//        boolean yn = iexamDao.finish(1);
         ApplicationContext ac = new ClassPathXmlApplicationContext("Bean.xml");
-        IExamDao iexamDao = ac.getBean("examDao",IExamDao.class);
-        boolean yn = iexamDao.finish(1);
+        IloginDao ilogindao = ac.getBean("loginDao",IloginDao.class);
+        Student student = ilogindao.findStudentByAp("00001","12345");
 //        List<Paper> papers = ipaperDao.getPaperbysubject("Math");
 //        Paper paper = ipaperDao.getpaperbyname("单元一测试卷");
 //        ipaperDao.updatePaper(paper1);
 //        ipaperDao.updatePaper(paper2);
 //        List<Paper> papers = ipaperDao.getAllpaper();
 //        for(Paper p: papers){
-            System.out.println(yn);
+            System.out.println(student);
 //        }
 
 

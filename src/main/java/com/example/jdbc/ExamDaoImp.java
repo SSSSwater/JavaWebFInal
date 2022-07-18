@@ -3,6 +3,8 @@ package com.example.jdbc;
 import com.example.basicLayout.Exam;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
+import java.util.List;
+
 public class ExamDaoImp extends JdbcDaoSupport implements IExamDao {
 
     @Override
@@ -17,4 +19,11 @@ public class ExamDaoImp extends JdbcDaoSupport implements IExamDao {
         Boolean fin = getJdbcTemplate().queryForObject(sql,boolean.class);
         return fin;
     }
+
+    @Override
+    public List<Exam> findExamByAcc() {
+        return null;
+    }
+
+
 }
