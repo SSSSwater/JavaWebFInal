@@ -18,10 +18,6 @@ public class ExamService {
     public void postExam(Exam exam){
         examDao.updateExam(exam);
     }
-    public List<Exam> getStuExam(String account){
-        return examDao.findExamByAcc();
 
-
-    }
 
 }

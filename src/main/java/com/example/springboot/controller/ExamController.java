@@ -56,14 +56,14 @@ public class ExamController {
 
 
 
-    @ResponseBody
-    @RequestMapping("/student/my_exam.html")
-    public Object doMyExam(HttpServletRequest request){
-        User user= (User)request.getSession().getAttribute("loginUser");
-        log.info(user.toString());
+//    @ResponseBody
+//    @RequestMapping("/student/my_exam.html")
+//    public Object doMyExam(HttpServletRequest request){
+//        User user= (User)request.getSession().getAttribute("loginUser");
+//        log.info(user.toString());
 
-        return examService.getStuExam(user.getAccount());
-    }
+//        return examService.getStuExam(user.getAccount());
+//    }
 
     @RequestMapping("/student/my_exam")
     public String toMyExam(){

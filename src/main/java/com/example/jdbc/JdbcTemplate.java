@@ -1,5 +1,6 @@
 package com.example.jdbc;
 
+import com.example.basicLayout.Exam;
 import com.example.basicLayout.Paper;
 import com.example.basicLayout.Question;
 import com.example.basicLayout.Student;
@@ -17,16 +18,16 @@ public class JdbcTemplate {
 //        IExamDao iexamDao = ac.getBean("examDao",IExamDao.class);
 //        boolean yn = iexamDao.finish(1);
         ApplicationContext ac = new ClassPathXmlApplicationContext("Bean.xml");
-        IloginDao ilogindao = ac.getBean("loginDao",IloginDao.class);
-        Student student = ilogindao.findStudentByAp("00001","12345");
+        IExamDao iexamDao = ac.getBean("examDao",IExamDao.class);
+        List<Exam> exams = iexamDao.findExamByStnum(1);
 //        List<Paper> papers = ipaperDao.getPaperbysubject("Math");
 //        Paper paper = ipaperDao.getpaperbyname("单元一测试卷");
 //        ipaperDao.updatePaper(paper1);
 //        ipaperDao.updatePaper(paper2);
 //        List<Paper> papers = ipaperDao.getAllpaper();
-//        for(Paper p: papers){
-            System.out.println(student);
-//        }
+        for(Exam e: exams){
+            System.out.println(e);
+        }
 
 
 

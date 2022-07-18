@@ -9,5 +9,7 @@ public interface IExamDao {
 
     public boolean finish(int examid);
 
-    List<Exam> findExamByAcc();
+    List<Exam> findExamByStnum(int stnum);
+
+    public Exam findExambyExamID(int examid);
 }
