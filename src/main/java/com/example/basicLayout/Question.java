@@ -12,6 +12,7 @@ public class Question {
     private String answer;
     private String analysisEnabled;
     private String analysis;
+    private double mark;
 
     public Question(int id, String subject, String type) {
         this.id = id;
@@ -124,6 +125,14 @@ public class Question {
 
     public void setAnalysis(String analysis) {
         this.analysis = analysis;
+    }
+
+    public double getMark() {
+        return mark;
+    }
+
+    public void setMark(double mark) {
+        this.mark = mark;
     }
 
     @Override

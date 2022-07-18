@@ -33,6 +33,9 @@ public class QuestionService {
 
         return questions;
     }
+    public Question getQuestionById(int id){
+        return questionDao.findQuestionbyID(id);
+    }
 
     //用于单题导入数据库
     public void postQuestion(Question question){

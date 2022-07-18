@@ -14,8 +14,8 @@ public class LoginInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         Object loginUser = request.getSession().getAttribute("loginUser");
         if (loginUser == null) {
-            //未登录，返回登陆页
-            request.getRequestDispatcher("/login").forward(request, response);
+            //未登录，返回登录页
+            request.getRequestDispatcher("/login.html").forward(request, response);
             return false;
         } else {
             //放行

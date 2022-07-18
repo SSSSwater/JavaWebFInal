@@ -24,7 +24,7 @@ public class LoginDaoImp extends JdbcDaoSupport implements IloginDao {
 
     @Override
     public Manager findManagerByAp(String account, String password) {
-        List<Manager> managers = getJdbcTemplate().query("select * from student where manager = ? and password = ?",new BeanPropertyRowMapper<Manager>(Manager.class),account,password);
+        List<Manager> managers = getJdbcTemplate().query("select * from manager where account = ? and password = ?",new BeanPropertyRowMapper<Manager>(Manager.class),account,password);
         return managers.isEmpty()?null:managers.get(0);
     }
 

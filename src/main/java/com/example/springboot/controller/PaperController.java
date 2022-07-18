@@ -1,19 +1,18 @@
 package com.example.springboot.controller;
 
 import com.example.basicLayout.Paper;
+import com.example.basicLayout.Question;
 import com.example.springboot.service.PaperService;
 import com.example.springboot.service.QuestionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Objects;
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -30,13 +29,12 @@ public class PaperController {
         int id=Integer.parseInt(request.getParameter("id"));
         String subject=request.getParameter("subject");
         String type=request.getParameter("type");
-        log.info(id+subject+type);
         log.info(questionService.getQuestion(id,subject,type).toString());
         return questionService.getQuestion(id,subject,type);
     }
 
     @ResponseBody
-    @PatchMapping("/teacher/post_paper")
+    @PostMapping("/teacher/post_paper")
     public Object postPaper(HttpServletRequest request){
         Paper paper=new Paper();
         paper.setSubject(request.getParameter("subject"));
@@ -59,13 +57,27 @@ public class PaperController {
     @ResponseBody
     @RequestMapping("/teacher/paper_preview")
     public Object doPreview(HttpServletRequest request){
+        Paper paper=paperService.previewPaper(Integer.parseInt(request.getParameter("paperid")));
+        String[] titleNum=paper.getTitlenum().split("/");
+        String[] examMark=paper.getExammark().split("/");
 
-        return paperService.previewPaper(request.getIntHeader("paperid"));
+        List<Question> questions=new ArrayList<>();
+
+        for(int i=0;i<titleNum.length;i++){
+            Question question=questionService.getQuestionById(Integer.parseInt(titleNum[i].substring(2)));
+
+            question.setMark(Double.parseDouble(examMark[i].substring(2,examMark[i].length()-1)));
+            questions.add(question);
+        }
+
+
+        paper.setQuestions(questions);
+        return paper;
+
     }
 
-    @RequestMapping("/teacher/paper_preview.html")
-    public String paperPreview(){
-
+    @GetMapping("/teacher/paper_preview.html")
+    public String paperPreview(HttpServletRequest request){
         return "/teacher/paper_preview";
     }
 

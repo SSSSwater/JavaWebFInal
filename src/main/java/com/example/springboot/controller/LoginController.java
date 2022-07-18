@@ -17,7 +17,7 @@ public class LoginController {
 
     @Autowired
     UserService userService;
-    @ResponseBody
+//    @ResponseBody
     @RequestMapping(value = "/login")
     public Object doLogin(HttpSession session, HttpServletRequest request){
         String account = request.getParameter("account");
@@ -29,13 +29,12 @@ public class LoginController {
             session.setAttribute("loginUser", user);
             log.info("登录成功");
             //防止重复提交使用重定向
-//            return "redirect:/index";
+            return "redirect:/index";
 
         }else{
             log.error("登录失败");
-//            return "index";
+            return "login.html";
         }
-        return user;
     }
 
     @RequestMapping("/index.html")

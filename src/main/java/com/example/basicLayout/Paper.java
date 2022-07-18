@@ -1,12 +1,17 @@
 package com.example.basicLayout;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Paper {
     private int paperid;
     private String papername;
     private String subject;
     private String titlenum;
     private String exammark;
+    private List<Question> questions=new ArrayList<>();
+
 
     public Paper(){}
 
@@ -67,5 +72,13 @@ public class Paper {
                 ", titlenum='" + titlenum + '\'' +
                 ", exammark='" + exammark + '\'' +
                 '}';
+    }
+
+    public List<Question> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(List<Question> questions) {
+        this.questions = questions;
     }
 }
