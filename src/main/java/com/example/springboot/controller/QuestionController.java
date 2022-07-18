@@ -81,7 +81,7 @@ public class QuestionController {
     private static final int MAX_REQUEST_SIZE = 1024 * 1024 * 50; // 50MB
 
     @RequestMapping("/teacher/question_import_multi.html")
-    public String importMulti() {
+    public String toImportMulti() {
         return "/teacher/question_import_multi";
     }
 
