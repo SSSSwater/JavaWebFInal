@@ -7,6 +7,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ExamService {
     @Autowired
@@ -15,6 +17,11 @@ public class ExamService {
 
     public void postExam(Exam exam){
         examDao.updateExam(exam);
+    }
+    public List<Exam> getStuExam(String account){
+        return examDao.findExamByAcc();
+
+
     }
 
 }

@@ -90,5 +90,17 @@ public class Teacher extends User{
         this.password = password;
     }
 
-
+    @Override
+    public String toString() {
+        return "Teacher{" +
+                "worknum=" + worknum +
+                ", name='" + name + '\'' +
+                ", school='" + school + '\'' +
+                ", grade='" + grade + '\'' +
+                ", subject='" + subject + '\'' +
+                ", classnum='" + classnum + '\'' +
+                ", account='" + account + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
 }

@@ -9,7 +9,6 @@ public class User {
     private int role=0;
 
     public User() {
-        role=0;
     }
 
     public User(int role) {
