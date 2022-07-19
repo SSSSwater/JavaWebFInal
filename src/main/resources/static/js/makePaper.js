@@ -74,7 +74,7 @@ var app = new Vue({
                 console.log(titlenum);
                 axios({
                     methods: "GET",
-                    url: "https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/tiku",
+                    url: "http://127.0.0.1:8080/teacher/make_paper",
                     params: {
                         id: aa
                     }
@@ -98,9 +98,10 @@ var app = new Vue({
             }
         },
         bind() {
+            console.log(app.subjectSelected.value);
             axios({
                 method: 'GET',
-                url: "https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/tiku",
+                url: "http://127.0.0.1:8080/teacher/make_paper",
                 params: {
                     subject: app.subjectSelected,
                     type: app.typeSelected,
