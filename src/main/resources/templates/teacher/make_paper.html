@@ -82,32 +82,31 @@
     <div>
         <form>
 
-            <div class="container overflow-auto mb-2 justify-content-lg-center">
+            <div class="container overflow-auto mb-2 d-flex justify-content-around">
 
                 <div class="container d-flex justify-content-center">
                     <label style="font-size: 20px" class="m-2">按学科分类</label>
                     <div class="m-2">
-                        <el-radio-group v-model="subjectSelected">
-                            <el-radio-button
+                        <el-select v-model="subjectSelected" placeholder="请选择学科">
+                            <el-option
                                     v-for="item in subjectSelectOptions"
-                                    :key="item.value"
                                     :label="item.label"
                                     :value="item.value">
-                            </el-radio-button>
-                        </el-radio-group>
+                            </el-option>
+                        </el-select>
                     </div>
                 </div>
                 <div class="container d-flex justify-content-center">
                     <label style="font-size: 20px" class="m-2">按题型分类</label>
                     <div class="m-2">
-                        <el-radio-group v-model="typeSelected">
-                            <el-radio-button
+                        <el-select v-model="typeSelected" placeholder="请选择题型">
+                            <el-option
                                     v-for="item in typeSelectOptions"
                                     :key="item.value"
                                     :label="item.label"
                                     :value="item.value">
-                            </el-radio-button>
-                        </el-radio-group>
+                            </el-option>
+                        </el-select>
                     </div>
                 </div>
 

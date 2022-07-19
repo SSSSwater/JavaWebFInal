@@ -98,7 +98,7 @@ var app = new Vue({
             }
         },
         bind() {
-            console.log(app.subjectSelected.value);
+            console.log(app.subjectSelected);
             axios({
                 method: 'GET',
                 url: "http://127.0.0.1:8080/teacher/make_paper",
@@ -112,17 +112,20 @@ var app = new Vue({
                     console.log();
                     t = res.data.Qarr;
                     i = 0;
+                    tData=[];
                     while (t[i] != null) {
                         console.log(res.data.Qarr[i]);
                         if (t[i].analysisEnabled) anl = t[i].analysis;
                         else anl = "无";
 
-                        app.transferData.push({
+                        tData.push({
                             label: '[' + t[i].id + ']' + t[i].title,
                             key: t[i].id
                         })
                         i++;
+                        console.log(tData);
                     }
+                    app.transferData=tData;
 
                 })
         },
