@@ -1,7 +1,8 @@
 package com.example.springboot.controller;
 
 import com.example.basicLayout.Exam;
-import com.example.basicLayout.User;
+import com.example.basicLayout.Student;
+import com.example.basicLayout.Teacher;
 import com.example.springboot.service.ExamService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 @Slf4j
 @Controller
 public class ExamController {
@@ -20,13 +20,23 @@ public class ExamController {
     ExamService examService;
 
     @RequestMapping("/teacher/exam_public")
-    public String doPublic(HttpServletRequest request) {
-
+    public String toPublic() {
         return "/teacher/exam_public.html";
     }
 
+    @ResponseBody
     @RequestMapping("/teacher/exam_public.html")
-    public String toPublic() {
+    public String doPublic(HttpServletRequest request) {
+        Teacher teacher= (Teacher) request.getSession().getAttribute("loginUser");
+
+
+
+
+
+
+
+
+
         return "/teacher/exam_public";
     }
 
@@ -56,14 +66,14 @@ public class ExamController {
 
 
 
-//    @ResponseBody
-//    @RequestMapping("/student/my_exam.html")
-//    public Object doMyExam(HttpServletRequest request){
-//        User user= (User)request.getSession().getAttribute("loginUser");
-//        log.info(user.toString());
+    @ResponseBody
+    @RequestMapping("/student/my_exam.html")
+    public Object doMyExam(HttpServletRequest request){
+        Student student= (Student) request.getSession().getAttribute("loginUser");
+        log.info(student.toString());
 
-//        return examService.getStuExam(user.getAccount());
-//    }
+        return examService.getStuExam(student.getId());
+    }
 
     @RequestMapping("/student/my_exam")
     public String toMyExam(){

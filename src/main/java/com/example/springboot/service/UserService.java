@@ -22,7 +22,7 @@ public class UserService {
         User user;
         if (loginDao.findStudentByAp(account, password) != null) {
             user=loginDao.findStudentByAp(account, password);
-        } else if (loginDao.findStudentByAp(account, password) != null) {
+        } else if (loginDao.findTeacherByAp(account, password) != null) {
             user=loginDao.findTeacherByAp(account, password);
         } else  {
             user=loginDao.findManagerByAp(account, password);

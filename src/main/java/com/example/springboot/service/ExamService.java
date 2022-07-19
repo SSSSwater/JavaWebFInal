@@ -18,6 +18,9 @@ public class ExamService {
     public void postExam(Exam exam){
         examDao.updateExam(exam);
     }
+    public List<Exam> getStuExam(int id){
+        return examDao.findExamByStnum(id);
+    }
 
 
 }
