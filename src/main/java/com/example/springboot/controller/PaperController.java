@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -23,13 +24,22 @@ public class PaperController {
     PaperService paperService;
 
     @ResponseBody
-    @GetMapping(value = "/teacher/make_paper")
-    public Object makePaper(HttpServletRequest request){
+    @GetMapping( "/teacher/make_paper")
+    public Object makePaper(HttpServletRequest request, HttpServletResponse response){
+
+        // 跨域支持
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Methods", "POST,GET,PUT,DELETE");
+        response.setHeader("Access-Control-Max-Age", "3600");
+        response.setHeader("Access-Control-Allow-Headers", "*");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
+
         log.info("获取题目");
-        int id=Integer.parseInt(request.getParameter("id"));
+        String id=request.getParameter("id");
         String subject=request.getParameter("subject");
         String type=request.getParameter("type");
-        log.info(questionService.getQuestion(id,subject,type).toString());
+//        log.info(questionService.getQuestion(id,subject,type).toString());
+
         return questionService.getQuestion(id,subject,type);
     }
 
@@ -47,6 +57,11 @@ public class PaperController {
 
 
         return paper;
+    }
+    @RequestMapping("/teacher/post_paper.html")
+    public String toPostPaper(){
+
+        return "/teacher/post_paper";
     }
 
     @RequestMapping("/teacher/make_paper.html")

@@ -17,12 +17,12 @@ public class QuestionService {
     IQuestionDao questionDao =ac.getBean("questionDao", IQuestionDao.class);
 
     //用于组卷时筛选符合条件的题目
-    public List<Question> getQuestion(int id, String subject, String type){
+    public List<Question> getQuestion(String id, String subject, String type){
         List<Question> questions=new ArrayList<>();
-        if(id!=0){
-            questions.add(questionDao.findQuestionbyID(id));
+        if(id!=""){
+            questions.add(questionDao.findQuestionbyID(Integer.valueOf(id)));
         }else{
-            if(subject!=null&&type==null){
+            if(subject!=""&&type==""){
                 questions=questionDao.findQuestionbySubject(subject);
             }else if(subject==null&&type!=null){
                 questions=questionDao.findQuestionbytype(type);

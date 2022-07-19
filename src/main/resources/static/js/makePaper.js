@@ -86,7 +86,7 @@ var app = new Vue({
                     t = res.data.Qarr;
                     i = 0;
                     while (t[i] != null) {
-                        console.log(res.data.Qarr[i]);
+                        console.log(res.data[i]);
                         if (t[i].analysisEnabled) anl = t[i].analysis;
                         else anl = "无";
                         if (t[i].type == "single" || t[i].type == "multiple") showData1(t[i].id, t[i].type, t[i].title, t[i].choiceA, t[i].choiceB, t[i].choiceC, t[i].choiceD, t[i].answer, anl, 1);
@@ -109,12 +109,12 @@ var app = new Vue({
                 }
             })
                 .then(function (res) {
-                    console.log();
-                    t = res.data.Qarr;
+                    console.log(res);
+                    t = res.data;
                     i = 0;
                     tData=[];
                     while (t[i] != null) {
-                        console.log(res.data.Qarr[i]);
+                        console.log(res.data[i]);
                         if (t[i].analysisEnabled) anl = t[i].analysis;
                         else anl = "无";
 
@@ -141,16 +141,20 @@ var app = new Vue({
                 }
             }
             console.log(markIdValue);
-            axios.post("https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/paper", {
+            axios({
+                method:'post',
+                 url:"http://127.0.0.1:8080/teacher/post_paper",
+                params:{
                 "examark": markIdValue,
                 "titlenum": titlenum,
                 "papername": papername
-            }).then(function (res) {
+            }}).then(function (res) {
                 console.log(res.data);
                 alert("组卷成功");
             }).catch(function (res) {
-                alert("上传失败");
+                alert("hhh");
             })
+            location.href="post_paper"
         }
 
     }
