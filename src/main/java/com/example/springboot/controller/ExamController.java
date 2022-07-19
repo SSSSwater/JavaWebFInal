@@ -4,6 +4,7 @@ import com.example.basicLayout.Exam;
 import com.example.basicLayout.Student;
 import com.example.basicLayout.Teacher;
 import com.example.springboot.service.ExamService;
+import com.example.springboot.service.PaperService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +20,9 @@ public class ExamController {
     @Autowired
     ExamService examService;
 
+    @Autowired
+    PaperService paperService;
+
     @RequestMapping("/teacher/exam_public")
     public String toPublic() {
         return "/teacher/exam_public.html";
@@ -26,18 +30,8 @@ public class ExamController {
 
     @ResponseBody
     @RequestMapping("/teacher/exam_public.html")
-    public String doPublic(HttpServletRequest request) {
-        Teacher teacher= (Teacher) request.getSession().getAttribute("loginUser");
-
-
-
-
-
-
-
-
-
-        return "/teacher/exam_public";
+    public Object doPublic() {
+        return paperService.getPaper();
     }
 
 
@@ -79,6 +73,8 @@ public class ExamController {
     public String toMyExam(){
         return "/student/my_exam.html";
     }
+
+
 
 
 

@@ -1,6 +1,7 @@
 package com.example.springboot.service;
 
 import com.example.basicLayout.Exam;
+import com.example.basicLayout.Teacher;
 import com.example.jdbc.IExamDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -20,6 +21,12 @@ public class ExamService {
     }
     public List<Exam> getStuExam(int id){
         return examDao.findExamByStnum(id);
+    }
+
+    public List<Exam> getTeaExam(Teacher teacher){
+        String[] classNum=teacher.getClassnum().split("/");
+        return examDao.findExamByTeaclass(classNum);
+
     }
 
 

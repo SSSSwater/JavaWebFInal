@@ -7,6 +7,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PaperService {
     @Autowired
@@ -18,6 +20,9 @@ public class PaperService {
     }
     public Paper previewPaper(int paperId){
         return paperDao.getpaperbyid(paperId);
+    }
+    public List<Paper> getPaper(){
+        return paperDao.getAllpaper();
     }
 
 
