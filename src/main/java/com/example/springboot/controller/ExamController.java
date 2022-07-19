@@ -28,10 +28,11 @@ public class ExamController {
         return "/teacher/exam_public.html";
     }
 
-    @ResponseBody
+//    @ResponseBody
     @RequestMapping("/teacher/exam_public.html")
-    public Object doPublic() {
-        return paperService.getPaper();
+    public String doPublic() {
+        return "/teacher/exam_public";
+//        return paperService.getPaper();
     }
 
 

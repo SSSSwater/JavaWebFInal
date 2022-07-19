@@ -21,11 +21,12 @@ public class ResultController {
     }
 
 
-    @ResponseBody
+//    @ResponseBody
     @RequestMapping("/teacher/result_management.html")
-    public Object doResult(HttpServletRequest request){
+    public String doResult(HttpServletRequest request){
         Teacher teacher=(Teacher) request.getSession().getAttribute("loginUser");
-        return resultService.getTeaExam(teacher);
+//        return resultService.getTeaExam(teacher);
+        return "/teacher/result_management";
     }
 
 
