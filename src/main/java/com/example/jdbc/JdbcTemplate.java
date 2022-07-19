@@ -19,7 +19,10 @@ public class JdbcTemplate {
 //        boolean yn = iexamDao.finish(1);
         ApplicationContext ac = new ClassPathXmlApplicationContext("Bean.xml");
         IExamDao iexamDao = ac.getBean("examDao",IExamDao.class);
-        List<Exam> exams = iexamDao.findExamByStnum(1);
+        String[] cla = new String[2];
+        cla[0]="G1-1";
+        cla[1]="G1-2";
+        List<Exam> exams = iexamDao.findExamByTeaclass(cla);
 //        List<Paper> papers = ipaperDao.getPaperbysubject("Math");
 //        Paper paper = ipaperDao.getpaperbyname("单元一测试卷");
 //        ipaperDao.updatePaper(paper1);

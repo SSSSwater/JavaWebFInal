@@ -90,4 +90,24 @@ public class Exam {
                 ", finish=" + finish +
                 '}';
     }
+
+    public boolean equals(Object o) {
+
+        //判断是不是同一对象，是则返回true。
+        if (this == o) return true;
+
+        //判断传进来的对象是否为null值，为null则返回false。
+        if (o == null) return false;
+
+        //判断两者类型是否相等，如果不等，返回false。
+        if (getClass() != o.getClass()) return false;
+
+        //到这一步，o 类型一致，也不为空，进行类型转换，然后才能比较。
+        Exam p = (Exam) o;
+
+        //此处才开始真正进行比较，return后可以&&加条件，就该类的哪些属性相等，才返回true。
+        return name.equals(p.name) && examClass.equals(p.examClass);
+    }
+
+
 }

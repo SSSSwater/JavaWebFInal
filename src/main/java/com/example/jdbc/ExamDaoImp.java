@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class ExamDaoImp extends JdbcDaoSupport implements IExamDao {
 
@@ -39,6 +40,31 @@ public class ExamDaoImp extends JdbcDaoSupport implements IExamDao {
     public Exam findExambyExamID(int examid) {
         List<Exam> exam = getJdbcTemplate().query("select * from exam where examid = ?",new BeanPropertyRowMapper<Exam>(Exam.class),examid);
         return exam.isEmpty()?null:exam.get(0);
+    }
+
+    @Override
+    public List<Exam> findExamByTeaclass(String[] teaclass) {
+        List<Exam> exams = new ArrayList<>();
+        for(int i=0;i<teaclass.length;i++){
+            List<Exam> e = findExamByExamclass(teaclass[i]);
+            for(int j=0;j<e.size();j++){
+                exams.add(e.get(j));
+            }
+        }
+        List<Exam> newList = new ArrayList<>();
+        for (int i = 0; i < exams.size(); i++) {
+            if (!newList.contains(exams.get(i))) {
+                newList.add(exams.get(i));
+            }
+        }
+        return newList;
+    }
+
+    @Override
+    public List<Exam> findExamByExamclass(String examclass) {
+        String str = "%"+examclass+"%";
+        List<Exam> exam = getJdbcTemplate().query("select * from exam where examclass like ?",new BeanPropertyRowMapper<Exam>(Exam.class),str);
+        return exam;
     }
 
 

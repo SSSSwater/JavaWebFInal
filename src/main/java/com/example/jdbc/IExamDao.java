@@ -3,6 +3,7 @@ package com.example.jdbc;
 import com.example.basicLayout.Exam;
 
 import java.util.List;
+import java.util.Set;
 
 public interface IExamDao {
     public void updateExam(Exam exam);
@@ -12,4 +13,8 @@ public interface IExamDao {
     List<Exam> findExamByStnum(int stnum);
 
     public Exam findExambyExamID(int examid);
+
+    public List<Exam> findExamByTeaclass(String[] teaclass);
+
+    public List<Exam> findExamByExamclass(String examclass);
 }
