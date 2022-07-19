@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Slf4j
 @Controller
@@ -23,21 +24,30 @@ public class ExamController {
     @Autowired
     PaperService paperService;
 
-    @RequestMapping("/teacher/exam_public")
+    @RequestMapping("/teacher/exam_public.html")
     public String toPublic() {
-        return "/teacher/exam_public.html";
+        return "/teacher/exam_public";
     }
 
-//    @ResponseBody
-    @RequestMapping("/teacher/exam_public.html")
-    public String doPublic() {
-        return "/teacher/exam_public";
-//        return paperService.getPaper();
+    @ResponseBody
+    @RequestMapping("/teacher/exam_public")
+    public Object doPublic(HttpServletResponse response) {
+
+        // 跨域支持
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Methods", "POST,GET,PUT,DELETE");
+        response.setHeader("Access-Control-Max-Age", "3600");
+        response.setHeader("Access-Control-Allow-Headers", "*");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
+//        return "/teacher/exam_public";
+        return paperService.getPaper();
     }
 
 
     @RequestMapping(value = "/teacher/exam_public_sub")
     public Object doPublicSub(HttpServletRequest request) {
+
+
 
         Exam exam = new Exam();
         exam.setName(request.getParameter("name"));

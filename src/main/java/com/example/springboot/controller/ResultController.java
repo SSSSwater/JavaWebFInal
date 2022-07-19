@@ -5,6 +5,7 @@ import com.example.springboot.service.ResultService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,18 +15,18 @@ public class ResultController {
     @Autowired
     ResultService resultService;
 
-    @RequestMapping("/teacher/result_management")
+    @RequestMapping("/teacher/result_management.html")
     public String toResult(){
-        return "/teacher/result_management.html";
+        return "/teacher/result_management";
     }
 
 
-//    @ResponseBody
-    @RequestMapping("/teacher/result_management.html")
-    public String doResult(HttpServletRequest request){
+    @ResponseBody
+    @RequestMapping("/teacher/result_management")
+    public Object doResult(HttpServletRequest request){
         Teacher teacher=(Teacher) request.getSession().getAttribute("loginUser");
-//        return resultService.getTeaExam(teacher);
-        return "/teacher/result_management";
+        return resultService.getTeaExam(teacher);
+//        return "/teacher/result_management.html";
     }
 
 
