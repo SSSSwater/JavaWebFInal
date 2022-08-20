@@ -72,7 +72,7 @@ public class ExamController {
 
 
     @ResponseBody
-    @RequestMapping("/student/my_exam.html")
+    @RequestMapping("/student/my_exam")
     public Object doMyExam(HttpServletRequest request,HttpServletResponse response){
         // 跨域支持
         response.setHeader("Access-Control-Allow-Origin", "*");
@@ -86,9 +86,9 @@ public class ExamController {
         return examService.getStuExam(student.getId());
     }
 
-    @RequestMapping("/student/my_exam")
+    @RequestMapping("/student/my_exam.html")
     public String toMyExam(){
-        return "/student/my_exam.html";
+        return "/student/my_exam";
     }
 
 
