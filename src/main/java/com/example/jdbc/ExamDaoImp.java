@@ -67,5 +67,9 @@ public class ExamDaoImp extends JdbcDaoSupport implements IExamDao {
         return exam;
     }
 
-
+    @Override
+    public List<Exam> findAllExam() {
+        List<Exam> exam = getJdbcTemplate().query("select * from exam ",new BeanPropertyRowMapper<Exam>(Exam.class));
+        return exam;
+    }
 }

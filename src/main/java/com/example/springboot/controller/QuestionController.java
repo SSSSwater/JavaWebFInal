@@ -86,7 +86,7 @@ public class QuestionController {
     }
 
     @RequestMapping("/teacher/question_import_multi")
-    public String doImportMulti(HttpServletRequest request) {
+    public String doImportMulti() {
 
 
 

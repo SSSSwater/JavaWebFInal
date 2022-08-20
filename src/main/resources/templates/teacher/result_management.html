@@ -60,17 +60,17 @@
     <script>
         function request(){
             axios({
-                url:'https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/exam',
+                url:'http://127.0.0.1:8080/teacher/result_management',
                 method:'GET',
                 params:{
                     finish:true
                 }
             }).then(function (res){
-                t=res.data.exam;
+                t=res.data;
                 i=0;
                 while(t[i]!=null){
                     console.log(t[i]);
-                    showExam(t[i].id,t[i].title);
+                    showExam(t[i].examId,t[i].name);
                     i++;
                 }
             })

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Controller
 public class ResultController {
@@ -23,10 +24,18 @@ public class ResultController {
 
     @ResponseBody
     @RequestMapping("/teacher/result_management")
-    public Object doResult(HttpServletRequest request){
-        Teacher teacher=(Teacher) request.getSession().getAttribute("loginUser");
-        return resultService.getTeaExam(teacher);
+    public Object doResult(HttpServletRequest request, HttpServletResponse response){
+
+        // 跨域支持
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Methods", "POST,GET,PUT,DELETE");
+        response.setHeader("Access-Control-Max-Age", "3600");
+        response.setHeader("Access-Control-Allow-Headers", "*");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
+//        Teacher teacher=(Teacher) request.getSession().getAttribute("loginUser");
+//        return resultService.getTeaExam(teacher);
 //        return "/teacher/result_management.html";
+        return resultService.getAllExam();
     }
 
 
