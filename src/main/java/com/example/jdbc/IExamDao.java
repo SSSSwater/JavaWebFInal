@@ -17,4 +17,6 @@ public interface IExamDao {
     public List<Exam> findExamByTeaclass(String[] teaclass);
 
     public List<Exam> findExamByExamclass(String examclass);
+
+    public List<Exam> findAllExam();
 }

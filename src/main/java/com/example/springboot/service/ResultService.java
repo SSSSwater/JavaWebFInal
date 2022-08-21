@@ -18,7 +18,9 @@ public class ResultService {
     public List<Exam> getTeaExam(Teacher teacher){
         String[] classNum=teacher.getClassnum().split("/");
         return examDao.findExamByTeaclass(classNum);
-
+    }
+    public List<Exam> getAllExam(){
+        return examDao.findAllExam();
     }
 
 

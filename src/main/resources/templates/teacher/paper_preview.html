@@ -19,22 +19,20 @@
     function getPaper() {
         var a = sessionStorage.getItem("id");
         sessionStorage.removeItem("id");
-        axios.get("https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/exam?id=" + a).then(function (res) {
-            axios({
-                method: "GET",
-                url: "https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/tiku",
-                params: {
-                    id: res.data.exam[0].questionId
-                }
-            }).then(function (res) {
+        axios({
+            method: "get",
+            url: "http://127.0.0.1:8080/teacher/paper_preview",
+            params: {
+                id: a
+            }
+        }).then(function (res) {
                 examdiv = document.getElementById('exam');
                 while (examdiv.hasChildNodes()) {
                     examdiv.removeChild(examdiv.firstChild);
                 }
-                t = res.data.Qarr;
+                t = res.data.questions;
                 i = 0;
                 while (t[i] != null) {
-                    console.log(res.data.Qarr[i]);
                     if (t[i].analysisEnabled) anl = t[i].analysis;
                     else anl = "无";
                     if (t[i].type == "single" || t[i].type == "multiple") showData1(t[i].id, t[i].type, t[i].title, t[i].choiceA, t[i].choiceB, t[i].choiceC, t[i].choiceD, t[i].answer, anl, 0);
@@ -43,7 +41,6 @@
                     i++;
                 }
             })
-        })
     }
 </script>
 </body>

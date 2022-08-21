@@ -83,7 +83,7 @@ var app = new Vue({
                     while (examdiv.hasChildNodes()) {
                         examdiv.removeChild(examdiv.firstChild);
                     }
-                    t = res.data.Qarr;
+                    t = res.data;
                     i = 0;
                     while (t[i] != null) {
                         console.log(res.data[i]);

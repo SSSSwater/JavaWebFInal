@@ -27,6 +27,7 @@ public class LoginController {
 
         if(user.getRole()!=0) {
             session.setAttribute("loginUser", user);
+            log.info(request.getSession().getAttribute("loginUser").toString());
             log.info("登录成功");
             if(user.getRole()==1){
                 return "redirect:/student/my_exam.html";
