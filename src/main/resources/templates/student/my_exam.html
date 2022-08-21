@@ -2,34 +2,25 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta content="IE=edge" http-equiv="X-UA-Compatible">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>考试结果</title>
-    <!--    新 Bootstrap5 核心 CSS 文件 -->
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>发布考试</title>
+    <!-- 新 Bootstrap5 核心 CSS 文件 -->
     <link href="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/css/bootstrap.min.css" rel="stylesheet">
     <!--        <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">-->
-
     <link href="/css/button-primary.css" rel="stylesheet">
-    <!--    引入element样式 -->
-    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-    <!--    popper.min.js 用于弹窗、提示、下拉菜单 -->
+    <!--  popper.min.js 用于弹窗、提示、下拉菜单 -->
     <script src="https://cdn.staticfile.org/popper.js/2.9.3/umd/popper.min.js"></script>
 
-    <!--    最新的 Bootstrap5 核心 JavaScript 文件 -->
+    <!-- 最新的 Bootstrap5 核心 JavaScript 文件 -->
     <script src="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/js/bootstrap.min.js"></script>
-    <!--        <script src="/js/bootstrap/bootstrap.bundle.min.js"></script>-->
+    <!--    <script src="/js/bootstrap/bootstrap.bundle.min.js"></script>-->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="/js/showData.js"></script>
-    <script src="//cdn.bootcss.com/jquery/1.8.3/jquery.min.js"></script>
-    <!--    引入vue-->
-    <script src="/js/vue.js"></script>
-    <!--    引入element组件库 -->
-    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
-
-
+    <script src="https://kit.fontawesome.com/9e301165f1.js" crossorigin="anonymous"></script>
 </head>
 
-<body>
+<body onload="request()">
 
 <div class="container">
     <header
@@ -50,6 +41,60 @@
         </div>
     </header>
 </div>
+<form>
+    <div class="container border border-dark rounded-2" id="exam-detail">
+
+    </div>
+    <div>
+    </div>
+</form>
+<script>
+    function request(){
+        axios({
+            url:'https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/exam',
+            method:'GET',
+            params:{
+                id:2100111322,
+                finish:true
+            }
+        }).then(function (res){
+            t=res.data.exam;
+            i=0;
+            while(t[i]!=null){
+                console.log(t[i]);
+                showExam(t[i].id,t[i].title);
+                i++;
+            }
+        })
+    }
+
+    function showExam(id,title){
+        let divt = document.createElement('div');
+        divt.id='div'+id;
+        divt.className='"container p-4 d-flex';
+        let titleDiv = document.createElement('div');
+        titleDiv.className='flex-grow-1';
+        let titleLabel = document.createElement('label');
+        titleLabel.innerHTML=title+' ['+id+']';
+        titleDiv.appendChild(titleLabel);
+        let publicDiv = document.createElement('div');
+        publicDiv.className='';
+        let publicButton = document.createElement('button');
+        publicButton.type='button';
+        publicButton.innerHTML="查看详情";
+        publicButton.className='fa-solid fa-magnifying-glass button-nonborder';
+        publicButton.id='public_'+id;
+        publicButton.value=id;
+        publicButton.onclick =function (){
+            sessionStorage.setItem("id", id);
+            location.href="result_management_sub.html"
+        }
+        publicDiv.appendChild(publicButton);
+        divt.appendChild(titleDiv);
+        divt.appendChild(publicDiv);
+        document.getElementById('exam-detail').appendChild(divt);
+    }
+
+</script>
 </body>
 </html>
-学生考试
