@@ -25,9 +25,11 @@
     <script src="/js/vue.js"></script>
     <!--    引入element组件库 -->
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <!--    引入element样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
 </head>
 <!--onload="request()"-->
-<body >
+<body onload="request()">
 
 <div class="container">
     <header
@@ -105,20 +107,16 @@
 <!--    }-->
 
 <!--</script>-->
-<div id="app">
-    <el-table :data="tableData" :row-class-name="tableRowClassName">
-        <el-table-column prop="date" label="日期" width="180">
-        </el-table-column>
-        <el-table-column prop="name" label="姓名" width="180">
-        </el-table-column>
-        <el-table-column prop="address" label="地址">
-        </el-table-column>
+<div id="app" class="container justify-content-center">
+    <el-table :data="tableData" :row-class-name="tableRowClassName" style="width: 100%"	>
+        <el-table-column prop="name" label="考试名称" width="900" ></el-table-column>
+        <el-table-column prop="stresult" label="成绩" ></el-table-column>
     </el-table>
 </div>
 
 <style>
     .el-table .warning-row {
-        background: oldlace;
+        background:#f5c2c7;
     }
 
     .el-table .success-row {
@@ -127,35 +125,39 @@
 </style>
 
 <script>
+var markarr=[];
+    function request(){
+        axios({
+            url:'https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/mark2',
+            method:'GET',
+            params:{
+                id:2100111322,
+                finish:true
+            }
+        }).then(function (res){
 
+            for(i in res.data.mark)
+            {
+                markarr.push({
+                    name:res.data.mark[i].name,
+                    stresult:res.data.mark[i].mark
+                })
+            }
+        })
+    }
     var app = new Vue({
         el: '#app',
         data() {
             return {
-                tableData: [{
-                    date: '2016-05-02',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄',
-                }, {
-                    date: '2016-05-04',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                    date: '2016-05-01',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄',
-                }, {
-                    date: '2016-05-03',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                }]
+                tableData: markarr
             }
         },
         methods: {
             tableRowClassName({ row, rowIndex }) {
-                if (rowIndex === 1) {
+                console.log(row.stresult)
+                if (row.stresult<60) {
                     return 'warning-row';
-                } else if (rowIndex === 3) {
+                } else if (row.stresult > 90) {
                     return 'success-row';
                 }
                 return '';
