@@ -29,5 +29,9 @@ public class ExamService {
 
     }
 
+    public Exam getExam(int id){
+        return examDao.findExambyExamID(id);
+    }
+
 
 }

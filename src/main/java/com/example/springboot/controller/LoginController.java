@@ -1,5 +1,6 @@
 package com.example.springboot.controller;
 
+import com.example.basicLayout.Student;
 import com.example.basicLayout.User;
 import com.example.springboot.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +18,7 @@ public class LoginController {
 
     @Autowired
     UserService userService;
-//    @ResponseBody
+
     @RequestMapping(value = "/login")
     public Object login(HttpSession session, HttpServletRequest request){
         String account = request.getParameter("account");
@@ -30,7 +31,7 @@ public class LoginController {
             log.info(request.getSession().getAttribute("loginUser").toString());
             log.info("登录成功");
             if(user.getRole()==1){
-                return "redirect:/student/my_result.html";
+                return "redirect:/student/my_exam.html";
             }else{
                 return "redirect:/index.html";
             }
@@ -39,17 +40,17 @@ public class LoginController {
             return "login.html";
         }
     }
+    @RequestMapping("/login.html")
+    public String toLogin(){
+        return "login";
+    }
 
     @RequestMapping("/index.html")
     public String toIndex(){
         return "index";
     }
 
-    @RequestMapping("/login.html")
-    public String toLogin(HttpServletRequest request,HttpSession session){
 
-        return "login";
-    }
 
 
 

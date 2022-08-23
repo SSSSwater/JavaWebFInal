@@ -79,15 +79,38 @@ public class ExamController {
         response.setHeader("Access-Control-Max-Age", "3600");
         response.setHeader("Access-Control-Allow-Headers", "*");
         response.setHeader("Access-Control-Allow-Credentials", "true");
-        Student student= (Student) request.getSession().getAttribute("loginUser");
-        log.info(examService.getStuExam(student.getId()).toString());
+//        log.info(request.getSession().getAttribute("loginUser").toString());
+//        String s=request.getSession().getAttribute("loginUser").toString();
 
-        return examService.getStuExam(student.getId());
+        //TODO 返回试卷
+//        log.info(examService.getStuExam(student.getId()).toString());
+//
+//        return examService.getStuExam(student.getId());
+        return null;
     }
+
 
     @RequestMapping("/student/my_exam.html")
     public String toMyExam(){
         return "/student/my_exam";
+    }
+
+    @RequestMapping("/student/my_exam_sub.html")
+    public String toMyExamSub(){
+        return "/student/my_exam_sub";
+    }
+
+    @RequestMapping("/student/my_exam_sub")
+    public String doMyExamSub(HttpServletRequest request,HttpServletResponse response){
+        // 跨域支持
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Methods", "POST,GET,PUT,DELETE");
+        response.setHeader("Access-Control-Max-Age", "3600");
+        response.setHeader("Access-Control-Allow-Headers", "*");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
+
+
+        return "/student/my_exam_sub.html";
     }
 
 
