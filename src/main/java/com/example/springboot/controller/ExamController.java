@@ -2,7 +2,6 @@ package com.example.springboot.controller;
 
 import com.example.basicLayout.Exam;
 import com.example.basicLayout.Student;
-import com.example.basicLayout.Teacher;
 import com.example.springboot.service.ExamService;
 import com.example.springboot.service.PaperService;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +38,7 @@ public class ExamController {
         response.setHeader("Access-Control-Max-Age", "3600");
         response.setHeader("Access-Control-Allow-Headers", "*");
         response.setHeader("Access-Control-Allow-Credentials", "true");
-        return paperService.getPaper();
+        return paperService.getAllPaper();
     }
 
 
@@ -79,14 +78,13 @@ public class ExamController {
         response.setHeader("Access-Control-Max-Age", "3600");
         response.setHeader("Access-Control-Allow-Headers", "*");
         response.setHeader("Access-Control-Allow-Credentials", "true");
-//        log.info(request.getSession().getAttribute("loginUser").toString());
-//        String s=request.getSession().getAttribute("loginUser").toString();
 
-        //TODO 返回试卷
-//        log.info(examService.getStuExam(student.getId()).toString());
-//
-//        return examService.getStuExam(student.getId());
-        return null;
+        Student student=(Student) request.getSession().getAttribute("loginUser");
+//        log.info(request.getSession().getAttribute("loginUser").toString());
+
+
+
+        return examService.getStuExam(student.getId());
     }
 
 
@@ -100,8 +98,9 @@ public class ExamController {
         return "/student/my_exam_sub";
     }
 
+    @ResponseBody
     @RequestMapping("/student/my_exam_sub")
-    public String doMyExamSub(HttpServletRequest request,HttpServletResponse response){
+    public Object doMyExamSub(HttpServletRequest request,HttpServletResponse response){
         // 跨域支持
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Methods", "POST,GET,PUT,DELETE");
@@ -109,8 +108,7 @@ public class ExamController {
         response.setHeader("Access-Control-Allow-Headers", "*");
         response.setHeader("Access-Control-Allow-Credentials", "true");
 
-
-        return "/student/my_exam_sub.html";
+        return paperService.previewPaper(examService.getExam(Integer.parseInt(request.getParameter("examid"))).getPaperId());
     }
 
 
