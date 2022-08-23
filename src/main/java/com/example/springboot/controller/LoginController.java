@@ -30,7 +30,7 @@ public class LoginController {
             log.info(request.getSession().getAttribute("loginUser").toString());
             log.info("登录成功");
             if(user.getRole()==1){
-                return "redirect:/student/my_exam.html";
+                return "redirect:/student/my_result.html";
             }else{
                 return "redirect:/index.html";
             }
