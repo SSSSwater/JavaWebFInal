@@ -57,7 +57,7 @@ public class ResultController {
 
     @RequestMapping("/student/my_result.html")
     public String toStuResult(){
-        return "/student/my_exam";
+        return "/student/my_result";
     }
 
     @ResponseBody

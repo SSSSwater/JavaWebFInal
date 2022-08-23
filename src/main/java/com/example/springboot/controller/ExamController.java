@@ -39,7 +39,6 @@ public class ExamController {
         response.setHeader("Access-Control-Max-Age", "3600");
         response.setHeader("Access-Control-Allow-Headers", "*");
         response.setHeader("Access-Control-Allow-Credentials", "true");
-//        return "/teacher/exam_public";
         return paperService.getPaper();
     }
 
@@ -81,7 +80,7 @@ public class ExamController {
         response.setHeader("Access-Control-Allow-Headers", "*");
         response.setHeader("Access-Control-Allow-Credentials", "true");
         Student student= (Student) request.getSession().getAttribute("loginUser");
-        log.info(student.toString());
+        log.info(examService.getStuExam(student.getId()).toString());
 
         return examService.getStuExam(student.getId());
     }
@@ -90,8 +89,6 @@ public class ExamController {
     public String toMyExam(){
         return "/student/my_exam";
     }
-
-
 
 
 
