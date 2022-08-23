@@ -21,7 +21,7 @@ public class PaperService {
     public Paper previewPaper(int paperId){
         return paperDao.getpaperbyid(paperId);
     }
-    public List<Paper> getPaper(){
+    public List<Paper> getAllPaper(){
         return paperDao.getAllpaper();
     }
 
