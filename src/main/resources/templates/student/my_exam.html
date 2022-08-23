@@ -109,7 +109,7 @@
 <!--</script>-->
 <div id="app" class="container justify-content-center">
     <el-table :data="tableData" :row-class-name="tableRowClassName" style="width: 100%"	>
-        <el-table-column prop="name" label="考试名称" width="900" ></el-table-column>
+        <el-table-column prop="name" label="考试名称" width="900"></el-table-column>
         <el-table-column prop="stresult" label="成绩" ></el-table-column>
     </el-table>
 </div>
@@ -128,14 +128,9 @@
 var markarr=[];
     function request(){
         axios({
-            url:'https://www.fastmock.site/mock/e9925219f50cf7e3886d239c029d58a8/test/mark2',
+            url:'http://127.0.0.1:8080/student/my_exam',
             method:'GET',
-            params:{
-                id:2100111322,
-                finish:true
-            }
         }).then(function (res){
-
             for(i in res.data.mark)
             {
                 markarr.push({
