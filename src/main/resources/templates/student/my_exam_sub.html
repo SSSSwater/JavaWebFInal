@@ -2,9 +2,83 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>考试详情</title>
+    <!-- 新 Bootstrap5 核心 CSS 文件 -->
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <!--        <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">-->
+    <link href="/css/button-primary.css" rel="stylesheet">
+    <!--    引入element样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!--  popper.min.js 用于弹窗、提示、下拉菜单 -->
+    <script src="https://cdn.staticfile.org/popper.js/2.9.3/umd/popper.min.js"></script>
 
+    <!-- 最新的 Bootstrap5 核心 JavaScript 文件 -->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/js/bootstrap.min.js"></script>
+    <!--    <script src="/js/bootstrap/bootstrap.bundle.min.js"></script>-->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://kit.fontawesome.com/9e301165f1.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/js/showData.js"></script>
+    <script src="//cdn.bootcss.com/jquery/1.8.3/jquery.min.js"></script>
+    <!--    引入vue-->
+    <script src="/js/vue.js"></script>
+    <!--    引入element组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+</head>
+<body onclick="getPaper()">
+
+<div class="container">
+    <header
+            class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+        <a class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none" href="/">
+            <svg aria-label="Bootstrap" class="bi me-2" height="32" role="img" width="40">
+                <use xlink:href="#bootstrap"/>
+            </svg>
+        </a>
+
+        <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+            <li><a class="nav-link px-2 link-dark" href="my_exam.html">我的考试</a></li>
+            <li><a class="nav-link px-2 link-dark" href="my_result.html">我的成绩</a></li>
+        </ul>
+
+        <div class="col-md-3 text-end">
+            <a class="btn btn-outline-primary me-2" href="../resources/templates/login.html" type="button">登录</a>
+        </div>
+    </header>
+</div>
+
+<div id="exam"></div>
+<script>
+    function getPaper() {
+        var a = sessionStorage.getItem("id");
+        sessionStorage.removeItem("id");
+        axios({
+            method: "get",
+            url: "http://127.0.0.1:8080/student/my_exam_sub.html",
+            params: {
+                id: a
+            }
+        }).then(function (res) {
+            examdiv = document.getElementById('exam');
+            while (examdiv.hasChildNodes()) {
+                examdiv.removeChild(examdiv.firstChild);
+            }
+            t = res.data.questions;
+            i = 0;
+            while (t[i] != null) {
+                if (t[i].analysisEnabled) anl = t[i].analysis;
+                else anl = "无";
+                if (t[i].type == "single" || t[i].type == "multiple") showData1(t[i].id, t[i].type, t[i].title, t[i].choiceA, t[i].choiceB, t[i].choiceC, t[i].choiceD, t[i].answer, anl, 0);
+                else if (t[i].type == "judge") showData2(t[i].id, t[i].type, t[i].title, "Yes", "No", t[i].answer, anl, 0);
+                else showData3(t[i].id, t[i].type, t[i].title, t[i].answer, anl, 0);
+                i++;
+            }
+        })
+    }
+</script>
 </body>
+
 </html>
