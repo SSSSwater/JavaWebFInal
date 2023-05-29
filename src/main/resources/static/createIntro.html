@@ -1,0 +1,257 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>创建条目</title>
+    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" type="text/css" href="css/MyCSS.css">
+    <!-- 新 Bootstrap5 核心 CSS 文件 -->
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
+
+    <!-- 最新的 Bootstrap5 核心 JavaScript 文件 -->
+    <script src="js/bootstrap/bootstrap.bundle.min.js"></script>
+    <!--    引入vue-->
+    <script src="js/vue.js"></script>
+    <!--    引入element组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <!--    引入element样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="css/lgrg.css">
+    <style>
+
+        .el-textarea__inner {
+            font-size: 15px;
+            height: 150px;
+            resize: none;
+        }
+        .el-header {
+            text-align: center;
+            line-height: 60px;
+            color: #4f5050;
+            font-size: 30px;
+            margin-top: 2%;
+        }
+        .desFont{
+            font-size: 15px;
+        }
+        .desLabel{
+            width: 100px;
+            height: 50px;
+            font-size: 16px;
+        }
+        .avatar-uploader .el-upload {
+            border: 1px dashed #d9d9d9;
+            border-radius: 6px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .avatar-uploader .el-upload:hover {
+            border-color: #409EFF;
+        }
+
+        .avatar-uploader-icon {
+            font-size: 28px;
+            color: #8c939d;
+            width: 250px;
+            height: 250px;
+            line-height: 250px;
+            text-align: center;
+        }
+
+        .avatar {
+            width: 250px;
+            height: 250px;
+            display: block;
+        }
+    </style>
+</head>
+<body style="
+            font-family: '等线';">
+<div id="createIntro">
+    <div class="container">
+        <header
+                class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+
+
+            <img style="width: 20%; float: left;margin-left: 10%;" src="img\logo.png">
+            <h1 class="top-text">web期末大作业</h1>
+            <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0" style="margin-top: 1%;">
+                <li><a class="nav-link px-2 link-dark nav-text" href="index.html">首页</a></li>
+                <li><a class="nav-link px-2 link-dark nav-text" href="intro.html">家乡特色</a></li>
+                <li><a class="nav-link px-2 link-dark nav-text" :href="bioLocate">{{bioLabel}}</a></li>
+                <li style="margin-left: 10px"><el-avatar :src="bioAvatar"></el-avatar></li>
+                <li style="margin-left: 10px"><el-button type="text" v-if="isLogin" @click="logout">退出登录</el-button></li>
+            </ul>
+        </header>
+    </div>
+    <div class="b-example-divider"></div>
+    <div class="container justify-content-center"
+         style="background-color: rgba(240,255,240,0.5);width: 70%; border-radius: 10px;overflow-y: auto;height: 70%">
+        <el-container>
+            <el-header>创建新条目!</el-header>
+            <el-main>
+                <el-row :gutter="50">
+                    <el-col :span="12">
+                        <el-form ref="form" :model="createForm" label-width="70px">
+                            <el-form-item label="类型">
+                                <el-select v-model="createForm.inputType" placeholder="请选择类型">
+                                    <el-option
+                                            v-for="type in typeList"
+                                            :key="type.value"
+                                            :label="type.label"
+                                            :value="type.value">
+
+                                    </el-option>
+                                </el-select>
+                            </el-form-item>
+                            <el-form-item label="名称">
+                                <el-input v-model="createForm.inputName" placeholder="请输入名称"></el-input>
+                            </el-form-item>
+                            <el-form-item label="图片">
+                                <el-upload
+                                        class="avatar-uploader"
+                                        action="/intro/upImg"
+                                        :show-file-list="false"
+                                        accept=".jpg,.png"
+                                        :on-success="handleAvatarSuccess"
+                                        :before-upload="beforeAvatarUpload">
+                                    <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                                </el-upload>
+                            </el-form-item>
+                        </el-form>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form>
+                            <el-form-item label="简要介绍">
+                                <el-input type="textarea" v-model="createForm.inputDetail" placeholder="请输入简要介绍" maxlength="2333" show-word-limit></el-input>
+                            </el-form-item>
+                            <el-form-item label="历史背景">
+                                <el-input type="textarea" v-model="createForm.inputHistory" placeholder="请输入历史背景" maxlength="2333" show-word-limit></el-input>
+                            </el-form-item>
+                        </el-form>
+                    </el-col>
+                </el-row>
+                <el-button type="primary" @click="onSubmit">创建</el-button>
+                <el-button @click="toIntro">返回</el-button>
+            </el-main>
+        </el-container>
+    </div>
+</div>
+</body>
+</html>
+<script>
+    function getCookie(cname) {
+        var name = cname + "=";
+        var ca = document.cookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i].trim();
+            if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+        }
+        return null;
+    }
+    window.onload=function () {
+        let cookieId=getCookie("user");
+        if (cookieId != null) {
+            axios({
+                url: '/bio',
+                method: 'GET',
+                params: {
+                    id: cookieId
+                }
+            }).then(function (res) {
+
+                createIntro.bioLabel = res.data.userName+"的个人主页";
+                createIntro.bioLocate = "bio.html";
+                createIntro.isLogin=true;
+                createIntro.bioId=res.data.userId;
+                createIntro.bioAvatar=res.data.userAvatar;
+            })
+        }else{
+            createIntro.bioLabel = "登录";
+        }
+    }
+    var createIntro = new Vue({
+        el: '#createIntro',
+        data() {
+            return {
+                bioLabel:'',
+                bioLocate:'login.html',
+                bioAvatar:'',
+                bioId:'',
+                isLogin:false,
+                imageUrl:'',
+                typeList: [{
+                    value: '0',
+                    label: '美食'
+                }, {
+                    value: '1',
+                    label: '风景'
+                }, {
+                    value: '2',
+                    label: '文化'
+                }],
+                createForm: {
+                    inputName: '',
+                    inputDetail: '',
+                    inputImg:'',
+                    inputHistory:'',
+                    inputType:''
+                }
+            }
+        },
+        methods: {
+            handleAvatarSuccess(res, file) {
+                this.imageUrl = URL.createObjectURL(file.raw);
+                this.createForm.inputImg=res;
+            },
+            beforeAvatarUpload(file) {
+                //在头像上传之前需要做的判断，如判断文件格式
+                const isJPG = file.type === 'image/jpeg';
+                const isLt2M = file.size / 1024 / 1024 < 2;
+            },
+            toIntro() {
+                window.location.href = "intro.html";
+            },
+            logout() {
+                document.cookie = "user=0;path=/;max-age=0";
+                createIntro.$message.success("退出成功!正在返回登录界面...");
+                setTimeout(function () {
+                    window.location.href="login.html";
+                }, 1000);
+
+            },
+            onSubmit() {
+                //   this.$refs[formName].validate((valid)=>{
+                //     if(valid) console.log("Yes");
+                //     else console.log("No");
+                //   })
+                axios({
+                    url: '/intro/create',
+                    method: 'GET',
+                    params: {
+                        name:this.createForm.inputName,
+                        detail:this.createForm.inputDetail,
+                        img:this.createForm.inputImg,
+                        history:this.createForm.inputHistory,
+                        type:this.createForm.inputType,
+                        fromId:this.bioId
+                    }
+                }).then(function (res) {
+                    if (res.data == true) {
+                        createIntro.$message.success("创建成功!正在返回原界面...");
+                        setTimeout(function () {
+                            window.location.href="intro.html";
+                        }, 1000);
+                    } else {
+                        createIntro.$message.error("创建失败...");
+                    }
+                })
+            }
+        }
+    });
+</script>
