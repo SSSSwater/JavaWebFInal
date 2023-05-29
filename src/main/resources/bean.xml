@@ -8,22 +8,6 @@
         <property name="dataSource" ref="dataSource"></property>
     </bean>
 
-    <!--配置持久层-->
-    <bean id="questionDao" class="com.example.jdbc.QuestionDaoImp">
-        <property name="jdbcTemplate" ref="JdbcTemplate"></property>
-    </bean>
-
-    <bean id="loginDao" class="com.example.jdbc.LoginDaoImp">
-        <property name="jdbcTemplate" ref="JdbcTemplate"></property>
-    </bean>
-
-    <bean id="paperDao" class="com.example.jdbc.PaperDaoImp">
-        <property name="jdbcTemplate" ref="JdbcTemplate"></property>
-    </bean>
-
-    <bean id="examDao" class="com.example.jdbc.ExamDaoImp">
-        <property name="jdbcTemplate" ref="JdbcTemplate"></property>
-    </bean>
     <!--配置数据源-->
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"></property>

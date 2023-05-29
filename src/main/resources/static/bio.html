@@ -1,0 +1,332 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>个人信息</title>
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
+    <script src="js/bootstrap/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/MyCSS.css">
+    <!--    引入vue-->
+    <script src="js/vue.js"></script>
+    <!--    引入element组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <!--    引入element样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<style>
+    .el-input__inner{
+        height: 30px;
+        font-size: 15px;
+        width: 70%;
+    }
+    .el-textarea__inner{
+        font-size: 15px;
+        height: 180px;
+        width: 80%;
+        resize: none;
+    }
+    .el-descriptions__title{
+        font-size: 24px;
+    }
+    .desFont{
+        font-size: 15px;
+    }
+    .desLabel{
+        width: 100px;
+        height: 50px;
+        font-size: 16px;
+    }
+    .self{
+        font-size: 15px;
+        height: 200px;
+    }
+    .avatar-uploader .el-upload {
+        border: 1px dashed #d9d9d9;
+        border-radius: 6px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .avatar-uploader .el-upload:hover {
+        border-color: #409EFF;
+    }
+
+    .avatar-uploader-icon {
+        font-size: 28px;
+        color: #8c939d;
+        width: 150px;
+        height: 150px;
+        line-height: 150px;
+        text-align: center;
+    }
+
+    .avatar {
+        width: 150px;
+        height: 150px;
+        display: block;
+    }
+</style>
+<body id="top" style="
+        font-family: '等线';">
+<div id="bio">
+    <div class="container">
+        <header
+                class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+            <img style="width: 20%; float: left;margin-left: 10%;" src="img\logo.png">
+            <h1 class="top-text">web期末大作业</h1>
+            <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0" style="margin-top: 1%;">
+                <li><a class="nav-link px-2 link-dark nav-text" href="index.html">首页</a></li>
+                <li><a class="nav-link px-2 link-dark nav-text" href="intro.html">家乡特色</a></li>
+                <li><a class="nav-link px-2 link-dark nav-text" :href="bioLocate">{{bioLabel}}</a></li>
+                <li style="margin-left: 10px"><el-avatar :src="userAvatar"></el-avatar></li>
+                <li style="margin-left: 10px"><el-button type="text" v-if="isLogin" @click="logout">退出登录</el-button></li>
+            </ul>
+        </header>
+    </div>
+    <div class="container">
+        <el-row>
+            <el-col :span="4">
+                <el-avatar :size="150" :src="userAvatar"></el-avatar>
+                <div v-if="isModify" class="container" style="margin-top: 20px">
+                    <el-tag type="success">上传头像</el-tag>
+                    <el-upload
+                            class="avatar-uploader"
+                            action="/bio/upAvt"
+                            :show-file-list="false"
+                            accept=".jpg,.png"
+                            :on-success="handleAvatarSuccess"
+                            :before-upload="beforeAvatarUpload">
+                        <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                    </el-upload>
+                </div>
+            </el-col>
+            <el-col :span="20">
+                <div style="width: 90%;height: 70%;overflow: auto">
+                    <el-descriptions class="margin-top" title="我的基本信息" :column="1" border size="small" label-class-name="desLabel" content-class-name="desFont">
+                        <template slot="extra">
+                            <el-button @click="deleteAccount" type="danger" v-if="isModify">删除账号</el-button>
+                            <el-button @click="submit" type="primary" v-if="isModify">保存</el-button>
+                            <el-button @click="cancel" v-if="isModify">取消</el-button>
+                            <el-button @click="modify" type="primary" v-else="isModify">修改信息</el-button>
+                        </template>
+                        <el-descriptions-item label="用户名" content-class-name="desFont">
+                            <span style="margin-left: 5px">{{userId}}</span>
+                            <el-button @click="modifyPassword" type="text">修改密码</el-button>
+                        </el-descriptions-item>
+                        <el-descriptions-item label="姓名">
+                            <el-input v-model="modifyForm.userName" v-if="isModify"></el-input>
+                            <span style="margin-left: 5px" v-else="isModify">{{userName}}</span>
+                        </el-descriptions-item>
+                        <el-descriptions-item label="邮箱">
+                            <el-input v-model="modifyForm.userEmail" v-if="isModify"></el-input>
+                            <span style="margin-left: 5px" v-else="isModify">{{userEmail}}</span>
+                        </el-descriptions-item>
+                        <el-descriptions-item label="手机">
+                            <el-input v-model="modifyForm.userPhone" v-if="isModify"></el-input>
+                            <span style="margin-left: 5px" v-else="isModify">{{userPhone}}</span>
+                        </el-descriptions-item>
+                        <el-descriptions-item label="自我介绍" span="2" content-class-name="self">
+                            <el-input type="textarea" v-model="modifyForm.userDetail" v-if="isModify" maxlength="2333" show-word-limit></el-input>
+                            <span style="margin-left: 5px" v-else="isModify">{{userDetail}}</span>
+                        </el-descriptions-item>
+                    </el-descriptions>
+                    <el-descriptions class="margin-top" title="" :column="1" border>
+                    </el-descriptions>
+                </div>
+            </el-col>
+        </el-row>
+    </div>
+
+</div>
+</body>
+
+</html>
+
+<script>
+    let t;
+    window.onload = function () {
+        let cookieId=getCookie("user");
+
+        if (cookieId != null) {
+            axios({
+                url: '/bio',
+                method: 'GET',
+                params: {
+                    id: cookieId
+                }
+            }).then(function (res) {
+                t = res.data;
+                bio.userId = t.userId;
+                bio.userName = t.userName;
+                bio.userPassword = t.userPassword;
+                bio.userAvatar = t.userAvatar;
+                bio.userDetail = t.userDetail;
+                bio.userEmail = t.userEmail;
+                bio.userPhone = t.userPhone;
+                bio.modifyForm.userId = t.userId;
+                bio.modifyForm.userName = t.userName;
+                bio.modifyForm.userAvatar = t.userAvatar
+                bio.modifyForm.userDetail = t.userDetail;
+                bio.modifyForm.userEmail = t.userEmail;
+                bio.modifyForm.userPhone = t.userPhone;
+                bio.bioLabel = t.userName+"的个人主页";
+                bio.bioLocate = "bio.html";
+                bio.isLogin=true;
+            })
+        }else{
+            bio.bioLabel = "登录";
+        }
+    };
+    var bio = new Vue({
+            el: '#bio',
+            data() {
+                return {
+                    bioLabel:'',
+                    bioLocate:'login.html',
+                    isLogin:false,
+                    imageUrl: '',
+                    isModify: false,
+                    userId: "",
+                    userName: "",
+                    userPassword: "",
+                    userAvatar: "",
+                    userDetail: "",
+                    userEmail: "",
+                    userPhone: "",
+                    modifyForm: {
+                        userId: "",
+                        userName: "",
+                        userAvatar: "",
+                        userDetail: "",
+                        userEmail: "",
+                        userPhone: "",
+                    }
+                }
+            },
+            methods: {
+                handleAvatarSuccess(res, file) {
+                    this.imageUrl = URL.createObjectURL(file.raw);
+                    this.modifyForm.userAvatar=res;
+                },
+                beforeAvatarUpload(file) {
+                    //在头像上传之前需要做的判断，如判断文件格式
+                    const isJPG = file.type === 'image/jpeg';
+                    const isLt2M = file.size / 1024 / 1024 < 2;
+                },
+                submit() {
+                    axios({
+                        url: '/bio/mod',
+                        method: 'GET',
+                        params: {
+                            id: this.modifyForm.userId,
+                            name: this.modifyForm.userName,
+                            password: this.userPassword,
+                            phone: this.modifyForm.userPhone,
+                            email: this.modifyForm.userEmail,
+                            detail: this.modifyForm.userDetail,
+                            avatar: this.modifyForm.userAvatar
+                        }
+                    }).then(function (res) {
+                        if(res.data==true){
+                            bio.$message.success("修改成功!");
+                            setTimeout(function (){
+                                window.location.reload();
+                            }, 1000);
+                        }else{
+                            intro.$message.error("修改失败...");
+                        }
+                    })
+                },
+                deleteAccount(){
+                    this.$confirm('此操作将永久注销该账号(真的很久!), 是否继续喵?', '提示', {
+                        confirmButtonText: '确认',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        axios({
+                            url: '/bio/delete',
+                            method: 'GET',
+                            params: {
+                                id: this.userId
+                            }
+                        }).then(function (res) {
+
+                            console.log(res);
+                            if(res.data==true){
+                                bio.$message.success("删除成功!");
+                                document.cookie = "user=0;path=/;max-age=0";
+                                setTimeout(function (){
+                                    window.location.href="login.html";
+                                }, 1000);
+                            }else{
+                                bio.$message.error("删除失败...");
+                            }
+                        })
+                    }).catch(() => {
+                        bio.$message.info('已取消删除');
+                    });
+
+                },
+                logout() {
+                    document.cookie = "user=0;path=/;max-age=0";
+                    bio.$message.success("退出成功!正在返回登录界面...");
+                    setTimeout(function () {
+                        window.location.href="login.html";
+                    }, 1000);
+
+                },
+                modify() {
+                    this.isModify = true;
+                },
+                cancel() {
+                    this.isModify = false;
+                },
+                modifyPassword() {
+                    this.$prompt('请输入密码', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        inputErrorMessage: '密码格式不正确'
+                    }).then(({value}) => {
+                        this.$message.success("密码修改成功!");
+                        axios({
+                            url: '/bio/mod',
+                            method: 'GET',
+                            params: {
+                                id: getCookie("user"),
+                                password: value,
+                                name: this.userName,
+                                phone: this.userPhone,
+                                email: this.userEmail,
+                                detail: this.userDetail,
+                                avatar: this.userAvatar
+
+                            }
+                        }).then(function (res) {
+
+                            console.log(res);
+                            window.location.href = "bio.html";
+                        })
+
+                    }).catch(() => {
+                        this.$message({type: 'info', message: '取消输入'});
+                    });
+
+                }
+            }
+        })
+    ;
+    function getCookie(cname) {
+        console.log(document.cookie)
+        var name = cname + "=";
+        var ca = document.cookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i].trim();
+            if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+        }
+        return null;
+    }
+</script>
